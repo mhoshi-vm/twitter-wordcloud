@@ -19,6 +19,11 @@
         <wavefront.version>2.3.0</wavefront.version>
         <twitter.sdk.version>2.0.2</twitter.sdk.version>
         <kuromoji.version>0.9.0</kuromoji.version>
+        <!-- Web dependencies -->
+        <webjars-bootstrap.version>5.2.0</webjars-bootstrap.version>
+        <webjars-jquery.version>3.6.0</webjars-jquery.version>
+        <webjars-d3js.version>7.5.0</webjars-d3js.version>
+        <webjars-d3cloud.version>1.2.5</webjars-d3cloud.version>
     </properties>
     <dependencies>
         <dependency>
@@ -28,6 +33,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
             <groupId>com.wavefront</groupId>
@@ -62,6 +71,32 @@
             <groupId>com.atilika.kuromoji</groupId>
             <artifactId>kuromoji-ipadic</artifactId>
             <version>${kuromoji.version}</version>
+        </dependency>
+
+        <!-- webjars -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${webjars-bootstrap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>${webjars-jquery.version}</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>d3</artifactId>
+            <version>${webjars-d3js.version}</version>
+        </dependency>-->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>d3-cloud</artifactId>
+            <version>${webjars-d3cloud.version}</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
