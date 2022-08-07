@@ -17,12 +17,13 @@
         <java.version>11</java.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
         <wavefront.version>2.3.0</wavefront.version>
+        <p6spy.version>3.9.1</p6spy.version>
         <twitter.sdk.version>2.0.2</twitter.sdk.version>
         <kuromoji.version>0.9.0</kuromoji.version>
         <!-- Web dependencies -->
         <webjars-bootstrap.version>5.2.0</webjars-bootstrap.version>
         <webjars-jquery.version>3.6.0</webjars-jquery.version>
-        <webjars-d3js.version>7.5.0</webjars-d3js.version>
+        <webjars-d3js.version>7.6.1</webjars-d3js.version>
         <webjars-d3cloud.version>1.2.5</webjars-d3cloud.version>
         <webjars-axios.version>0.27.2</webjars-axios.version>
     </properties>
@@ -44,9 +45,20 @@
             <artifactId>wavefront-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+            <version>${p6spy.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>com.h2database</groupId>
@@ -73,6 +85,8 @@
             <artifactId>kuromoji-ipadic</artifactId>
             <version>${kuromoji.version}</version>
         </dependency>
+
+
 
         <!-- webjars -->
         <dependency>

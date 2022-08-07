@@ -1,6 +1,7 @@
 package jp.vmware.tanzu.twitterwordclouddemo.controller;
 
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Profile("!stateful")
 public class WordcloudApiController {
 
 	private final TweetTextRepository tweetTextRepository;

@@ -13,7 +13,7 @@ public class MyTweet {
 	@Id
 	public String tweetId;
 
-	@Column(length=10485760)
+	@Column(length = 10485760)
 	public String text;
 
 	public String username;
@@ -48,4 +48,5 @@ public class MyTweet {
 	public LocalDateTime getCreateDateTime() {
 		return createDateTime;
 	}
+
 }

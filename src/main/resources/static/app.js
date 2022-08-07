@@ -1,21 +1,21 @@
 $(document).ready(function () {
 
-    var height = $(window).height(), width = $("#chart").width();
+    const height = $(window).height(), width = $("#chart").width();
 
     $("#hashTags").height(height).width($("#text-container").width());
 
     //..........Code for Word Cloud............
 
     //Store Compressed Data
-    words = [ {"text": "待機中", "size": 1}];
+    let words = [{"text": "待機中", "size": 1}];
 
     // Encapsulate the word cloud functionality
     function wordCloud(selector) {
 
-        var fill = d3.scaleOrdinal(d3.schemeCategory10);
+        const fill = d3.scaleOrdinal(d3.schemeCategory10);
 
         //Construct the word cloud's SVG element
-        var svg = d3.select(selector).append("svg")
+        const svg = d3.select(selector).append("svg")
             .attr("width", width)
             .attr("height", height)
             .append("g")
@@ -23,10 +23,10 @@ $(document).ready(function () {
 
         //Draw the word cloud
         function draw(words) {
-            var cloud = svg.selectAll("g text")
+            const cloud = svg.selectAll("g text")
                 .data(words, function (d) {
                     return d.text;
-                })
+                });
 
             //Entering words
             cloud.enter()
@@ -63,8 +63,8 @@ $(document).ready(function () {
         }
 
         function returnRotation() {
-            var angle = [0, -90, -60, -45, -30, 0, 30, 45, 60, 90];
-            var index = Math.floor(Math.random() * 10);
+            const angle = [0, -90, -60, -45, -30, 0, 30, 45, 60, 90];
+            const index = Math.floor(Math.random() * 10);
             return angle[index];
         }
 
@@ -73,16 +73,16 @@ $(document).ready(function () {
         return {
 
             //Recompute the word cloud for a new set of words. This method will
-            // asycnhronously call draw when the layout has been computed.
+            // asynchronously call draw when the layout has been computed.
             //The outside world will need to call this function, so make it part
             // of the wordCloud return value.
             update: function (words) {
 
-                var maxSize = d3.max(words, function (d) {
+                const maxSize = d3.max(words, function (d) {
                     return d.size
                 });
                 //Define Pixel of Text
-                var pixScale = d3.scaleLinear()
+                const pixScale = d3.scaleLinear()
                     .domain([0, maxSize])
                     .range([10, 80]);
 
@@ -127,7 +127,7 @@ $(document).ready(function () {
     }
 
     //Create a new instance of the word cloud visualisation.
-    var myWordCloud = wordCloud('body');
+    const myWordCloud = wordCloud('body');
 
     //Start cycling through the demo data
     showNewWords(myWordCloud);

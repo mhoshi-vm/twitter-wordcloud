@@ -14,8 +14,7 @@ public class WfDBSpans {
 
 	public final String dbInstance;
 
-	public WfDBSpans(@Value("${spring.datasource.driver-class-name:localdb") String dbType,
-			@Value("${spring.datasource.url:local}") String dbInstance) {
+	public WfDBSpans(@Value("${db.type:localdb}") String dbType, @Value("${db.instance:local}") String dbInstance) {
 		this.dbType = dbType;
 		this.dbInstance = dbInstance;
 	}

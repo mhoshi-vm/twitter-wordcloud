@@ -7,7 +7,8 @@ import com.twitter.clientlib.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
 import java.io.InputStream;
@@ -16,7 +17,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Configuration
+@Component
+@Profile("!stateless")
 public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 	private static final Logger logger = LoggerFactory.getLogger(TwitterStreamClientImpl.class);

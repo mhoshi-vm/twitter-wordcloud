@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface TweetRepository extends CrudRepository<MyTweet, Integer> {
 
-    List<MyTweet> findAllByOrderByTweetIdDesc();
-
-
+	List<MyTweet> findAllByOrderByTweetIdDesc();
 
 }
