@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tweets</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h3>List Tweets</h3>
+
+    <hr/>
+
+    <table class="table table-bordered table-striped">
+
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Text</th>
+            <th>Username</th>
+            <th>Created</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tweet: ${tweets}">
+            <td th:text="${tweet.tweetId}"></td>
+            <td th:text="${tweet.text}"></td>
+            <td th:text="${tweet.username}"></td>
+            <td th:text="${tweet.createDateTime}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+

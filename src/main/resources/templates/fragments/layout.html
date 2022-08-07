@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <title th:replace="${title}">title</title>
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+    <script th:src="@{/js/dialog.js}" defer="defer"></script>
+</head>
+<body>
+<header th:fragment="header">
+    <a th:href="@{/wordcloud.html}">Word Cloud</a>
+    <a th:href="@{/list-tweets.html}">Tweets</a>
+    <hr>
+</header>
+</body>
+</html>

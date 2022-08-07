@@ -22,7 +22,7 @@ public class WordcloudApiController {
 
 	@GetMapping("/tweetcount")
 	public ResponseEntity<List<TweetTextRepository.TextCount>> listTweetCount() {
-		return new ResponseEntity<>(tweetTextRepository.listTextCount(PageRequest.of(0,200)), HttpStatus.OK);
+		return new ResponseEntity<>(tweetTextRepository.listTextCount(PageRequest.of(0, 200)), HttpStatus.OK);
 	}
 
 }

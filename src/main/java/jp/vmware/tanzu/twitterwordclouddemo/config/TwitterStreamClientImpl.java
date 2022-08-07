@@ -1,4 +1,4 @@
-package jp.vmware.tanzu.twitterwordclouddemo.client;
+package jp.vmware.tanzu.twitterwordclouddemo.config;
 
 import com.twitter.clientlib.ApiException;
 import com.twitter.clientlib.TwitterCredentialsBearer;
