@@ -1,5 +1,6 @@
 package jp.vmware.tanzu.twitterwordclouddemo.service;
 
+import com.twitter.clientlib.model.Expansions;
 import com.twitter.clientlib.model.StreamingTweetResponse;
 import com.twitter.clientlib.model.Tweet;
 import com.twitter.clientlib.model.User;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class TweetStreamHandlerImpl implements TweetStreamHandler {
@@ -33,6 +37,7 @@ public class TweetStreamHandlerImpl implements TweetStreamHandler {
 	public void actionOnTweetsStream(InputStream inputStream) {
 
 		try {
+			Pattern p = Pattern.compile("^\\W+$", Pattern.UNICODE_CHARACTER_CLASS);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 			String line = reader.readLine();
 			while (line != null) {
@@ -45,7 +50,19 @@ public class TweetStreamHandlerImpl implements TweetStreamHandler {
 				StreamingTweetResponse streamingTweetResponse = StreamingTweetResponse.fromJson(line);
 
 				Tweet tweet = streamingTweetResponse.getData();
-				User user = streamingTweetResponse.getIncludes().getUsers().get(0);
+				if (tweet == null){
+					continue;
+				}
+
+				Expansions expansions = streamingTweetResponse.getIncludes();
+				if (expansions == null){
+					continue;
+				}
+				List<User> users = expansions.getUsers();
+				if (users == null){
+					continue;
+				}
+				User user = users.get(0);
 
 				MyTweet myTweet = new MyTweet();
 				myTweet.setTweetId(tweet.getId());
@@ -53,16 +70,34 @@ public class TweetStreamHandlerImpl implements TweetStreamHandler {
 				myTweet.setUsername(user.getUsername());
 
 				tweetRepository.save(myTweet);
+				boolean nextSkip=false;
 
 				for (String text : morphologicalAnalysis.getToken(tweet.getText())) {
+
 					TweetText tweetText = new TweetText();
-					System.out.println(text);
-					if (text.contains("RT") || text.isBlank()) {
+
+					// Skip until blank character when hast tag or username tag found
+					if (nextSkip){
+						if (text.isBlank()){
+							nextSkip=false;
+						}
 						continue;
 					}
+					// Skip hashtag and username and also set next skip to true
+					if (text.equals("#") || text.equals("@")){
+						nextSkip=true;
+						continue;
+					}
+					// Skip RT, blank, and non letter words
+					Matcher m = p.matcher(text);
+					if (text.equals("RT") || text.isBlank() || m.matches()) {
+						continue;
+					}
+
 					tweetText.setTweetId(tweet.getId());
 					tweetText.setTxt(text);
 					tweetTextRepository.save(tweetText);
+
 				}
 				line = reader.readLine();
 			}

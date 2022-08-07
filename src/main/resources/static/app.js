@@ -1,97 +1,13 @@
 $(document).ready(function () {
 
-    var browserNotSupported = false;
-
-    //Array to Store Streaming Tweet Locations
-    var words = ["Word Cloud", "Live", "Tweets", "From", "Cities/Countries", "Streaming", "Every 5 Secs", "Word Cloud", "Live", "Tweets", "From", "Cities/Countries", "Streaming", "Every 5 Secs", "Project Author", "@RawSanj"];
-
-    //Array to Store Streaming HashTags
-    var hashTagsArr = ["Live Streaming #HashTags using SssEmitter", "Streaming in Every 2 Seconds",
-        "#Hashing from around the Globe",
-        "Project Author - <a href='https://github.com/RawSanj'>@RawSanj</a>",
-        "Fork this Project on Github",
-        "<a href='https://github.com/RawSanj/Spring-Twitter-Stream'>#Spring-Twitter-Stream</a>",
-        "EventSource is not Supported in Internet Explorer, Please use Chrome",
-        "Spring-Boot is #Awesome"];
-
-    var hashTagsAndProfile = [];
-
     var height = $(window).height(), width = $("#chart").width();
 
-    try {
-        var streamLocation = new EventSource('/tweetLocation');
-
-        streamLocation.addEventListener('streamLocation', function (event) {
-
-            var location = event.data;
-
-            if (location != "") {
-                words.push(location);
-            }
-            ;
-
-        });
-
-        streamLocation.addEventListener('streamHashtags', function (event) {
-
-            var hashtags = event.data;
-            //console.log(hashtags);
-            if (hashtags !== '' && hashtags !== '""') {
-                hashTagsArr.push(hashtags);
-            }
-            ;
-
-        });
-    }
-    catch (err) {
-        words = ["Project Author", "@RawSanj", "Project Author", "@RawSanj", "Internet Explorer", "Does not Support EventSource", "Please use Chrome!", "Please use Chrome!", "IE Support coming up", "in WebSocket version"];
-        browserNotSupported = true;
-    }
-
     $("#hashTags").height(height).width($("#text-container").width());
-
-    var lastClassindex = 0;
-    showNewHashTags();
-
-    function showNewHashTags() {
-
-        //Put Project Info in beetween hashtags
-        if (Math.floor(Math.random() * 20) === 10) {
-            var dispInfo = ["<span style='color:#a94442 !important; font-size:18px'>Project Author - <a href='https://github.com/RawSanj'>@RawSanj</a></span>",
-                "<span style='color:#a94442 !important; font-size:18px'>Fork this Project on Github</span>",
-                "<span style='color:#a94442 !important; font-size:18px'><a href='https://github.com/RawSanj/Spring-Twitter-Stream'>#Spring-Twitter-Stream</a></span>"];
-            hashTagsArr = hashTagsArr.concat(dispInfo);
-        }
-
-        for (var i = 0; i < hashTagsArr.length; i++) {
-
-            $("#hashTags").append("<tr class='" + returnTextClass(lastClassindex) + "'><td><b><p class=' text-" + returnTextClass(lastClassindex + 2) + "'> "
-                + hashTagsArr[i] + "</p></b></p></td></tr>");
-            lastClassindex++;
-
-        }
-        $('#hashTags').animate({scrollTop: $('#hashTags').prop("scrollHeight")}, 2000);
-        lastClassindex = hashTagsArr.length;
-
-        hashTagsArr = []; //Empty hashTag Array to free up array
-
-        setTimeout(function () {
-            showNewHashTags()
-        }, 2000);
-
-    }
-
-    function returnTextClass(index) {
-        var cssClass = ["success", "info", "warning", "danger", "primary"];
-        var ind = index % 5;
-        return cssClass[ind];
-    }
-
 
     //..........Code for Word Cloud............
 
     //Store Compressed Data
-    var compressedWordArray = compressArray(words);
+    words = [ {"text": "待機中", "size": 1}];
 
     // Encapsulate the word cloud functionality
     function wordCloud(selector) {
@@ -162,7 +78,7 @@ $(document).ready(function () {
             // of the wordCloud return value.
             update: function (words) {
 
-                var maxSize = d3.max(compressedWordArray, function (d) {
+                var maxSize = d3.max(words, function (d) {
                     return d.size
                 });
                 //Define Pixel of Text
@@ -192,20 +108,21 @@ $(document).ready(function () {
     // user input or some other source.
     function showNewWords(vis) {
 
-        if (browserNotSupported) {
-            words = ["Project Author", "@RawSanj", "Project Author", "@RawSanj", "Internet Explorer", "Does not Support EventSource", "Please use Chrome!", "Please use Chrome!", "IE Support coming up", "in WebSocket version"];
-        } else if (words.length === 0) {
-            words = ["Whoops!", "Looks Like", "Nobody", "Tweeted", "In Last 5 Seconds"];
+        axios.get('/api/tweetcount')
+            .then(res => {
+                words = JSON.parse(JSON.stringify(res.data))
+                console.log(res.data)
+            })
+            .catch(err => console.error(err))
+
+        if (words.length === 0) {
+            words = [ {"text": "待機中", "size": 1}];
         }
-
-        compressedWordArray = compressArray(words);
-
-        vis.update(compressedWordArray);
-        words = []; //Empty Word Array to free up array
+        vis.update(words);
 
         setTimeout(function () {
             showNewWords(vis)
-        }, 5000);
+        }, 2000);
 
     }
 
@@ -214,35 +131,4 @@ $(document).ready(function () {
 
     //Start cycling through the demo data
     showNewWords(myWordCloud);
-
-    function compressArray(original) {
-
-        var compressed = [];
-        // make a copy of the input array
-        var copy = original.slice(0);
-
-        // first loop goes over every element
-        for (var i = 0; i < original.length; i++) {
-
-            var myCount = 0;
-            // loop over every element in the copy and see if it's the same
-            for (var w = 0; w < copy.length; w++) {
-                if (original[i] == copy[w]) {
-                    // increase amount of times duplicate is found
-                    myCount++;
-                    // sets item to undefined
-                    delete copy[w];
-                }
-            }
-
-            if (myCount > 0) {
-                var a = new Object();
-                a.text = original[i];
-                a.size = myCount;
-                compressed.push(a);
-            }
-        }
-
-        return compressed;
-    };
 });

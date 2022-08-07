@@ -24,6 +24,7 @@
         <webjars-jquery.version>3.6.0</webjars-jquery.version>
         <webjars-d3js.version>7.5.0</webjars-d3js.version>
         <webjars-d3cloud.version>1.2.5</webjars-d3cloud.version>
+        <webjars-axios.version>0.27.2</webjars-axios.version>
     </properties>
     <dependencies>
         <dependency>
@@ -93,6 +94,11 @@
             <artifactId>d3</artifactId>
             <version>${webjars-d3js.version}</version>
         </dependency>-->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>axios</artifactId>
+            <version>${webjars-axios.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.webjars.npm</groupId>
             <artifactId>d3-cloud</artifactId>
