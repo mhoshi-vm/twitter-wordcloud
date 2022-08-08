@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.io.InputStream;
 
 @Component
-@Profile("!stateless")
+@Profile({ "default", "stateful" })
 public class TwitterStreamRunner implements CommandLineRunner {
 
 	TwitterStreamClient twitterStreamClient;

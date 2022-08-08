@@ -111,7 +111,6 @@ $(document).ready(function () {
         axios.get('/api/tweetcount')
             .then(res => {
                 words = JSON.parse(JSON.stringify(res.data))
-                console.log(res.data)
             })
             .catch(err => console.error(err))
 

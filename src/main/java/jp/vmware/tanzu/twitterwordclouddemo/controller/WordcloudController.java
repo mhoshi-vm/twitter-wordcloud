@@ -5,12 +5,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-@Profile("!stateful")
+@Profile({ "default", "stateless" })
 public class WordcloudController {
 
 	@GetMapping("/")
 	public String Wordcloud() {
 		return "wordcloud";
+	}
+
+	@GetMapping("/login")
+	public String login() {
+		return "login";
 	}
 
 }

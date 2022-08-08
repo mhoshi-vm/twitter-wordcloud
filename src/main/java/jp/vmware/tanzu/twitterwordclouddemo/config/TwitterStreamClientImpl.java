@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-@Profile("!stateless")
+@Profile({ "default", "stateful" })
 public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 	private static final Logger logger = LoggerFactory.getLogger(TwitterStreamClientImpl.class);

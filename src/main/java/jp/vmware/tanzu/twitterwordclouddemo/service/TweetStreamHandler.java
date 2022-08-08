@@ -23,7 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-@Profile("!stateless")
+@Profile({ "default", "stateful" })
 public class TweetStreamHandler {
 
 	public TweetRepository tweetRepository;

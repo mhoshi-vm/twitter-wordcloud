@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@Profile("!stateful")
+@Profile({ "default", "stateless" })
 public class WordcloudApiController {
 
 	private final TweetTextRepository tweetTextRepository;
