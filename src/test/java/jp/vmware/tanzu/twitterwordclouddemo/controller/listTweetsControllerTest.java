@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class listTweetsControllerTest {
 
-    @Test
-    void getAllTweets() {
-    }
+	@Test
+	void getAllTweets() {
+	}
+
 }

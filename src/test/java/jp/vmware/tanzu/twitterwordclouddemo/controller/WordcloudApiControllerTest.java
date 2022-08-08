@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WordcloudApiControllerTest {
 
-    @Test
-    void listTweetCount() {
-    }
+	@Test
+	void listTweetCount() {
+	}
+
 }

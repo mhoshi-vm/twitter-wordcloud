@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TwitterStreamRunnerTest {
 
-    @Test
-    void run() {
-    }
+	@Test
+	void run() {
+	}
+
 }

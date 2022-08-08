@@ -6,31 +6,32 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MyTweetTest {
 
-    @Test
-    void getTweetId() {
-    }
+	@Test
+	void getTweetId() {
+	}
 
-    @Test
-    void setTweetId() {
-    }
+	@Test
+	void setTweetId() {
+	}
 
-    @Test
-    void getText() {
-    }
+	@Test
+	void getText() {
+	}
 
-    @Test
-    void setText() {
-    }
+	@Test
+	void setText() {
+	}
 
-    @Test
-    void getUsername() {
-    }
+	@Test
+	void getUsername() {
+	}
 
-    @Test
-    void setUsername() {
-    }
+	@Test
+	void setUsername() {
+	}
 
-    @Test
-    void getCreateDateTime() {
-    }
+	@Test
+	void getCreateDateTime() {
+	}
+
 }

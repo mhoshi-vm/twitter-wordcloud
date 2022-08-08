@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WebSecurityConfigOidcTest {
 
-    @Test
-    void securityFilterChain() {
-    }
+	@Test
+	void securityFilterChain() {
+	}
+
 }

@@ -6,11 +6,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WordcloudControllerTest {
 
-    @Test
-    void wordcloud() {
-    }
+	@Test
+	void wordcloud() {
+	}
 
-    @Test
-    void login() {
-    }
+	@Test
+	void login() {
+	}
+
 }

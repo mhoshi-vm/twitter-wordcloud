@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WfDBSpansTest {
 
-    @Test
-    void handlerOne() {
-    }
+	@Test
+	void handlerOne() {
+	}
+
 }

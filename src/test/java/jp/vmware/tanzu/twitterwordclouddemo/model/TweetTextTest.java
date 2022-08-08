@@ -6,19 +6,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TweetTextTest {
 
-    @Test
-    void getTweetId() {
-    }
+	@Test
+	void getTweetId() {
+	}
 
-    @Test
-    void setTweetId() {
-    }
+	@Test
+	void setTweetId() {
+	}
 
-    @Test
-    void getTxt() {
-    }
+	@Test
+	void getTxt() {
+	}
 
-    @Test
-    void setTxt() {
-    }
+	@Test
+	void setTxt() {
+	}
+
 }

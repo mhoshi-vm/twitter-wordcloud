@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TweetRepositoryTest {
 
-    @Test
-    void findAllByOrderByTweetIdDesc() {
-    }
+	@Test
+	void findAllByOrderByTweetIdDesc() {
+	}
+
 }

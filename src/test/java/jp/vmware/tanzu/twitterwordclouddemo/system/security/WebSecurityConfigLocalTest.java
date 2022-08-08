@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WebSecurityConfigLocalTest {
 
-    @Test
-    void securityFilterChain() {
-    }
+	@Test
+	void securityFilterChain() {
+	}
+
 }

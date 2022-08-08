@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TweetTextRepositoryTest {
 
-    @Test
-    void listTextCount() {
-    }
+	@Test
+	void listTextCount() {
+	}
+
 }

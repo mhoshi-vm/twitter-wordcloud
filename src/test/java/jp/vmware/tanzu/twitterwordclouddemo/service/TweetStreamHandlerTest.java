@@ -6,11 +6,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TweetStreamHandlerTest {
 
-    @Test
-    void actionOnTweetsStream() {
-    }
+	@Test
+	void actionOnTweetsStream() {
+	}
 
-    @Test
-    void tweetHandler() {
-    }
+	@Test
+	void tweetHandler() {
+	}
+
 }
