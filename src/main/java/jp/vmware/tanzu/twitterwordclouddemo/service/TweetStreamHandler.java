@@ -66,6 +66,7 @@ public class TweetStreamHandler {
 		}
 	}
 
+
 	public void tweetHandler(String line) throws InterruptedException, IOException {
 		// Need to define span here due to AOP not working in streams
 		Span tweetSpan = this.tracer.nextSpan().name("tweetHandler");
