@@ -17,7 +17,6 @@ class MyTweetTest {
 		myTweet.setUsername("James");
 	}
 
-
 	@Test
 	void getTweetId() {
 		assertEquals("1111", myTweet.getTweetId());

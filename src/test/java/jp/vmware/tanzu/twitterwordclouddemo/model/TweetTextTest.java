@@ -15,6 +15,7 @@ class TweetTextTest {
 		tweetText.setTweetId("1111");
 		tweetText.setTxt("Hello");
 	}
+
 	@Test
 	void getTweetId() {
 		assertEquals("1111", tweetText.getTweetId());

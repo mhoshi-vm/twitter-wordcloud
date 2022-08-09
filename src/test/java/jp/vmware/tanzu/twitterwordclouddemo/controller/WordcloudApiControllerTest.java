@@ -27,15 +27,12 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 @SpringBootTest
 @ActiveProfiles("stateless")
 class WordcloudApiControllerTest {
 
 	@MockBean
 	private TweetRepository tweetRepository;
-
-
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -48,6 +45,7 @@ class WordcloudApiControllerTest {
 	private TweetTextRepository tweetTextRepository;
 
 	class CustomTextCount implements TweetTextRepository.TextCount {
+
 		String text;
 
 		Long size;
@@ -69,6 +67,7 @@ class WordcloudApiControllerTest {
 		public void setSize(Long size) {
 			this.size = size;
 		}
+
 	}
 
 	// https://medium.com/@reachansari/rest-endpoint-testing-with-mockmvc-7b3da1f83fbb
@@ -80,25 +79,21 @@ class WordcloudApiControllerTest {
 		List<TweetTextRepository.TextCount> textCounts = new ArrayList<>();
 		textCounts.add(textCount);
 
-		for(TweetTextRepository.TextCount textCount1 : textCounts){
+		for (TweetTextRepository.TextCount textCount1 : textCounts) {
 			System.out.println("aaa" + textCount1.getText());
 			System.out.println("bbb" + textCount1.getSize());
 		}
 
 		when(tweetTextRepository.listTextCount(any())).thenReturn(textCounts);
 
-		RequestBuilder request = MockMvcRequestBuilders.get("/api/tweetcount")
-				.contentType(MediaType.APPLICATION_JSON);
+		RequestBuilder request = MockMvcRequestBuilders.get("/api/tweetcount").contentType(MediaType.APPLICATION_JSON);
 
-		MockHttpServletResponse returnedemp = (MockHttpServletResponse) mockMvc.perform(request).andExpect(status().isOk())
-				.andReturn().getResponse();
+		MockHttpServletResponse returnedemp = (MockHttpServletResponse) mockMvc.perform(request)
+				.andExpect(status().isOk()).andReturn().getResponse();
 
 		System.out.println("ccc" + returnedemp.getContentAsString());
 
-
-		mockMvc.perform(get("/api/tweetcount"))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$", Matchers.hasSize(1)))
+		mockMvc.perform(get("/api/tweetcount")).andExpect(status().isOk()).andExpect(jsonPath("$", Matchers.hasSize(1)))
 				.andExpect(jsonPath("$[0].text", Matchers.equalTo("aaaa")))
 				.andExpect(jsonPath("$[0].size", Matchers.equalTo(100)));
 	}

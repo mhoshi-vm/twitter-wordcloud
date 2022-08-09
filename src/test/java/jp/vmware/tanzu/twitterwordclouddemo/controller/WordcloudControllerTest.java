@@ -26,14 +26,12 @@ class WordcloudControllerTest {
 
 	@Test
 	void wordcloud() throws Exception {
-		this.mockMvc.perform(get("/"))
-				.andExpect(status().isOk());
+		this.mockMvc.perform(get("/")).andExpect(status().isOk());
 	}
 
 	@Test
 	void login() throws Exception {
-		this.mockMvc.perform(get("/login"))
-				.andExpect(status().isOk());
+		this.mockMvc.perform(get("/login")).andExpect(status().isOk());
 	}
 
 }
