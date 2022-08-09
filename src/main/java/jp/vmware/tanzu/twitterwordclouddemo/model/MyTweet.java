@@ -45,8 +45,4 @@ public class MyTweet {
 		this.username = username;
 	}
 
-	public LocalDateTime getCreateDateTime() {
-		return createDateTime;
-	}
-
 }

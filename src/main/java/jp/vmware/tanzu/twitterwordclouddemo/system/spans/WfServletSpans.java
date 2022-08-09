@@ -14,7 +14,7 @@ import javax.servlet.ServletResponse;
 import java.io.IOException;
 
 @Component
-@Profile("!stateful")
+@Profile({ "default", "stateless" })
 public class WfServletSpans extends GenericFilterBean {
 
 	String serviceType;
