@@ -13,29 +13,29 @@ import java.util.List;
 @Configuration
 public class TestSpanHolder {
 
-    List<MutableSpan> spans;
+	List<MutableSpan> spans;
 
-    public TestSpanHolder() {
-        this.spans = new ArrayList<>();
-    }
+	public TestSpanHolder() {
+		this.spans = new ArrayList<>();
+	}
 
-    public List<MutableSpan> getSpans() {
-        return spans;
-    }
+	public List<MutableSpan> getSpans() {
+		return spans;
+	}
 
-    public void addSpans(MutableSpan span) {
-        spans.add(span);
-    }
+	public void addSpans(MutableSpan span) {
+		spans.add(span);
+	}
 
-    @Bean
-    SpanHandler spanHolder() {
-        return new SpanHandler() {
-            @Override
-            public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
-                addSpans(span);
-                return true;
-            }
-        };
-    }
+	@Bean
+	SpanHandler spanHolder() {
+		return new SpanHandler() {
+			@Override
+			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
+				addSpans(span);
+				return true;
+			}
+		};
+	}
 
 }

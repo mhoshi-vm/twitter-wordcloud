@@ -31,7 +31,7 @@ public class TweetStreamHandlerImpl implements TweetStreamHandler {
 	Pattern nonLetterPattern;
 
 	public TweetStreamHandlerImpl(MyTweetRepository myTweetRepository, TweetTextRepository tweetTextRepository,
-								  MorphologicalAnalysis morphologicalAnalysis) {
+			MorphologicalAnalysis morphologicalAnalysis) {
 		this.myTweetRepository = myTweetRepository;
 		this.tweetTextRepository = tweetTextRepository;
 		this.morphologicalAnalysis = morphologicalAnalysis;

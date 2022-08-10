@@ -34,13 +34,12 @@ class WebSecurityConfigOidcTest {
 	private WfServletSpans wfServletSpans;
 
 	/*
-	@Test
-	void securityFilterChain() throws Exception {
-		this.mockMvc.perform(get("/")).andExpect(status().isOk());
-		this.mockMvc.perform(get("/login")).andExpect(status().isOk());
-		this.mockMvc.perform(get("/api/tweetcount")).andExpect(status().isOk());
-		this.mockMvc.perform(get("/tweets")).andExpect(status().isUnauthorized());
-	}*/
+	 * @Test void securityFilterChain() throws Exception {
+	 * this.mockMvc.perform(get("/")).andExpect(status().isOk());
+	 * this.mockMvc.perform(get("/login")).andExpect(status().isOk());
+	 * this.mockMvc.perform(get("/api/tweetcount")).andExpect(status().isOk());
+	 * this.mockMvc.perform(get("/tweets")).andExpect(status().isUnauthorized()); }
+	 */
 
 	@Test
 	void securityFilterChainAuthenticated() throws Exception {

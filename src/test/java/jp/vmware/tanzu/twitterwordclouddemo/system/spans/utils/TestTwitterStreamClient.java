@@ -11,28 +11,30 @@ import java.io.InputStream;
 @Primary
 public class TestTwitterStreamClient implements TwitterStreamClient {
 
-    TweetStreamHandler tweetStreamHandler;
+	TweetStreamHandler tweetStreamHandler;
 
-    public TestTwitterStreamClient(TweetStreamHandler tweetStreamHandler) {
-        this.tweetStreamHandler = tweetStreamHandler;
-    }
+	public TestTwitterStreamClient(TweetStreamHandler tweetStreamHandler) {
+		this.tweetStreamHandler = tweetStreamHandler;
+	}
 
-    @Override
-    public InputStream startStreamListener() {
-        return null;
-    }
+	@Override
+	public InputStream startStreamListener() {
+		return null;
+	}
 
-    @Override
-    public void actionOnTweetsStream(InputStream inputStream) {
-        try {
-            tweetStreamHandler.handler("");
-        }catch (Exception ignored){
-        }
+	@Override
+	public void actionOnTweetsStream(InputStream inputStream) {
+		try {
+			tweetStreamHandler.handler("");
+		}
+		catch (Exception ignored) {
+		}
 
-    }
+	}
 
-    @Override
-    public void cleanup() {
+	@Override
+	public void cleanup() {
 
-    }
+	}
+
 }

@@ -10,16 +10,17 @@ import java.util.List;
 @Service
 @Transactional
 public class TweetTextService {
-    private final TweetTextRepository tweetTextRepository;
 
-    public static final int pageSize = 200;
+	private final TweetTextRepository tweetTextRepository;
 
-    public TweetTextService(TweetTextRepository tweetTextRepository) {
-        this.tweetTextRepository = tweetTextRepository;
-    }
+	public static final int pageSize = 200;
 
-    public List<TweetTextRepository.TextCount> listTweetsPage(){
-        return tweetTextRepository.listTextCount(PageRequest.of(0, pageSize));
-    }
+	public TweetTextService(TweetTextRepository tweetTextRepository) {
+		this.tweetTextRepository = tweetTextRepository;
+	}
+
+	public List<TweetTextRepository.TextCount> listTweetsPage() {
+		return tweetTextRepository.listTextCount(PageRequest.of(0, pageSize));
+	}
 
 }

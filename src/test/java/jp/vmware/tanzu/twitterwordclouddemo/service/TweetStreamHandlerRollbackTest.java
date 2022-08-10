@@ -49,42 +49,37 @@ class TweetStreamHandlerRollbackTest {
 
 	}
 
-
 	/*
-	@Test
-	void rollbackTest() throws IOException, InterruptedException {
-
-		Mockito.when(tweetTextRepository.save(Mockito.any())).thenThrow(new NullPointerException("Error occurred"));
-
-		Tweet dummyTweet = new Tweet();
-		dummyTweet.setId("111");
-		dummyTweet.setText("#hoge_foo #foo_bar This is !$ test tweet");
-
-		User dummyUser = new User();
-		dummyUser.setUsername("Jannie");
-		List<User> dummyUsers = new ArrayList<>();
-		dummyUsers.add(dummyUser);
-
-		Expansions expansions = new Expansions();
-		expansions.setUsers(dummyUsers);
-
-		StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
-		streamingTweetResponse.setData(dummyTweet);
-		streamingTweetResponse.setIncludes(expansions);
-
-		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamHandler).setStreamTweetResponse(Mockito.any());
-
-		try {
-			spyTweetStreamHandler.handler("this is test");
-		}catch (Exception e){
-
-		}
-
-		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
-		assertEquals(0, myTweets.size());
-
-		List<TweetTextRepository.TextCount> textCounts = tweetTextRepository.listTextCount(Pageable.ofSize(10));
-		assertEquals(0, textCounts.size());
-	}*/
+	 * @Test void rollbackTest() throws IOException, InterruptedException {
+	 *
+	 * Mockito.when(tweetTextRepository.save(Mockito.any())).thenThrow(new
+	 * NullPointerException("Error occurred"));
+	 *
+	 * Tweet dummyTweet = new Tweet(); dummyTweet.setId("111");
+	 * dummyTweet.setText("#hoge_foo #foo_bar This is !$ test tweet");
+	 *
+	 * User dummyUser = new User(); dummyUser.setUsername("Jannie"); List<User> dummyUsers
+	 * = new ArrayList<>(); dummyUsers.add(dummyUser);
+	 *
+	 * Expansions expansions = new Expansions(); expansions.setUsers(dummyUsers);
+	 *
+	 * StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
+	 * streamingTweetResponse.setData(dummyTweet);
+	 * streamingTweetResponse.setIncludes(expansions);
+	 *
+	 * Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamHandler).
+	 * setStreamTweetResponse(Mockito.any());
+	 *
+	 * try { spyTweetStreamHandler.handler("this is test"); }catch (Exception e){
+	 *
+	 * }
+	 *
+	 * List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
+	 * assertEquals(0, myTweets.size());
+	 *
+	 * List<TweetTextRepository.TextCount> textCounts =
+	 * tweetTextRepository.listTextCount(Pageable.ofSize(10)); assertEquals(0,
+	 * textCounts.size()); }
+	 */
 
 }

@@ -11,13 +11,14 @@ import java.io.IOException;
 @Primary
 public class TestTweetStreamHandler implements TweetStreamHandler {
 
-    @Override
-    public void handler(String line) throws InterruptedException, IOException {
+	@Override
+	public void handler(String line) throws InterruptedException, IOException {
 
-    }
+	}
 
-    @Override
-    public StreamingTweetResponse setStreamTweetResponse(String line) throws IOException {
-        return null;
-    }
+	@Override
+	public StreamingTweetResponse setStreamTweetResponse(String line) throws IOException {
+		return null;
+	}
+
 }

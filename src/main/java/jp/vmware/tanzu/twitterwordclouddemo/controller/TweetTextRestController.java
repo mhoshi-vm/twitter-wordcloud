@@ -18,7 +18,6 @@ public class TweetTextRestController {
 
 	private final TweetTextService tweetTextService;
 
-
 	public TweetTextRestController(TweetTextService tweetTextService) {
 		this.tweetTextService = tweetTextService;
 	}

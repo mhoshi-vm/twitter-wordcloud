@@ -191,4 +191,5 @@ class TweetStreamHandlerTest {
 		assertEquals("tweet", textCounts.get(3).getText());
 		assertEquals(1, textCounts.get(3).getSize());
 	}
+
 }

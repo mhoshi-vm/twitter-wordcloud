@@ -12,21 +12,22 @@ import java.util.List;
 @Transactional
 public class MyTweetService {
 
-    public final MyTweetRepository myTweetRepository;
+	public final MyTweetRepository myTweetRepository;
 
-    public final TweetTextRepository tweetTextRepository;
+	public final TweetTextRepository tweetTextRepository;
 
-    public MyTweetService(MyTweetRepository myTweetRepository, TweetTextRepository tweetTextRepository) {
-        this.myTweetRepository = myTweetRepository;
-        this.tweetTextRepository = tweetTextRepository;
-    }
+	public MyTweetService(MyTweetRepository myTweetRepository, TweetTextRepository tweetTextRepository) {
+		this.myTweetRepository = myTweetRepository;
+		this.tweetTextRepository = tweetTextRepository;
+	}
 
-    public List<MyTweet> findAllByOrderByTweetIdDesc(){
-        return myTweetRepository.findAllByOrderByTweetIdDesc();
-    }
+	public List<MyTweet> findAllByOrderByTweetIdDesc() {
+		return myTweetRepository.findAllByOrderByTweetIdDesc();
+	}
 
-    public void deleteTweet(String tweetId){
-        myTweetRepository.deleteByTweetId(tweetId);
-        tweetTextRepository.deleteByTweetId(tweetId);
-    }
+	public void deleteTweet(String tweetId) {
+		myTweetRepository.deleteByTweetId(tweetId);
+		tweetTextRepository.deleteByTweetId(tweetId);
+	}
+
 }

@@ -22,7 +22,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = {"test=true"})
+@TestPropertySource(properties = { "test=true" })
 class WfSpansTest {
 
 	@Autowired
@@ -39,6 +39,7 @@ class WfSpansTest {
 
 	@LocalServerPort
 	private int port;
+
 	List<MutableSpan> spans;
 
 	@BeforeEach
@@ -72,7 +73,6 @@ class WfSpansTest {
 
 	@Test
 	void checkBWebDBSpans() {
-
 
 		spans = testSpanHolder.getSpans();
 

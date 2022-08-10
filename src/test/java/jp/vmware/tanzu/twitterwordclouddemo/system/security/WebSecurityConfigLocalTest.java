@@ -32,6 +32,7 @@ class WebSecurityConfigLocalTest {
 	// Silent WfServletBean
 	@MockBean
 	private WfServletSpans wfServletSpans;
+
 	@Test
 	void securityFilterChain() throws Exception {
 		this.mockMvc.perform(get("/")).andExpect(status().isOk());
