@@ -4,9 +4,11 @@ import com.twitter.clientlib.model.Expansions;
 import com.twitter.clientlib.model.StreamingTweetResponse;
 import com.twitter.clientlib.model.Tweet;
 import com.twitter.clientlib.model.User;
+import jp.vmware.tanzu.twitterwordclouddemo.client.MorphologicalAnalysis;
 import jp.vmware.tanzu.twitterwordclouddemo.model.MyTweet;
-import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetRepository;
+import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
+import org.assertj.core.internal.bytebuddy.agent.builder.AgentBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
@@ -27,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TweetStreamHandlerTest {
 
 	@Autowired
-	private TweetRepository tweetRepository;
+	private MyTweetRepository myTweetRepository;
 
 	@Autowired
 	private TweetTextRepository tweetTextRepository;
@@ -40,7 +43,7 @@ class TweetStreamHandlerTest {
 
 	@BeforeEach
 	void setup() {
-		this.tweetStreamHandler = new TweetStreamHandlerImpl(tweetRepository, tweetTextRepository,
+		this.tweetStreamHandler = new TweetStreamHandlerImpl(myTweetRepository, tweetTextRepository,
 				morphologicalAnalysis);
 
 		this.spyTweetStreamHandler = Mockito.spy(tweetStreamHandler);
@@ -70,7 +73,7 @@ class TweetStreamHandlerTest {
 
 		spyTweetStreamHandler.handler("this is test");
 
-		List<MyTweet> myTweets = tweetRepository.findAllByOrderByTweetIdDesc();
+		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
 		assertEquals(1, myTweets.size());
 
 		List<TweetTextRepository.TextCount> textCounts = tweetTextRepository.listTextCount(Pageable.ofSize(10));
@@ -88,7 +91,7 @@ class TweetStreamHandlerTest {
 	void returnWhenLineIsEmpty() throws IOException, InterruptedException {
 		spyTweetStreamHandler.handler("");
 
-		List<MyTweet> myTweets = tweetRepository.findAllByOrderByTweetIdDesc();
+		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
 		assertEquals(0, myTweets.size());
 
 		List<TweetTextRepository.TextCount> textCounts = tweetTextRepository.listTextCount(Pageable.ofSize(10));
@@ -103,7 +106,7 @@ class TweetStreamHandlerTest {
 
 		spyTweetStreamHandler.handler("this is test");
 
-		List<MyTweet> myTweets = tweetRepository.findAllByOrderByTweetIdDesc();
+		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
 		assertEquals(0, myTweets.size());
 
 		List<TweetTextRepository.TextCount> textCounts = tweetTextRepository.listTextCount(Pageable.ofSize(10));
@@ -123,7 +126,7 @@ class TweetStreamHandlerTest {
 
 		spyTweetStreamHandler.handler("this is test");
 
-		List<MyTweet> myTweets = tweetRepository.findAllByOrderByTweetIdDesc();
+		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
 		assertEquals(0, myTweets.size());
 
 		List<TweetTextRepository.TextCount> textCounts = tweetTextRepository.listTextCount(Pageable.ofSize(10));
@@ -146,7 +149,7 @@ class TweetStreamHandlerTest {
 
 		spyTweetStreamHandler.handler("this is test");
 
-		List<MyTweet> myTweets = tweetRepository.findAllByOrderByTweetIdDesc();
+		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
 		assertEquals(0, myTweets.size());
 
 		List<TweetTextRepository.TextCount> textCounts = tweetTextRepository.listTextCount(Pageable.ofSize(10));
@@ -175,7 +178,7 @@ class TweetStreamHandlerTest {
 
 		spyTweetStreamHandler.handler("this is test");
 
-		List<MyTweet> myTweets = tweetRepository.findAllByOrderByTweetIdDesc();
+		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
 		assertEquals(1, myTweets.size());
 
 		List<TweetTextRepository.TextCount> textCounts = tweetTextRepository.listTextCount(Pageable.ofSize(10));
@@ -188,5 +191,4 @@ class TweetStreamHandlerTest {
 		assertEquals("tweet", textCounts.get(3).getText());
 		assertEquals(1, textCounts.get(3).getSize());
 	}
-
 }

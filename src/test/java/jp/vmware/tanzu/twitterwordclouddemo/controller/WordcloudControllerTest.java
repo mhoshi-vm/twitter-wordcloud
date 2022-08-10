@@ -1,6 +1,6 @@
 package jp.vmware.tanzu.twitterwordclouddemo.controller;
 
-import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetRepository;
+import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.system.spans.WfServletSpans;
 import org.junit.jupiter.api.Test;
@@ -15,18 +15,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 // https://github.com/spring-projects/spring-boot/issues/6514
-@WebMvcTest
+@WebMvcTest(WordcloudController.class)
 @AutoConfigureMockMvc(addFilters = false)
 class WordcloudControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-
-	@MockBean
-	private TweetRepository tweetRepository;
-
-	@MockBean
-	private TweetTextRepository tweetTextRepository;
 
 	// Silent WfServletBean
 	@MockBean

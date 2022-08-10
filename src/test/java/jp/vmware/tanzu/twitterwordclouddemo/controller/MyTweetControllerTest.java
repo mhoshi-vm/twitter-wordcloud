@@ -1,8 +1,9 @@
 package jp.vmware.tanzu.twitterwordclouddemo.controller;
 
 import jp.vmware.tanzu.twitterwordclouddemo.model.MyTweet;
-import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetRepository;
+import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
+import jp.vmware.tanzu.twitterwordclouddemo.service.MyTweetService;
 import jp.vmware.tanzu.twitterwordclouddemo.system.spans.WfServletSpans;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +19,15 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest
+@WebMvcTest(MyTweetController.class)
 @AutoConfigureMockMvc(addFilters = false)
-class ListTweetsControllerTest {
+class MyTweetControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@MockBean
-	private TweetRepository tweetRepository;
-
-	@MockBean
-	private TweetTextRepository tweetTextRepository;
+	private MyTweetService myTweetService;
 
 	// Silent WfServletBean
 	@MockBean
@@ -52,9 +50,9 @@ class ListTweetsControllerTest {
 		myTweetList.add(myTweet1);
 		myTweetList.add(myTweet2);
 
-		when(tweetRepository.findAllByOrderByTweetIdDesc()).thenReturn(myTweetList);
+		when(myTweetService.findAllByOrderByTweetIdDesc()).thenReturn(myTweetList);
 
-		mockMvc.perform(get("/tweets")).andExpect(status().isOk()).andExpect(view().name("list-tweets"))
+		mockMvc.perform(get("/tweets")).andExpect(status().isOk()).andExpect(view().name("tweets"))
 				.andExpect(model().attribute("tweets", myTweetList));
 	}
 

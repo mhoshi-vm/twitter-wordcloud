@@ -1,7 +1,7 @@
 package jp.vmware.tanzu.twitterwordclouddemo.controller;
 
-import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
+import jp.vmware.tanzu.twitterwordclouddemo.service.TweetTextService;
 import jp.vmware.tanzu.twitterwordclouddemo.system.spans.WfServletSpans;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -20,12 +20,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
+@WebMvcTest(TweetTextRestController.class)
 @AutoConfigureMockMvc(addFilters = false)
-class WordcloudApiControllerTest {
+class TweetTextRestControllerTest {
 
 	@MockBean
-	private TweetRepository tweetRepository;
+	private TweetTextService tweetTextService;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -33,9 +33,6 @@ class WordcloudApiControllerTest {
 	// Silent WfServletBean
 	@MockBean
 	private WfServletSpans wfServletSpans;
-
-	@MockBean
-	private TweetTextRepository tweetTextRepository;
 
 	static class CustomTextCount implements TweetTextRepository.TextCount {
 
@@ -72,7 +69,7 @@ class WordcloudApiControllerTest {
 		List<TweetTextRepository.TextCount> textCounts = new ArrayList<>();
 		textCounts.add(textCount);
 
-		when(tweetTextRepository.listTextCount(any())).thenReturn(textCounts);
+		when(tweetTextService.listTweetsPage()).thenReturn(textCounts);
 
 		mockMvc.perform(get("/api/tweetcount")).andExpect(status().isOk()).andExpect(jsonPath("$", Matchers.hasSize(1)))
 				.andExpect(jsonPath("$[0].text", Matchers.equalTo("aaaa")))

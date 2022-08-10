@@ -13,7 +13,7 @@ class TweetTextTest {
 	void setUp() {
 		tweetText = new TweetText();
 		tweetText.setTweetId("1111");
-		tweetText.setTxt("Hello");
+		tweetText.setText("Hello");
 	}
 
 	@Test
@@ -29,13 +29,13 @@ class TweetTextTest {
 
 	@Test
 	void getTxt() {
-		assertEquals("Hello", tweetText.getTxt());
+		assertEquals("Hello", tweetText.getText());
 	}
 
 	@Test
 	void setTxt() {
-		tweetText.setTxt("Goodbye");
-		assertEquals("Goodbye", tweetText.getTxt());
+		tweetText.setText("Goodbye");
+		assertEquals("Goodbye", tweetText.getText());
 	}
 
 }

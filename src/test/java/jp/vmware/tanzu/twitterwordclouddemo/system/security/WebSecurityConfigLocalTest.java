@@ -1,7 +1,9 @@
 package jp.vmware.tanzu.twitterwordclouddemo.system.security;
 
-import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetRepository;
+import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
+import jp.vmware.tanzu.twitterwordclouddemo.service.MyTweetService;
+import jp.vmware.tanzu.twitterwordclouddemo.service.TweetTextService;
 import jp.vmware.tanzu.twitterwordclouddemo.system.spans.WfServletSpans;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @WebMvcTest
 @Import(WebSecurityConfigLocal.class)
@@ -24,10 +24,10 @@ class WebSecurityConfigLocalTest {
 	private MockMvc mockMvc;
 
 	@MockBean
-	private TweetRepository tweetRepository;
+	private MyTweetService myTweetService;
 
 	@MockBean
-	private TweetTextRepository tweetTextRepository;
+	private TweetTextService tweetTextService;
 
 	// Silent WfServletBean
 	@MockBean

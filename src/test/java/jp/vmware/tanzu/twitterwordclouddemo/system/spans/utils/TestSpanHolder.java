@@ -28,14 +28,14 @@ public class TestSpanHolder {
     }
 
     @Bean
-    TracingCustomizer tracingCustomizer() {
-        return t -> t.traceId128Bit(true).supportsJoin(false).addSpanHandler(new SpanHandler() {
+    SpanHandler spanHolder() {
+        return new SpanHandler() {
             @Override
-            public boolean end(TraceContext traceContext, MutableSpan span, SpanHandler.Cause cause) {
+            public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
                 addSpans(span);
-                return false; // Dump all span
+                return true;
             }
-        });
+        };
     }
 
 }

@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface TweetTextRepository extends CrudRepository<TweetText, Integer> {
 
-	@Query("select txt as text, count(txt) as size from TweetText group by text order by size desc")
+	long deleteByTweetId(String tweetId);
+
+	@Query("select text as text, count(text) as size from TweetText group by text order by size desc")
 	List<TextCount> listTextCount(Pageable pageable);
 
 	interface TextCount {

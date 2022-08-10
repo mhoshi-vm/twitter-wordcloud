@@ -14,7 +14,7 @@ public class TweetText {
 
 	public String tweetId;
 
-	public String txt;
+	public String text;
 
 	public String getTweetId() {
 		return tweetId;
@@ -24,12 +24,12 @@ public class TweetText {
 		this.tweetId = tweetId;
 	}
 
-	public String getTxt() {
-		return txt;
+	public String getText() {
+		return text;
 	}
 
-	public void setTxt(String txt) {
-		this.txt = txt;
+	public void setText(String txt) {
+		this.text = txt;
 	}
 
 }

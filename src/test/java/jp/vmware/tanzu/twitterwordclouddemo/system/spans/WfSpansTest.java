@@ -5,14 +5,18 @@ import jp.vmware.tanzu.twitterwordclouddemo.client.TwitterStreamClient;
 import jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamHandler;
 import jp.vmware.tanzu.twitterwordclouddemo.system.spans.utils.TestSpanHolder;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.core.annotation.Order;
 import org.springframework.test.context.TestPropertySource;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,12 +42,15 @@ class WfSpansTest {
 	List<MutableSpan> spans;
 
 	@BeforeEach
-	void setUp() {
-		spans = testSpanHolder.getSpans();
+	void setup() throws InterruptedException {
+		testRestTemplate.getForEntity("http://localhost:" + port + "/api/tweetcount", String.class);
 	}
+
 	@Test
-	void checkTweetHandlerSpans() throws IOException, InterruptedException {
+	void checkATweetHandlerSpans() throws IOException, InterruptedException {
 		tweetStreamHandler.handler("");
+
+		spans = testSpanHolder.getSpans();
 
 		boolean spanFound = false;
 
@@ -64,16 +71,16 @@ class WfSpansTest {
 	}
 
 	@Test
-	void checkWebDBSpans() {
+	void checkBWebDBSpans() {
 
-		System.out.println(testRestTemplate.getForEntity("http://localhost:" + port + "/api/tweetcount", String.class));
+
+		spans = testSpanHolder.getSpans();
 
 		assertTrue(spans.size() > 0);
 
 		boolean webSpanFound = false;
 
 		for (MutableSpan span : spans) {
-			System.out.println(span.name());
 			try {
 				if (span.name().startsWith("GET /api/tweetcount")) {
 					webSpanFound = true;

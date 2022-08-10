@@ -1,4 +1,4 @@
-package jp.vmware.tanzu.twitterwordclouddemo.service;
+package jp.vmware.tanzu.twitterwordclouddemo.client;
 
 import com.atilika.kuromoji.ipadic.Token;
 import com.atilika.kuromoji.ipadic.Tokenizer;

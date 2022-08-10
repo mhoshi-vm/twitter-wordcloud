@@ -5,8 +5,10 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface TweetRepository extends CrudRepository<MyTweet, Integer> {
+public interface MyTweetRepository extends CrudRepository<MyTweet, Integer> {
 
 	List<MyTweet> findAllByOrderByTweetIdDesc();
+
+	long deleteByTweetId(String tweetId);
 
 }

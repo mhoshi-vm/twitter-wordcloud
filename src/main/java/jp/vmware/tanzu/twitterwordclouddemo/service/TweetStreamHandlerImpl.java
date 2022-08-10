@@ -4,13 +4,15 @@ import com.twitter.clientlib.model.Expansions;
 import com.twitter.clientlib.model.StreamingTweetResponse;
 import com.twitter.clientlib.model.Tweet;
 import com.twitter.clientlib.model.User;
+import jp.vmware.tanzu.twitterwordclouddemo.client.MorphologicalAnalysis;
 import jp.vmware.tanzu.twitterwordclouddemo.model.MyTweet;
 import jp.vmware.tanzu.twitterwordclouddemo.model.TweetText;
-import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetRepository;
+import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -20,7 +22,7 @@ import java.util.regex.Pattern;
 @Profile({ "default", "stateful" })
 public class TweetStreamHandlerImpl implements TweetStreamHandler {
 
-	public TweetRepository tweetRepository;
+	public MyTweetRepository myTweetRepository;
 
 	public TweetTextRepository tweetTextRepository;
 
@@ -28,15 +30,16 @@ public class TweetStreamHandlerImpl implements TweetStreamHandler {
 
 	Pattern nonLetterPattern;
 
-	public TweetStreamHandlerImpl(TweetRepository tweetRepository, TweetTextRepository tweetTextRepository,
-			MorphologicalAnalysis morphologicalAnalysis) {
-		this.tweetRepository = tweetRepository;
+	public TweetStreamHandlerImpl(MyTweetRepository myTweetRepository, TweetTextRepository tweetTextRepository,
+								  MorphologicalAnalysis morphologicalAnalysis) {
+		this.myTweetRepository = myTweetRepository;
 		this.tweetTextRepository = tweetTextRepository;
 		this.morphologicalAnalysis = morphologicalAnalysis;
 		this.nonLetterPattern = Pattern.compile("^\\W+$", Pattern.UNICODE_CHARACTER_CLASS);
 	}
 
 	@Override
+	@Transactional
 	public void handler(String line) throws InterruptedException, IOException {
 
 		if (line.isEmpty()) {
@@ -66,7 +69,7 @@ public class TweetStreamHandlerImpl implements TweetStreamHandler {
 		myTweet.setText(tweet.getText());
 		myTweet.setUsername(user.getUsername());
 
-		tweetRepository.save(myTweet);
+		myTweetRepository.save(myTweet);
 
 		boolean nextSkip = false;
 
@@ -93,7 +96,7 @@ public class TweetStreamHandlerImpl implements TweetStreamHandler {
 			}
 
 			tweetText.setTweetId(tweet.getId());
-			tweetText.setTxt(text);
+			tweetText.setText(text);
 
 			tweetTextRepository.save(tweetText);
 		}
