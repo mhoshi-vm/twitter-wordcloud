@@ -8,6 +8,7 @@ import jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Profile({ "default", "stateful" })
+@ConditionalOnProperty(value = "test", havingValue = "false")
 public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 	private static final Logger logger = LoggerFactory.getLogger(TwitterStreamClientImpl.class);

@@ -20,7 +20,7 @@ public class WfTweetSpans {
 		this.appName = appName;
 	}
 
-	@After("execution(* jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamHandlerImpl.handler(..))")
+	@After("execution(* jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamHandler.handler(..))")
 	public void customizeTwitterSpan() {
 		Span span = tracer.currentSpan();
 		if (span != null) {

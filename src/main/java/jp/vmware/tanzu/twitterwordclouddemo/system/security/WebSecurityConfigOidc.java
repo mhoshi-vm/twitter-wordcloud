@@ -25,12 +25,11 @@ public class WebSecurityConfigOidc {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.formLogin(login -> login.loginProcessingUrl("/login").loginPage("/login").defaultSuccessUrl("/tweets")
-				.failureUrl("/login?error").permitAll())
+						.permitAll())
 				.authorizeHttpRequests(
 						authz -> authz.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 								.mvcMatchers("/", "/app.js", "/api/**", "/access-denied").permitAll().anyRequest()
-								.authenticated())// After a successful logout, redirect to
-													// /home.
+								.authenticated())
 				.logout().logoutSuccessHandler(oidcLogoutSuccessHandler()).logoutSuccessUrl("/").and()
 				.oauth2Login(withDefaults()).oauth2Client(withDefaults());
 		return http.build();
