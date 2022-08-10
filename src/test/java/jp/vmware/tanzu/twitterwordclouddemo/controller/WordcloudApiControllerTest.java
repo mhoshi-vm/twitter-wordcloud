@@ -2,33 +2,26 @@ package jp.vmware.tanzu.twitterwordclouddemo.controller;
 
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
-import jp.vmware.tanzu.twitterwordclouddemo.system.security.WebSecurityConfigLocal;
 import jp.vmware.tanzu.twitterwordclouddemo.system.spans.WfServletSpans;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@ActiveProfiles("stateless")
+@WebMvcTest
+@AutoConfigureMockMvc(addFilters = false)
 class WordcloudApiControllerTest {
 
 	@MockBean
@@ -44,7 +37,7 @@ class WordcloudApiControllerTest {
 	@MockBean
 	private TweetTextRepository tweetTextRepository;
 
-	class CustomTextCount implements TweetTextRepository.TextCount {
+	static class CustomTextCount implements TweetTextRepository.TextCount {
 
 		String text;
 
@@ -79,19 +72,7 @@ class WordcloudApiControllerTest {
 		List<TweetTextRepository.TextCount> textCounts = new ArrayList<>();
 		textCounts.add(textCount);
 
-		for (TweetTextRepository.TextCount textCount1 : textCounts) {
-			System.out.println("aaa" + textCount1.getText());
-			System.out.println("bbb" + textCount1.getSize());
-		}
-
 		when(tweetTextRepository.listTextCount(any())).thenReturn(textCounts);
-
-		RequestBuilder request = MockMvcRequestBuilders.get("/api/tweetcount").contentType(MediaType.APPLICATION_JSON);
-
-		MockHttpServletResponse returnedemp = (MockHttpServletResponse) mockMvc.perform(request)
-				.andExpect(status().isOk()).andReturn().getResponse();
-
-		System.out.println("ccc" + returnedemp.getContentAsString());
 
 		mockMvc.perform(get("/api/tweetcount")).andExpect(status().isOk()).andExpect(jsonPath("$", Matchers.hasSize(1)))
 				.andExpect(jsonPath("$[0].text", Matchers.equalTo("aaaa")))

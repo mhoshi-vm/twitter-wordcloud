@@ -1,15 +1,15 @@
 package jp.vmware.tanzu.twitterwordclouddemo.repository;
 
-import jp.vmware.tanzu.twitterwordclouddemo.model.MyTweet;
 import jp.vmware.tanzu.twitterwordclouddemo.model.TweetText;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 class TweetTextRepositoryTest {
@@ -64,6 +64,20 @@ class TweetTextRepositoryTest {
 		assertEquals(2, textCounts.get(1).getSize());
 		assertEquals("Night", textCounts.get(2).getText());
 		assertEquals(1, textCounts.get(2).getSize());
+	}
+
+	@Test
+	void pageable200Test() {
+
+		for (int i = 0; i < 300; i++) {
+			TweetText myTweet = new TweetText();
+			myTweet.setTweetId(Integer.toString(i));
+			myTweet.setTxt(Integer.toString(i));
+			tweetTextRepository.save(myTweet);
+		}
+
+		assertEquals(200, tweetTextRepository.listTextCount(PageRequest.of(0, 200)).size());
+
 	}
 
 }

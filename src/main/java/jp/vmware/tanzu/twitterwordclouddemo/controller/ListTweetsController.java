@@ -8,11 +8,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @Profile({ "default", "stateless" })
-public class listTweetsController {
+public class ListTweetsController {
 
 	public final TweetRepository tweetRepository;
 
-	public listTweetsController(TweetRepository tweetRepository) {
+	public ListTweetsController(TweetRepository tweetRepository) {
 		this.tweetRepository = tweetRepository;
 	}
 

@@ -1,5 +1,6 @@
 package jp.vmware.tanzu.twitterwordclouddemo.controller;
 
+import jp.vmware.tanzu.twitterwordclouddemo.model.MyTweet;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.system.spans.WfServletSpans;
@@ -10,14 +11,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import java.util.ArrayList;
+import java.util.List;
 
-// https://github.com/spring-projects/spring-boot/issues/6514
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @WebMvcTest
 @AutoConfigureMockMvc(addFilters = false)
-class WordcloudControllerTest {
+class ListTweetsControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -33,13 +36,26 @@ class WordcloudControllerTest {
 	private WfServletSpans wfServletSpans;
 
 	@Test
-	void wordcloud() throws Exception {
-		this.mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("wordcloud"));
-	}
+	void getAllTweets() throws Exception {
+		MyTweet myTweet1 = new MyTweet();
+		myTweet1.setTweetId("1111");
+		myTweet1.setText("Hello");
+		myTweet1.setUsername("James");
 
-	@Test
-	void login() throws Exception {
-		this.mockMvc.perform(get("/login")).andExpect(status().isOk()).andExpect(view().name("login"));
+		MyTweet myTweet2 = new MyTweet();
+		myTweet2.setTweetId("2222");
+		myTweet2.setText("Hello");
+		myTweet2.setUsername("Jane");
+
+		List<MyTweet> myTweetList = new ArrayList<>();
+
+		myTweetList.add(myTweet1);
+		myTweetList.add(myTweet2);
+
+		when(tweetRepository.findAllByOrderByTweetIdDesc()).thenReturn(myTweetList);
+
+		mockMvc.perform(get("/tweets")).andExpect(status().isOk()).andExpect(view().name("list-tweets"))
+				.andExpect(model().attribute("tweets", myTweetList));
 	}
 
 }

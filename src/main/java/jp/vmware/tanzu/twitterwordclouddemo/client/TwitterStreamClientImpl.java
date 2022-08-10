@@ -1,9 +1,10 @@
-package jp.vmware.tanzu.twitterwordclouddemo.config;
+package jp.vmware.tanzu.twitterwordclouddemo.client;
 
 import com.twitter.clientlib.ApiException;
 import com.twitter.clientlib.TwitterCredentialsBearer;
 import com.twitter.clientlib.api.TwitterApi;
 import com.twitter.clientlib.model.*;
+import jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +12,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,14 +26,18 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 	private static final Logger logger = LoggerFactory.getLogger(TwitterStreamClientImpl.class);
 
+	TweetStreamHandler tweetStreamHandler;
+
 	TwitterApi apiInstance;
 
 	String twitterBearerToken;
 
 	List<String> hashTags;
 
-	public TwitterStreamClientImpl(@Value("${twitter.bearer.token}") String twitterBearerToken,
+	public TwitterStreamClientImpl(TweetStreamHandler tweetStreamHandler,
+			@Value("${twitter.bearer.token}") String twitterBearerToken,
 			@Value("${twitter.hashtags}") List<String> hashTags) {
+		this.tweetStreamHandler = tweetStreamHandler;
 		this.twitterBearerToken = twitterBearerToken;
 		this.apiInstance = new TwitterApi(new TwitterCredentialsBearer(twitterBearerToken));
 		this.hashTags = hashTags;
@@ -73,6 +80,24 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 		return apiInstance.tweets().searchStream().backfillMinutes(0).tweetFields(tweetFields).expansions(expansions)
 				.mediaFields(null).pollFields(null).userFields(userFields).placeFields(null).execute();
+	}
+
+	@Override
+	public void actionOnTweetsStream(InputStream inputStream) {
+
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			String line = reader.readLine();
+			while (line != null) {
+
+				tweetStreamHandler.handler(line);
+
+				line = reader.readLine();
+			}
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
