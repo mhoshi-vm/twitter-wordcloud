@@ -9,11 +9,6 @@
 <body>
 <header th:insert="fragments/header.html :: header"> </header>
 <div class="container">
-
-    <h3>List Tweets</h3>
-
-    <hr/>
-
     <table class="table table-bordered table-striped">
 
         <thead>
@@ -30,6 +25,15 @@
             <td th:text="${tweet.text}"></td>
             <td th:text="${tweet.username}"></td>
             <td th:text="${tweet.createDateTime}"></td>
+            </td><td>
+            <form th:action="@{/tweetDelete}" th:object="${tweetDel}" method="post">
+                <input type="hidden" name="tweetId" th:value="${tweet.tweetId}">
+                <input type="hidden" name="text" th:value="${tweet.text}">
+                <input type="hidden" name="username" th:value="${tweet.username}">
+                <input type="hidden" name="createDateTime" th:value="${tweet.createDateTime}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
         </tr>
         </tbody>
     </table>

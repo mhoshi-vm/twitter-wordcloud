@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(MyTweetController.class)
@@ -54,6 +55,23 @@ class MyTweetControllerTest {
 
 		mockMvc.perform(get("/tweets")).andExpect(status().isOk()).andExpect(view().name("tweets"))
 				.andExpect(model().attribute("tweets", myTweetList));
+	}
+
+	@Test
+	void deleteTweet() throws Exception {
+
+		MyTweet myTweet1 = new MyTweet();
+		myTweet1.setTweetId("1111");
+		myTweet1.setText("Hello");
+		myTweet1.setUsername("James");
+
+		List<MyTweet> myTweetList = new ArrayList<>();
+
+		myTweetList.add(myTweet1);
+
+		when(myTweetService.findAllByOrderByTweetIdDesc()).thenReturn(null);
+
+		mockMvc.perform(post("/tweetDelete").flashAttr("tweetDel", myTweet1)).andExpect(status().isOk());
 	}
 
 }
