@@ -1,8 +1,6 @@
 package jp.vmware.tanzu.twitterwordclouddemo.controller;
 
-import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
-import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
-import jp.vmware.tanzu.twitterwordclouddemo.system.spans.WfServletSpans;
+import jp.vmware.tanzu.twitterwordclouddemo.observability.WfServletSpans;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

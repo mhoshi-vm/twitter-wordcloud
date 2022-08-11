@@ -1,4 +1,4 @@
-package jp.vmware.tanzu.twitterwordclouddemo.system.spans;
+package jp.vmware.tanzu.twitterwordclouddemo.observability;
 
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,7 +20,7 @@ public class WfTweetSpans {
 		this.appName = appName;
 	}
 
-	@After("execution(* jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamHandler.handler(..))")
+	@After("execution(* jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamService.handler(..))")
 	public void customizeTwitterSpan() {
 		Span span = tracer.currentSpan();
 		if (span != null) {

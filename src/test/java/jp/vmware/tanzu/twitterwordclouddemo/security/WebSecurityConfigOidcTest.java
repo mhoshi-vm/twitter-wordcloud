@@ -1,10 +1,9 @@
-package jp.vmware.tanzu.twitterwordclouddemo.system.security;
+package jp.vmware.tanzu.twitterwordclouddemo.security;
 
-import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
-import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
+import jp.vmware.tanzu.twitterwordclouddemo.security.WebSecurityConfigOidc;
 import jp.vmware.tanzu.twitterwordclouddemo.service.MyTweetService;
 import jp.vmware.tanzu.twitterwordclouddemo.service.TweetTextService;
-import jp.vmware.tanzu.twitterwordclouddemo.system.spans.WfServletSpans;
+import jp.vmware.tanzu.twitterwordclouddemo.observability.WfServletSpans;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

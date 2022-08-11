@@ -1,4 +1,4 @@
-package jp.vmware.tanzu.twitterwordclouddemo.system.spans;
+package jp.vmware.tanzu.twitterwordclouddemo.observability;
 
 import brave.handler.MutableSpan;
 import brave.handler.SpanHandler;

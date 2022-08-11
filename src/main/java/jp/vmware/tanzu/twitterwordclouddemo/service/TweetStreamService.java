@@ -9,10 +9,11 @@ import jp.vmware.tanzu.twitterwordclouddemo.model.MyTweet;
 import jp.vmware.tanzu.twitterwordclouddemo.model.TweetText;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
+import org.springframework.cloud.sleuth.annotation.NewSpan;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -20,7 +21,7 @@ import java.util.regex.Pattern;
 
 @Service
 @Profile({ "default", "stateful" })
-public class TweetStreamHandlerImpl implements TweetStreamHandler {
+public class TweetStreamService {
 
 	public MyTweetRepository myTweetRepository;
 
@@ -30,7 +31,7 @@ public class TweetStreamHandlerImpl implements TweetStreamHandler {
 
 	Pattern nonLetterPattern;
 
-	public TweetStreamHandlerImpl(MyTweetRepository myTweetRepository, TweetTextRepository tweetTextRepository,
+	public TweetStreamService(MyTweetRepository myTweetRepository, TweetTextRepository tweetTextRepository,
 			MorphologicalAnalysis morphologicalAnalysis) {
 		this.myTweetRepository = myTweetRepository;
 		this.tweetTextRepository = tweetTextRepository;
@@ -38,7 +39,7 @@ public class TweetStreamHandlerImpl implements TweetStreamHandler {
 		this.nonLetterPattern = Pattern.compile("^\\W+$", Pattern.UNICODE_CHARACTER_CLASS);
 	}
 
-	@Override
+	@NewSpan(name = "tweet-stream-handler")
 	@Transactional
 	public void handler(String line) throws InterruptedException, IOException {
 
@@ -102,7 +103,6 @@ public class TweetStreamHandlerImpl implements TweetStreamHandler {
 		}
 	}
 
-	@Override
 	public StreamingTweetResponse setStreamTweetResponse(String line) throws IOException {
 		return StreamingTweetResponse.fromJson(line);
 	}

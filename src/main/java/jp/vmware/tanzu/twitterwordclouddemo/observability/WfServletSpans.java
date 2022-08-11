@@ -1,4 +1,4 @@
-package jp.vmware.tanzu.twitterwordclouddemo.system.spans;
+package jp.vmware.tanzu.twitterwordclouddemo.observability;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.sleuth.Span;

@@ -8,7 +8,6 @@ import jp.vmware.tanzu.twitterwordclouddemo.client.MorphologicalAnalysis;
 import jp.vmware.tanzu.twitterwordclouddemo.model.MyTweet;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
-import org.assertj.core.internal.bytebuddy.agent.builder.AgentBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +15,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
@@ -27,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 @DataJpaTest
-class TweetStreamHandlerTest {
+class TweetStreamServiceTest {
 
 	@Autowired
 	private MyTweetRepository myTweetRepository;
@@ -37,16 +35,15 @@ class TweetStreamHandlerTest {
 
 	private final MorphologicalAnalysis morphologicalAnalysis = new MorphologicalAnalysis();
 
-	TweetStreamHandler tweetStreamHandler;
+	TweetStreamService tweetStreamService;
 
-	TweetStreamHandler spyTweetStreamHandler;
+	TweetStreamService spyTweetStreamService;
 
 	@BeforeEach
 	void setup() {
-		this.tweetStreamHandler = new TweetStreamHandlerImpl(myTweetRepository, tweetTextRepository,
-				morphologicalAnalysis);
+		this.tweetStreamService = new TweetStreamService(myTweetRepository, tweetTextRepository, morphologicalAnalysis);
 
-		this.spyTweetStreamHandler = Mockito.spy(tweetStreamHandler);
+		this.spyTweetStreamService = Mockito.spy(tweetStreamService);
 
 	}
 
@@ -69,9 +66,9 @@ class TweetStreamHandlerTest {
 		streamingTweetResponse.setData(dummyTweet);
 		streamingTweetResponse.setIncludes(expansions);
 
-		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamHandler).setStreamTweetResponse(Mockito.any());
+		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamService).setStreamTweetResponse(Mockito.any());
 
-		spyTweetStreamHandler.handler("this is test");
+		spyTweetStreamService.handler("this is test");
 
 		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
 		assertEquals(1, myTweets.size());
@@ -89,7 +86,7 @@ class TweetStreamHandlerTest {
 
 	@Test
 	void returnWhenLineIsEmpty() throws IOException, InterruptedException {
-		spyTweetStreamHandler.handler("");
+		spyTweetStreamService.handler("");
 
 		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
 		assertEquals(0, myTweets.size());
@@ -102,9 +99,9 @@ class TweetStreamHandlerTest {
 	void returnWhenTweetIsNull() throws IOException, InterruptedException {
 		StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
 
-		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamHandler).setStreamTweetResponse(Mockito.any());
+		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamService).setStreamTweetResponse(Mockito.any());
 
-		spyTweetStreamHandler.handler("this is test");
+		spyTweetStreamService.handler("this is test");
 
 		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
 		assertEquals(0, myTweets.size());
@@ -122,9 +119,9 @@ class TweetStreamHandlerTest {
 		StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
 		streamingTweetResponse.setData(dummyTweet);
 
-		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamHandler).setStreamTweetResponse(Mockito.any());
+		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamService).setStreamTweetResponse(Mockito.any());
 
-		spyTweetStreamHandler.handler("this is test");
+		spyTweetStreamService.handler("this is test");
 
 		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
 		assertEquals(0, myTweets.size());
@@ -145,9 +142,9 @@ class TweetStreamHandlerTest {
 		streamingTweetResponse.setData(dummyTweet);
 		streamingTweetResponse.setIncludes(expansions);
 
-		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamHandler).setStreamTweetResponse(Mockito.any());
+		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamService).setStreamTweetResponse(Mockito.any());
 
-		spyTweetStreamHandler.handler("this is test");
+		spyTweetStreamService.handler("this is test");
 
 		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
 		assertEquals(0, myTweets.size());
@@ -174,9 +171,9 @@ class TweetStreamHandlerTest {
 		streamingTweetResponse.setData(dummyTweet);
 		streamingTweetResponse.setIncludes(expansions);
 
-		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamHandler).setStreamTweetResponse(Mockito.any());
+		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamService).setStreamTweetResponse(Mockito.any());
 
-		spyTweetStreamHandler.handler("this is test");
+		spyTweetStreamService.handler("this is test");
 
 		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
 		assertEquals(1, myTweets.size());

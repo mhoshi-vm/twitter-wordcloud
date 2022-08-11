@@ -1,7 +1,7 @@
-package jp.vmware.tanzu.twitterwordclouddemo.system.spans.utils;
+package jp.vmware.tanzu.twitterwordclouddemo.observability.utils;
 
 import jp.vmware.tanzu.twitterwordclouddemo.client.TwitterStreamClient;
-import jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamHandler;
+import jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -11,10 +11,10 @@ import java.io.InputStream;
 @Primary
 public class TestTwitterStreamClient implements TwitterStreamClient {
 
-	TweetStreamHandler tweetStreamHandler;
+	TweetStreamService tweetStreamService;
 
-	public TestTwitterStreamClient(TweetStreamHandler tweetStreamHandler) {
-		this.tweetStreamHandler = tweetStreamHandler;
+	public TestTwitterStreamClient(TweetStreamService tweetStreamService) {
+		this.tweetStreamService = tweetStreamService;
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class TestTwitterStreamClient implements TwitterStreamClient {
 	@Override
 	public void actionOnTweetsStream(InputStream inputStream) {
 		try {
-			tweetStreamHandler.handler("");
+			tweetStreamService.handler("");
 		}
 		catch (Exception ignored) {
 		}
