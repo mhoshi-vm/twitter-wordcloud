@@ -1,28 +1,13 @@
 package jp.vmware.tanzu.twitterwordclouddemo.service;
 
-import com.twitter.clientlib.model.Expansions;
-import com.twitter.clientlib.model.StreamingTweetResponse;
-import com.twitter.clientlib.model.Tweet;
-import com.twitter.clientlib.model.User;
-import jp.vmware.tanzu.twitterwordclouddemo.client.MorphologicalAnalysis;
-import jp.vmware.tanzu.twitterwordclouddemo.model.MyTweet;
+import jp.vmware.tanzu.twitterwordclouddemo.utils.MorphologicalAnalysis;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Pageable;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doThrow;

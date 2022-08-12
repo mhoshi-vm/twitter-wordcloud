@@ -4,7 +4,7 @@ import com.twitter.clientlib.model.Expansions;
 import com.twitter.clientlib.model.StreamingTweetResponse;
 import com.twitter.clientlib.model.Tweet;
 import com.twitter.clientlib.model.User;
-import jp.vmware.tanzu.twitterwordclouddemo.client.MorphologicalAnalysis;
+import jp.vmware.tanzu.twitterwordclouddemo.utils.MorphologicalAnalysis;
 import jp.vmware.tanzu.twitterwordclouddemo.model.MyTweet;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;

@@ -1,6 +1,5 @@
-package jp.vmware.tanzu.twitterwordclouddemo.client;
+package jp.vmware.tanzu.twitterwordclouddemo.utils;
 
-import jp.vmware.tanzu.twitterwordclouddemo.client.MorphologicalAnalysis;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
 package jp.vmware.tanzu.twitterwordclouddemo.observability.utils;
 
-import jp.vmware.tanzu.twitterwordclouddemo.client.TwitterStreamClient;
+import jp.vmware.tanzu.twitterwordclouddemo.utils.TwitterStreamClient;
 import jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;

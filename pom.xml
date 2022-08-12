@@ -16,6 +16,7 @@
     <properties>
         <java.version>11</java.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
+        <spring-cloud-bindings.version>1.10.0</spring-cloud-bindings.version>
         <wavefront.version>2.3.0</wavefront.version>
         <p6spy.version>3.9.1</p6spy.version>
         <twitter.sdk.version>2.0.2</twitter.sdk.version>
@@ -71,7 +72,11 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-bindings</artifactId>
+            <version>${spring-cloud-bindings.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.h2database</groupId>
@@ -151,12 +156,34 @@
         </dependencies>
     </dependencyManagement>
 
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/release/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.springframework.cloud</groupId>
+                            <artifactId>spring-cloud-bindings</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
+
             <plugin>
                 <groupId>io.spring.javaformat</groupId>
                 <artifactId>spring-javaformat-maven-plugin</artifactId>

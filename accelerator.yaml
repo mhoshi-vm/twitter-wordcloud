@@ -1,0 +1,36 @@
+accelerator:
+  displayName: Twitter Wordcloud Demo
+  description: A app to create a wordcloud based on tweets
+  iconUrl: https://raw.githubusercontent.com/tanzu-japan/appaccelerator-demo/main/vmwareblog-icon.png
+  tags:
+    - java
+    - spring
+    - cloud
+    - wavefront
+    - tanzu
+    - twiiter
+  # options for the UI
+  options:
+    - name: appName
+      inputType: text
+      label: app name of app
+      description: app name
+      required: true
+    - name: hastTags
+      inputType: text
+      label: Hash tags to search
+      description: Hash tags to search (e.g. #hoge)
+      required: true
+
+engine:
+  merge:
+    - include: [ "**" ]
+      exclude: [ "src/main/resources/application.properties" ]
+    - include: [ "src/main/resources/application.properties" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: wordcloud
+              with: "#appName"
+            - text: "#hoge"
+              with: "#hasttags"

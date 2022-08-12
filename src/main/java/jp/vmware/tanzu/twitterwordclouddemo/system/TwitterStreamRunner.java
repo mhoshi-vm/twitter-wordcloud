@@ -1,6 +1,6 @@
 package jp.vmware.tanzu.twitterwordclouddemo.system;
 
-import jp.vmware.tanzu.twitterwordclouddemo.client.TwitterStreamClient;
+import jp.vmware.tanzu.twitterwordclouddemo.utils.TwitterStreamClient;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
