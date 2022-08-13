@@ -15,17 +15,27 @@ accelerator:
       inputType: text
       label: app name of app
       description: app name
+      defaultValue: wordcloud
       required: true
     - name: hastTags
       inputType: text
       label: Hash tags to search
       description: Hash tags to search (e.g. #hoge)
       required: true
+    - name: repositoryPrefix
+      inputType: text
+      label: Prefix for the container image repository
+      defaultValue: dev.local
+      required: true
+    - name: twitterBearerToken
+      inputType: text
+      label: Twitter API bearer token (e.g. AAAA...BSufQEAAAAAp9W...)
+      required: true
 
 engine:
   merge:
     - include: [ "**" ]
-      exclude: [ "src/main/resources/application.properties" ]
+      exclude: [ "src/main/resources/application.properties", "Tiltfile" ]
     - include: [ "src/main/resources/application.properties" ]
       chain:
         - type: ReplaceText
@@ -34,3 +44,13 @@ engine:
               with: "#appName"
             - text: "#hoge"
               with: "#hasttags"
+    - include: ["Tiltfile" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: my-bearer-token
+              with: "#twitterBearerToken"
+        - type: ReplaceText
+          substitutions:
+            - text: your-registry.io/library
+              with: "#repositoryPrefix"
