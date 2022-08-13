@@ -32,7 +32,6 @@ class WebSecurityConfigOidcTest {
 	@MockBean
 	private WfServletSpans wfServletSpans;
 
-
 	@Test
 	void securityFilterChainAuthenticated() throws Exception {
 		this.mockMvc.perform(get("/").with(oidcLogin())).andExpect(status().isOk());
