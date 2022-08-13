@@ -13,6 +13,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
@@ -38,6 +39,7 @@ class WebSecurityConfigLocalTest {
 		this.mockMvc.perform(get("/login")).andExpect(status().isOk());
 		this.mockMvc.perform(get("/api/tweetcount")).andExpect(status().isOk());
 		this.mockMvc.perform(get("/tweets")).andExpect(status().is3xxRedirection());
+		this.mockMvc.perform(post("/tweetDelete")).andExpect(status().is4xxClientError());
 	}
 
 	@Test

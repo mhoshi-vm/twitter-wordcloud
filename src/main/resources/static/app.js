@@ -119,15 +119,13 @@ $(document).ready(function () {
         }
         vis.update(words);
 
-        setTimeout(function () {
-            showNewWords(vis)
-        }, 2000);
-
     }
 
     //Create a new instance of the word cloud visualisation.
     const myWordCloud = wordCloud('body');
 
     //Start cycling through the demo data
-    showNewWords(myWordCloud);
+    setInterval(function (){
+        showNewWords(myWordCloud)
+    },2000);
 });
