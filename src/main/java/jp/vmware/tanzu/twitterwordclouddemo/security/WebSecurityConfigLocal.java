@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@Profile("default")
+@Profile({"default", "stateful"})
 public class WebSecurityConfigLocal {
 
 	@Bean
