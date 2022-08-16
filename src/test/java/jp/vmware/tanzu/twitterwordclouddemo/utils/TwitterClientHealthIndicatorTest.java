@@ -18,46 +18,46 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@TestPropertySource(properties = { "test=true" , "management.endpoint.health.group.liveness.include=livenessState,twitterClient", "management.endpoint.health.group.liveness.additional-path=server:/livez", "management.endpoint.health.show-details=always", "management.health.probes.enabled=true"})
+@TestPropertySource(
+		properties = { "test=true", "management.endpoint.health.group.liveness.include=livenessState,twitterClient",
+				"management.endpoint.health.group.liveness.additional-path=server:/livez",
+				"management.endpoint.health.show-details=always", "management.health.probes.enabled=true" })
 class TwitterClientHealthIndicatorTest {
 
-    @MockBean
-    TwitterStreamClient twitterStreamClient;
+	@MockBean
+	TwitterStreamClient twitterStreamClient;
 
-    @Autowired
-    private MockMvc mockMvc;
+	@Autowired
+	private MockMvc mockMvc;
 
-    @Test
-    void healthy() throws Exception {
+	@Test
+	void healthy() throws Exception {
 
-        Mockito.when(twitterStreamClient.getStatus()).thenReturn(twitterStreamClient.UP);
+		Mockito.when(twitterStreamClient.getStatus()).thenReturn(twitterStreamClient.UP);
 
-        mockMvc.perform(get("/actuator/health/liveness"))
-                .andExpect(jsonPath("$.status").value("UP"))
-                .andExpect(jsonPath("$.components.livenessState.status").value("UP"))
-                .andExpect(jsonPath("$.components.twitterClient.status").value("UP"));
+		mockMvc.perform(get("/actuator/health/liveness")).andExpect(jsonPath("$.status").value("UP"))
+				.andExpect(jsonPath("$.components.livenessState.status").value("UP"))
+				.andExpect(jsonPath("$.components.twitterClient.status").value("UP"));
 
-        mockMvc.perform(get("/livez"))
-                .andExpect(jsonPath("$.status").value("UP"))
-                .andExpect(jsonPath("$.components.livenessState.status").value("UP"))
-                .andExpect(jsonPath("$.components.twitterClient.status").value("UP"));
+		mockMvc.perform(get("/livez")).andExpect(jsonPath("$.status").value("UP"))
+				.andExpect(jsonPath("$.components.livenessState.status").value("UP"))
+				.andExpect(jsonPath("$.components.twitterClient.status").value("UP"));
 
-    }
+	}
 
-    @Test
-    void unhealthy() throws Exception {
+	@Test
+	void unhealthy() throws Exception {
 
-        Mockito.when(twitterStreamClient.getStatus()).thenReturn(twitterStreamClient.DOWN);
+		Mockito.when(twitterStreamClient.getStatus()).thenReturn(twitterStreamClient.DOWN);
 
-        mockMvc.perform(get("/actuator/health/liveness"))
-                .andExpect(jsonPath("$.status").value("DOWN"))
-                .andExpect(jsonPath("$.components.livenessState.status").value("UP"))
-                .andExpect(jsonPath("$.components.twitterClient.status").value("DOWN"));
+		mockMvc.perform(get("/actuator/health/liveness")).andExpect(jsonPath("$.status").value("DOWN"))
+				.andExpect(jsonPath("$.components.livenessState.status").value("UP"))
+				.andExpect(jsonPath("$.components.twitterClient.status").value("DOWN"));
 
-        mockMvc.perform(get("/livez"))
-                .andExpect(jsonPath("$.status").value("DOWN"))
-                .andExpect(jsonPath("$.components.livenessState.status").value("UP"))
-                .andExpect(jsonPath("$.components.twitterClient.status").value("DOWN"));
+		mockMvc.perform(get("/livez")).andExpect(jsonPath("$.status").value("DOWN"))
+				.andExpect(jsonPath("$.components.livenessState.status").value("UP"))
+				.andExpect(jsonPath("$.components.twitterClient.status").value("DOWN"));
 
-    }
+	}
+
 }
