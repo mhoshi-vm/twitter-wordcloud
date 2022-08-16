@@ -23,6 +23,11 @@ public class TestTwitterStreamClient implements TwitterStreamClient {
 	}
 
 	@Override
+	public String getStatus() {
+		return null;
+	}
+
+	@Override
 	public void actionOnTweetsStream(InputStream inputStream) {
 		try {
 			tweetStreamService.handler("");

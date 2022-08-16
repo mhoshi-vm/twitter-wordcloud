@@ -9,8 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cloud.bindings.Binding;
-import org.springframework.cloud.bindings.Bindings;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +36,8 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 	List<String> hashTags;
 
+	String status;
+
 	public TwitterStreamClientImpl(TweetStreamService tweetStreamService,
 			@Value("${twitter.bearer.token}") String twitterBearerToken,
 			@Value("${twitter.hashtags}") List<String> hashTags) {
@@ -45,6 +45,11 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 		this.twitterBearerToken = twitterBearerToken;
 		this.apiInstance = new TwitterApi(new TwitterCredentialsBearer(twitterBearerToken));
 		this.hashTags = hashTags;
+	}
+
+	@Override
+	public String getStatus() {
+		return status;
 	}
 
 	private void addRule() {
@@ -90,6 +95,8 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 	public void actionOnTweetsStream(InputStream inputStream) {
 
 		try {
+			status = UP;
+
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 			String line = reader.readLine();
 			while (line != null) {
@@ -100,6 +107,7 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 			}
 		}
 		catch (Exception e) {
+			status = DOWN;
 			throw new RuntimeException(e);
 		}
 	}

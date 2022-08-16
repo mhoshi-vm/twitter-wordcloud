@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { "test=true" })
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class WfSpansTest {
 
 	@Autowired
@@ -45,7 +47,7 @@ class WfSpansTest {
 	}
 
 	@Test
-	void checkTweetHandlerSpans() throws IOException, InterruptedException {
+	void checkATweetHandlerSpans() throws IOException, InterruptedException {
 		tweetStreamService.handler("");
 
 		spans = testSpanHolder.getSpans();
@@ -69,7 +71,7 @@ class WfSpansTest {
 	}
 
 	@Test
-	void checkWebDBSpans() {
+	void checkBWebDBSpans() {
 
 		spans = testSpanHolder.getSpans();
 

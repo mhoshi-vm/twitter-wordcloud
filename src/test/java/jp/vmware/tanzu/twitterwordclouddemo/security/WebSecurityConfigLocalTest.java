@@ -38,6 +38,8 @@ class WebSecurityConfigLocalTest {
 		this.mockMvc.perform(get("/")).andExpect(status().isOk());
 		this.mockMvc.perform(get("/login")).andExpect(status().isOk());
 		this.mockMvc.perform(get("/api/tweetcount")).andExpect(status().isOk());
+		this.mockMvc.perform(get("/livez")).andExpect(status().isOk());
+		this.mockMvc.perform(get("/readyz")).andExpect(status().isOk());
 		this.mockMvc.perform(get("/tweets")).andExpect(status().is3xxRedirection());
 		this.mockMvc.perform(post("/tweetDelete")).andExpect(status().is4xxClientError());
 	}
@@ -47,6 +49,8 @@ class WebSecurityConfigLocalTest {
 	void securityFilterChainAuthenticated() throws Exception {
 		this.mockMvc.perform(get("/")).andExpect(status().isOk());
 		this.mockMvc.perform(get("/login")).andExpect(status().isOk());
+		this.mockMvc.perform(get("/livez")).andExpect(status().isOk());
+		this.mockMvc.perform(get("/readyz")).andExpect(status().isOk());
 		this.mockMvc.perform(get("/api/tweetcount")).andExpect(status().isOk());
 		this.mockMvc.perform(get("/tweets")).andExpect(status().isOk());
 	}
