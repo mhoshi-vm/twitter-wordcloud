@@ -3,9 +3,11 @@ package jp.vmware.tanzu.twitterwordclouddemo.utils;
 import jp.vmware.tanzu.twitterwordclouddemo.utils.TwitterStreamClient;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("stateful")
 public class TwitterClientHealthIndicator implements HealthIndicator {
 
 	TwitterStreamClient twitterStreamClient;
