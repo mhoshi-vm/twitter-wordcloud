@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -18,10 +19,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@TestPropertySource(
-		properties = { "test=true", "management.endpoint.health.group.liveness.include=livenessState,twitterClient",
-				"management.endpoint.health.group.liveness.additional-path=server:/livez",
-				"management.endpoint.health.show-details=always", "management.health.probes.enabled=true" })
+@TestPropertySource(properties = { "spring.profiles.active=stateful", "test=true",
+		"management.endpoint.health.group.liveness.include=livenessState,twitterClient",
+		"management.endpoint.health.group.liveness.additional-path=server:/livez",
+		"management.endpoint.health.show-details=always", "management.health.probes.enabled=true" })
 class TwitterClientHealthIndicatorTest {
 
 	@MockBean

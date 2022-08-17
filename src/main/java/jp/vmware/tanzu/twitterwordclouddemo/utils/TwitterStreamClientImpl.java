@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 @ConditionalOnProperty(value = "test", havingValue = "false")
 public class TwitterStreamClientImpl implements TwitterStreamClient {
 
+	private static final int RETRIES = 5;
+
 	private static final Logger logger = LoggerFactory.getLogger(TwitterStreamClientImpl.class);
 
 	TweetStreamService tweetStreamService;
@@ -73,7 +75,7 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 	}
 
 	public RulesLookupResponse getUpstreamRules() throws ApiException {
-		return apiInstance.getRules().execute();
+		return apiInstance.getRules().execute(RETRIES);
 	}
 
 	private void setRule() throws ApiException {
@@ -122,7 +124,7 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 	public AddOrDeleteRulesResponse addOrDeleteRule(AddOrDeleteRulesRequest addOrDeleteRulesRequest) {
 		try {
-			return apiInstance.addOrDeleteRules(addOrDeleteRulesRequest).execute();
+			return apiInstance.addOrDeleteRules(addOrDeleteRulesRequest).execute(RETRIES);
 		}
 		catch (ApiException e) {
 			throw new RuntimeException(e);
@@ -152,7 +154,7 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 	public InputStream setInputStream(Set<String> tweetFields, Set<String> expansions, Set<String> userFields)
 			throws ApiException {
 		return apiInstance.searchStream().backfillMinutes(0).tweetFields(tweetFields).expansions(expansions)
-				.mediaFields(null).pollFields(null).userFields(userFields).placeFields(null).execute();
+				.mediaFields(null).pollFields(null).userFields(userFields).placeFields(null).execute(RETRIES);
 	}
 
 	@Override
