@@ -18,7 +18,7 @@ public class TestTwitterStreamClient implements TwitterStreamClient {
 	}
 
 	@Override
-	public InputStream startStreamListener() {
+	public InputStream getTwitterInputStream() {
 		return null;
 	}
 
@@ -28,17 +28,12 @@ public class TestTwitterStreamClient implements TwitterStreamClient {
 	}
 
 	@Override
-	public void actionOnTweetsStream(InputStream inputStream) {
+	public void actionOnTweetsStreamAsync(InputStream inputStream) {
 		try {
 			tweetStreamService.handler("");
 		}
 		catch (Exception ignored) {
 		}
-
-	}
-
-	@Override
-	public void cleanup() {
 
 	}
 

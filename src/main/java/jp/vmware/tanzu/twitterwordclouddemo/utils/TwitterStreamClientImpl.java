@@ -2,6 +2,7 @@ package jp.vmware.tanzu.twitterwordclouddemo.utils;
 
 import com.twitter.clientlib.ApiException;
 import com.twitter.clientlib.TwitterCredentialsBearer;
+import com.twitter.clientlib.api.TweetsApi;
 import com.twitter.clientlib.api.TwitterApi;
 import com.twitter.clientlib.model.*;
 import jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamService;
@@ -12,10 +13,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PreDestroy;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 	TweetStreamService tweetStreamService;
 
-	TwitterApi apiInstance;
+	TweetsApi apiInstance;
 
 	String twitterBearerToken;
 
@@ -38,13 +39,24 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 	String status;
 
+	AddRulesRequest addRulesRequest;
+
+	DeleteRulesRequestDelete deleteRulesRequestDelete;
+
 	public TwitterStreamClientImpl(TweetStreamService tweetStreamService,
 			@Value("${twitter.bearer.token}") String twitterBearerToken,
 			@Value("${twitter.hashtags}") List<String> hashTags) {
 		this.tweetStreamService = tweetStreamService;
 		this.twitterBearerToken = twitterBearerToken;
-		this.apiInstance = new TwitterApi(new TwitterCredentialsBearer(twitterBearerToken));
+		this.apiInstance = createTwitterInstance();
 		this.hashTags = hashTags;
+
+		this.addRulesRequest = new AddRulesRequest();
+		this.deleteRulesRequestDelete = new DeleteRulesRequestDelete();
+	}
+
+	public TweetsApi createTwitterInstance() {
+		return new TwitterApi(new TwitterCredentialsBearer(twitterBearerToken)).tweets();
 	}
 
 	@Override
@@ -52,18 +64,65 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 		return status;
 	}
 
-	private void addRule() {
-		AddRulesRequest addRulesRequest = new AddRulesRequest();
-		List<RuleNoId> ruleNoIds = hashTags.stream().map(keyword -> new RuleNoId().value(keyword))
-				.collect(Collectors.toList());
-		addRulesRequest.add(ruleNoIds);
-		AddOrDeleteRulesRequest addOrDeleteRulesRequest = new AddOrDeleteRulesRequest(addRulesRequest);
-		logger.debug("Add Rules Response: {}", AddOrDeleteRule(addOrDeleteRulesRequest));
+	public AddRulesRequest getAddRulesRequest() {
+		return addRulesRequest;
 	}
 
-	private AddOrDeleteRulesResponse AddOrDeleteRule(AddOrDeleteRulesRequest addOrDeleteRulesRequest) {
+	public DeleteRulesRequestDelete getDeleteRulesRequestDelete() {
+		return deleteRulesRequestDelete;
+	}
+
+	public RulesLookupResponse getUpstreamRules() throws ApiException {
+		return apiInstance.getRules().execute();
+	}
+
+	private void setRule() throws ApiException {
+
+		RulesLookupResponse rulesLookupResponse = getUpstreamRules();
+
+		List<Rule> rules = rulesLookupResponse.getData();
+		List<String> configuredRules = new ArrayList<>();
+		if (rules != null) {
+			rules.forEach(s -> configuredRules.add(s.getValue()));
+		}
+		logger.debug("Configured Rules : " + configuredRules);
+
+		List<String> missingRules = hashTags.stream().filter(element -> !configuredRules.contains(element))
+				.collect(Collectors.toList());
+		List<String> unneededRules = configuredRules.stream().filter(element -> !hashTags.contains(element))
+				.collect(Collectors.toList());
+
+		logger.debug("Missing Rules : " + missingRules);
+		logger.debug("Unneeded Rules : " + unneededRules);
+
+		if (missingRules.size() > 0) {
+
+			logger.info("Found missing twitter rules : " + missingRules);
+
+			List<RuleNoId> ruleNoIds = missingRules.stream().map(keyword -> new RuleNoId().value(keyword))
+					.collect(Collectors.toList());
+			addRulesRequest.add(ruleNoIds);
+			AddOrDeleteRulesRequest addOrDeleteRulesRequest = new AddOrDeleteRulesRequest(addRulesRequest);
+
+			logger.info("Add Rules Response: {}", addOrDeleteRule(addOrDeleteRulesRequest));
+		}
+
+		if (unneededRules.size() > 0) {
+
+			logger.info("Found unneeded twitter rules : " + unneededRules);
+
+			unneededRules.forEach(deleteRulesRequestDelete::addValuesItem);
+
+			AddOrDeleteRulesRequest addOrDeleteRulesRequest = new AddOrDeleteRulesRequest(
+					new DeleteRulesRequest().delete(deleteRulesRequestDelete));
+
+			logger.info("Delete Rules Response: {}", addOrDeleteRule(addOrDeleteRulesRequest));
+		}
+	}
+
+	public AddOrDeleteRulesResponse addOrDeleteRule(AddOrDeleteRulesRequest addOrDeleteRulesRequest) {
 		try {
-			return apiInstance.tweets().addOrDeleteRules(addOrDeleteRulesRequest).execute();
+			return apiInstance.addOrDeleteRules(addOrDeleteRulesRequest).execute();
 		}
 		catch (ApiException e) {
 			throw new RuntimeException(e);
@@ -71,7 +130,7 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 	}
 
 	@Override
-	public InputStream startStreamListener() throws ApiException {
+	public InputStream getTwitterInputStream() throws ApiException {
 		Set<String> tweetFields = new HashSet<>();
 		tweetFields.add("author_id");
 		tweetFields.add("id");
@@ -85,14 +144,19 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 		userFields.add("name");
 		userFields.add("username");
 
-		addRule();
+		setRule();
 
-		return apiInstance.tweets().searchStream().backfillMinutes(0).tweetFields(tweetFields).expansions(expansions)
+		return setInputStream(tweetFields, expansions, userFields);
+	}
+
+	public InputStream setInputStream(Set<String> tweetFields, Set<String> expansions, Set<String> userFields)
+			throws ApiException {
+		return apiInstance.searchStream().backfillMinutes(0).tweetFields(tweetFields).expansions(expansions)
 				.mediaFields(null).pollFields(null).userFields(userFields).placeFields(null).execute();
 	}
 
 	@Override
-	public void actionOnTweetsStream(InputStream inputStream) {
+	public void actionOnTweetsStreamAsync(InputStream inputStream) {
 
 		try {
 			status = UP;
@@ -110,18 +174,6 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 			status = DOWN;
 			throw new RuntimeException(e);
 		}
-	}
-
-	@Override
-	@PreDestroy
-	public void cleanup() {
-		DeleteRulesRequestDelete deleteRulesRequestDelete = new DeleteRulesRequestDelete();
-		hashTags.forEach(deleteRulesRequestDelete::addValuesItem);
-
-		AddOrDeleteRulesRequest addOrDeleteRulesRequest = new AddOrDeleteRulesRequest(
-				new DeleteRulesRequest().delete(deleteRulesRequestDelete));
-
-		logger.debug("Add Rules Response: {}", AddOrDeleteRule(addOrDeleteRulesRequest));
 	}
 
 }

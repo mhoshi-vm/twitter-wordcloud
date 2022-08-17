@@ -3,7 +3,6 @@ package jp.vmware.tanzu.twitterwordclouddemo.utils;
 import com.twitter.clientlib.ApiException;
 import org.springframework.scheduling.annotation.Async;
 
-import javax.annotation.PreDestroy;
 import java.io.InputStream;
 
 public interface TwitterStreamClient {
@@ -12,14 +11,11 @@ public interface TwitterStreamClient {
 
 	String DOWN = "DOWN";
 
-	InputStream startStreamListener() throws ApiException;
+	InputStream getTwitterInputStream() throws ApiException;
 
 	String getStatus();
 
 	@Async
-	void actionOnTweetsStream(InputStream inputStream);
-
-	@PreDestroy
-	void cleanup();
+	void actionOnTweetsStreamAsync(InputStream inputStream);
 
 }

@@ -19,8 +19,8 @@ public class TwitterStreamRunner implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		InputStream inputStream = this.twitterStreamClient.startStreamListener();
-		this.twitterStreamClient.actionOnTweetsStream(inputStream);
+		InputStream inputStream = this.twitterStreamClient.getTwitterInputStream();
+		this.twitterStreamClient.actionOnTweetsStreamAsync(inputStream);
 	}
 
 }
