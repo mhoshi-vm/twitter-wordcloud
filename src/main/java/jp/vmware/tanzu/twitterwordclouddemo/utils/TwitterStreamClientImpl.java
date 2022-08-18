@@ -5,7 +5,6 @@ import com.twitter.clientlib.TwitterCredentialsBearer;
 import com.twitter.clientlib.api.TweetsApi;
 import com.twitter.clientlib.api.TwitterApi;
 import com.twitter.clientlib.model.*;
-import jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +30,7 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 	private static final Logger logger = LoggerFactory.getLogger(TwitterStreamClientImpl.class);
 
-	TweetStreamService tweetStreamService;
+	TweetHandler tweetHandler;
 
 	TweetsApi apiInstance;
 
@@ -45,10 +44,10 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 	DeleteRulesRequestDelete deleteRulesRequestDelete;
 
-	public TwitterStreamClientImpl(TweetStreamService tweetStreamService,
+	public TwitterStreamClientImpl(TweetHandler tweetHandler,
 			@Value("${twitter.bearer.token}") String twitterBearerToken,
 			@Value("${twitter.hashtags}") List<String> hashTags) {
-		this.tweetStreamService = tweetStreamService;
+		this.tweetHandler = tweetHandler;
 		this.twitterBearerToken = twitterBearerToken;
 		this.apiInstance = createTwitterInstance();
 		this.hashTags = hashTags;
@@ -167,7 +166,7 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 			String line = reader.readLine();
 			while (line != null) {
 
-				tweetStreamService.handler(line);
+				tweetHandler.handle(line);
 
 				line = reader.readLine();
 			}

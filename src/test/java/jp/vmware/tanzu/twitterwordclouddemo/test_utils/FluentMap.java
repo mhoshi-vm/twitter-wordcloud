@@ -1,4 +1,4 @@
-package jp.vmware.tanzu.twitterwordclouddemo.utils;
+package jp.vmware.tanzu.twitterwordclouddemo.test_utils;
 
 import java.util.HashMap;
 

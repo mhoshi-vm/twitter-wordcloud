@@ -1,6 +1,6 @@
 package jp.vmware.tanzu.twitterwordclouddemo.observability;
 
-import jp.vmware.tanzu.twitterwordclouddemo.utils.FluentMap;
+import jp.vmware.tanzu.twitterwordclouddemo.test_utils.FluentMap;
 import org.assertj.core.api.MapAssert;
 import org.junit.jupiter.api.Test;
 import org.springframework.cloud.bindings.Binding;

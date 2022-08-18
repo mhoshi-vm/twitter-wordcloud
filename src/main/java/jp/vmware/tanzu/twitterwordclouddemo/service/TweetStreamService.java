@@ -4,13 +4,12 @@ import com.twitter.clientlib.model.Expansions;
 import com.twitter.clientlib.model.StreamingTweetResponse;
 import com.twitter.clientlib.model.Tweet;
 import com.twitter.clientlib.model.User;
-import jp.vmware.tanzu.twitterwordclouddemo.utils.MorphologicalAnalysis;
 import jp.vmware.tanzu.twitterwordclouddemo.model.MyTweet;
 import jp.vmware.tanzu.twitterwordclouddemo.model.TweetText;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
+import jp.vmware.tanzu.twitterwordclouddemo.utils.MorphologicalAnalysis;
 import org.springframework.cloud.sleuth.annotation.NewSpan;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-@Profile({ "default", "stateful" })
 public class TweetStreamService {
 
 	public MyTweetRepository myTweetRepository;

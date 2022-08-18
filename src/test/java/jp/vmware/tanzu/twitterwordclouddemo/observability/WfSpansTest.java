@@ -2,7 +2,7 @@ package jp.vmware.tanzu.twitterwordclouddemo.observability;
 
 import brave.handler.MutableSpan;
 import jp.vmware.tanzu.twitterwordclouddemo.utils.TwitterStreamClient;
-import jp.vmware.tanzu.twitterwordclouddemo.observability.utils.TestSpanHolder;
+import jp.vmware.tanzu.twitterwordclouddemo.test_utils.TestSpanHolder;
 import jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

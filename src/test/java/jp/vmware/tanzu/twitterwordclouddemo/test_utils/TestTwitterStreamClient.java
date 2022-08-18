@@ -1,4 +1,4 @@
-package jp.vmware.tanzu.twitterwordclouddemo.observability.utils;
+package jp.vmware.tanzu.twitterwordclouddemo.test_utils;
 
 import jp.vmware.tanzu.twitterwordclouddemo.utils.TwitterStreamClient;
 import jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamService;

@@ -1,8 +1,9 @@
 package jp.vmware.tanzu.twitterwordclouddemo.utils;
 
 import com.twitter.clientlib.ApiException;
-import com.twitter.clientlib.model.*;
-import jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamService;
+import com.twitter.clientlib.model.AddOrDeleteRulesResponse;
+import com.twitter.clientlib.model.Rule;
+import com.twitter.clientlib.model.RulesLookupResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,13 +15,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 class TwitterStreamClientImplTest {
 
 	@Mock
-	TweetStreamService tweetStreamService;
+	TweetHandler tweetHandler;
 
 	String twitterBearerToken = "DUMMY";
 
@@ -30,8 +31,8 @@ class TwitterStreamClientImplTest {
 
 	@BeforeEach
 	void setup() throws ApiException {
-		TwitterStreamClientImpl spyTwitterStreamClient = new TwitterStreamClientImpl(tweetStreamService,
-				twitterBearerToken, hashTags);
+		TwitterStreamClientImpl spyTwitterStreamClient = new TwitterStreamClientImpl(tweetHandler, twitterBearerToken,
+				hashTags);
 
 		twitterStreamClient = Mockito.spy(spyTwitterStreamClient);
 
