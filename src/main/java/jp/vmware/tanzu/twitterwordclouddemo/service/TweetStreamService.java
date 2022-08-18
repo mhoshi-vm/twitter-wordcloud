@@ -1,5 +1,7 @@
 package jp.vmware.tanzu.twitterwordclouddemo.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twitter.clientlib.model.Expansions;
 import com.twitter.clientlib.model.StreamingTweetResponse;
 import com.twitter.clientlib.model.Tweet;
@@ -9,17 +11,22 @@ import jp.vmware.tanzu.twitterwordclouddemo.model.TweetText;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.utils.MorphologicalAnalysis;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.sleuth.annotation.NewSpan;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
 public class TweetStreamService {
+
+	private static final Logger logger = LoggerFactory.getLogger(TweetStreamService.class);
 
 	public MyTweetRepository myTweetRepository;
 
@@ -61,6 +68,9 @@ public class TweetStreamService {
 		if (users == null) {
 			return;
 		}
+
+		logger.debug("Handling Tweet : " + tweet.getText());
+
 		User user = users.get(0);
 
 		MyTweet myTweet = new MyTweet();
@@ -102,7 +112,38 @@ public class TweetStreamService {
 	}
 
 	public StreamingTweetResponse setStreamTweetResponse(String line) throws IOException {
-		return StreamingTweetResponse.fromJson(line);
+
+		StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
+
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		JsonNode jsonFullNode = objectMapper.readTree(line);
+		JsonNode jsonDataNode = jsonFullNode.get("data");
+		JsonNode jsonExpantionNode = jsonFullNode.get("includes");
+
+		if (!jsonDataNode.isEmpty()) {
+			Tweet tweet = new Tweet();
+			tweet.setId(jsonDataNode.get("id").asText());
+			tweet.setText(jsonDataNode.get("text").asText());
+			streamingTweetResponse.setData(tweet);
+		}
+
+		if (!jsonExpantionNode.isEmpty()) {
+			JsonNode jsonUserNode = jsonExpantionNode.get("users");
+			Expansions expansions = new Expansions();
+			if (!jsonUserNode.isEmpty() && jsonUserNode.size() > 0) {
+				User user = new User();
+				user.setUsername(jsonUserNode.get(0).get("name").asText());
+				List<User> users = new ArrayList<>();
+				users.add(user);
+				expansions.setUsers(users);
+			}
+			streamingTweetResponse.setIncludes(expansions);
+		}
+
+		System.out.println(streamingTweetResponse.toString());
+
+		return streamingTweetResponse;
 	}
 
 }
