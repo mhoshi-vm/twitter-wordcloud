@@ -2,12 +2,13 @@
 
 このアプリは、Twitter v2 API のストリーム機能で、ほぼリアルタイムでTwitterからワードクラウドを生成できるアプリケーションです。
 
-![](img/Screen Shot 2022-08-18 at 14.17.26.png)
+![](img/pic1.png)
+
 以下二つの起動方法があります。
 - モノリスモード
 - マイクロサービスモード
 
-以下の技術が利用しています。
+以下の技術を利用しています。
 
 - Spring Boot
 - [Twitter API Client Library for Java](https://github.com/twitterdev/twitter-api-java-sdk)
@@ -26,7 +27,7 @@
 ### アーキテクチャ図
 > :warning: モノリスモードでは、スケールアウトはサポートされません。
 
-![](img/Screen Shot 2022-08-18 at 14.34.40.png)
+![](img/pic2.png)
 ### 準備
 
 - Java 11 以上がインストールされた端末
@@ -49,10 +50,10 @@ cd twitter-wordcloud-demo
 - 個々のTweetが全インスタンスに配布されるため、データベースのレコードが重複します。
 - データベースやユーザーレジストリを外部に保管しないため、それぞれのインスタンスがデータを共有しません。
 
-![](img/Screen Shot 2022-08-18 at 15.08.45.png)
+![](img/pic3.png)
 ## マイクロサービスモード
 
-![](img/Screen Shot 2022-08-18 at 15.20.11.png)
+![](img/pic4.png)
 
 マイクロサービスモードは "stateful", "stateless" 二つの起動方法が用意され、以下のように機能します。
 
