@@ -125,6 +125,7 @@ public class TweetStreamService {
 			Tweet tweet = new Tweet();
 			tweet.setId(jsonDataNode.get("id").asText());
 			tweet.setText(jsonDataNode.get("text").asText());
+			tweet.setLang(jsonDataNode.get("lang").asText());
 			streamingTweetResponse.setData(tweet);
 		}
 
