@@ -141,8 +141,6 @@ public class TweetStreamService {
 			streamingTweetResponse.setIncludes(expansions);
 		}
 
-		System.out.println(streamingTweetResponse.toString());
-
 		return streamingTweetResponse;
 	}
 
