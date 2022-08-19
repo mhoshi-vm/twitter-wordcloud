@@ -1,6 +1,6 @@
-# リアルタイム Twitter ワードクラウドアプリ
+# リアルタイム Twitter ワードクラウド生成
 
-このアプリは、Twitter v2 API のストリーム機能で、ほぼリアルタイムでTwitterからワードクラウドを生成できるアプリケーションです。
+Twitter v2 API のストリーム機能で、ほぼリアルタイムでTwitterからワードクラウドを生成できるアプリケーションです。
 
 ![](img/pic1.png)
 
@@ -25,9 +25,18 @@
 ## モノリスモード
 
 ### アーキテクチャ図
-> :warning: モノリスモードでは、スケールアウトはサポートされません。
 
 ![](img/pic2.png)
+
+モノリスモードの場合、全てのコンポーネントが一つのアプリケーション上で起動します。
+
+- 起動時に設定したハッシュタグをもとに、Twitter APIの[Stream Rule](https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/post-tweets-search-stream-rules)を設定します。
+- TwitterのStream機能を利用して、該当ツィートを受信します。
+- 該当のツィートをデータベースに保管します。
+- データベースの内容をMVCアプリケーションで表示します。
+- 一部のUIでアクセス制限をかけており、ローカルのユーザーレジストリをもとにユーザー認証を行います。
+
+> :warning: モノリスモードでは、スケールアウトはサポートされません。
 ### 準備
 
 - Java 11 以上がインストールされた端末
@@ -37,6 +46,7 @@
 
 ```
 export TWITTER_BEARER_TOKEN="AAAA...BSufQEAAAAAp9W..."
+export TWITTER_HASHTAGS="#HASTHAG_TO_SEARCH"
 git clone https://github.com/mhoshi-vm/twitter-wordcloud-demo
 cd twitter-wordcloud-demo
 ./mvnw spring-boot:run
@@ -66,4 +76,82 @@ cd twitter-wordcloud-demo
   - RabbitMQ経由で非同期にツィートを受け取りデータベースに書き込みます
   - 認証は外部のOAuth2.0に対応したユーザーレジストリと繋ぎます。
 
+### 前提
+
+モノリスモードに加え、以下を用意してください。
+
+- RabbitMQ
+- PostgreSQL
+- OAuth2.0 Endpoint
+
 ### 起動方法
+
+`application-stateful.properties` ファイルを用意してください。
+
+```
+## Mandatory
+twitter.bearer.token=TWITTER_BEARER_TOKEN
+twitter.hash.tags="#HASTHAG_TO_SEARCH"
+spring.rabbitmq.host=RABBITMQ_HOST
+spring.rabbitmq.password=RABBITMQ_PASSWORD
+spring.rabbitmq.port=RABBITMQ_PORT
+spring.rabbitmq.username=RABBITMQ_PASSWORD
+
+## Optional
+management.metrics.export.wavefront.api-token=WAVEFRONT_TOKEN
+management.metrics.export.wavefront.uri=WAVEFRONT_URI
+management.metrics.export.wavefront.enabled=true
+wavefront.tracing.enabled=true
+wavefront.freemium-account=false
+```
+
+`application-stateless.properties` ファイルを用意してください。
+
+```
+## Mandatory
+spring.rabbitmq.host=RABBITMQ_HOST
+spring.rabbitmq.password=RABBITMQ_PASSWORD
+spring.rabbitmq.port=RABBITMQ_PORT
+spring.rabbitmq.username=RABBITMQ_PASSWORD
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.password=POSTGRES_PASSWORD
+spring.datasource.url=POSTGRES_URL
+spring.datasource.username=POSTGRES_USERNAME
+spring.r2dbc.url=POSTGRES_URI
+spring.r2dbc.password=POSTGRES_PASSWORD
+spring.r2dbc.username=POSTGRES_USERNAME
+spring.security.oauth2.client.registration.{name}.client-id=client-id
+spring.security.oauth2.client.registration.{name}.client-secret	=client-secret
+spring.security.oauth2.client.registration.{name}.provider=provider
+spring.security.oauth2.client.registration.{name}.client-name=client-name
+spring.security.oauth2.client.registration.{name}.client-authentication-method=client-authmode
+spring.security.oauth2.client.registration.{name}.authorization-grant-type=grant-type
+spring.security.oauth2.client.registration.{name}.redirect-uri=redirect-uri
+spring.security.oauth2.client.registration.{name}.scope=scope
+spring.security.oauth2.client.provider.{provider}.issuer-uri=issuer-uri
+spring.security.oauth2.client.provider.{provider}.authorization-uri=autorization-uri
+spring.security.oauth2.client.provider.{provider}.token-uri=token-uri
+spring.security.oauth2.client.provider.{provider}.user-info-uri=user-info-uri
+spring.security.oauth2.client.provider.{provider}.user-info-authentication-method=user-info-authentication-method
+spring.security.oauth2.client.provider.{provider}.jwk-set-uri=jwk-set-uri
+spring.security.oauth2.client.provider.{provider}.user-name-attribute=user-name-attribute
+
+## Optional
+management.metrics.export.wavefront.api-token=WAVEFRONT_TOKEN
+management.metrics.export.wavefront.uri=WAVEFRONT_URI
+management.metrics.export.wavefront.enabled=true
+wavefront.tracing.enabled=true
+wavefront.freemium-account=false
+```
+
+アプリケーションを起動してください。
+
+```
+export SPRING_PROFILES_ACTIVE=stateful
+./mvnw spring-boot:run
+```
+
+```
+export SPRING_PROFILES_ACTIVE=stateless
+./mvnw spring-boot:run
+```
