@@ -121,7 +121,7 @@ public class TweetStreamService {
 		JsonNode jsonDataNode = jsonFullNode.get("data");
 		JsonNode jsonExpantionNode = jsonFullNode.get("includes");
 
-		if (!jsonDataNode.isEmpty()) {
+		if (jsonDataNode != null) {
 			Tweet tweet = new Tweet();
 			tweet.setId(jsonDataNode.get("id").asText());
 			tweet.setText(jsonDataNode.get("text").asText());
@@ -129,10 +129,10 @@ public class TweetStreamService {
 			streamingTweetResponse.setData(tweet);
 		}
 
-		if (!jsonExpantionNode.isEmpty()) {
+		if (jsonExpantionNode != null) {
 			JsonNode jsonUserNode = jsonExpantionNode.get("users");
 			Expansions expansions = new Expansions();
-			if (!jsonUserNode.isEmpty() && jsonUserNode.size() > 0) {
+			if (jsonUserNode != null && jsonUserNode.size() > 0) {
 				User user = new User();
 				user.setUsername(jsonUserNode.get(0).get("name").asText());
 				List<User> users = new ArrayList<>();
