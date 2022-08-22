@@ -5,9 +5,11 @@ import brave.handler.SpanHandler;
 import brave.propagation.TraceContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile({ "default", "stateless" })
 public class WfDBSpans {
 
 	public final String dbType;
