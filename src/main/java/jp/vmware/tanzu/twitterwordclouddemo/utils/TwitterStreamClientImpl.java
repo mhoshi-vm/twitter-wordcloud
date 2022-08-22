@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -162,7 +163,7 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 		try {
 			status = UP;
 
-			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
 			String line = reader.readLine();
 			while (line != null) {
 
