@@ -1,6 +1,8 @@
 package jp.vmware.tanzu.twitterwordclouddemo.observability;
 
 import brave.handler.MutableSpan;
+import jp.vmware.tanzu.twitterwordclouddemo.utils.TweetHandlerDB;
+import jp.vmware.tanzu.twitterwordclouddemo.utils.TweetHandlerMQ;
 import jp.vmware.tanzu.twitterwordclouddemo.utils.TwitterStreamClient;
 import jp.vmware.tanzu.twitterwordclouddemo.test_utils.TestSpanHolder;
 import jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamService;
@@ -33,6 +35,9 @@ class WfSpansTest {
 	TweetStreamService tweetStreamService;
 
 	@Autowired
+	TweetHandlerDB tweetHandlerDB;
+
+	@Autowired
 	TestRestTemplate testRestTemplate;
 
 	@LocalServerPort
@@ -48,7 +53,7 @@ class WfSpansTest {
 
 	@Test
 	void checkATweetHandlerSpans() throws IOException, InterruptedException {
-		tweetStreamService.handler("");
+		tweetHandlerDB.handle("");
 
 		spans = testSpanHolder.getSpans();
 

@@ -44,7 +44,6 @@ public class TweetStreamService {
 		this.nonLetterPattern = Pattern.compile("^\\W+$", Pattern.UNICODE_CHARACTER_CLASS);
 	}
 
-	@NewSpan(name = "tweet-stream-handler")
 	@Transactional
 	public void handler(String line) throws InterruptedException, IOException {
 
