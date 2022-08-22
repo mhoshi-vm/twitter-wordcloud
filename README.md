@@ -5,8 +5,8 @@ Twitter v2 API のストリーム機能で、ほぼリアルタイムでTwitter�
 ![](img/pic1.png)
 
 以下二つの起動方法があります。
-- モノリスモード
-- マイクロサービスモード
+- スタンドアロンモード
+- スケールアウトモード
 
 以下の技術を利用しています。
 
@@ -15,20 +15,20 @@ Twitter v2 API のストリーム機能で、ほぼリアルタイムでTwitter�
 - [Kuromoji](https://github.com/atilika/kuromoji)
 - [D3 Cloud](https://github.com/jasondavies/d3-cloud)
 
-マイクロサービスモードは以下の技術も利用します。
+スケールアウトモードは以下の技術も利用します。
 - [Spring Security OAuth2.0](https://spring.io/guides/tutorials/spring-boot-oauth2/)
 - [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)
 - [RabbitMQ](https://www.rabbitmq.com/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Wavefront](https://tanzu.vmware.com/observability)
 
-## モノリスモード
+## スタンドアロンモード
 
 ### アーキテクチャ図
 
 ![](img/pic2.png)
 
-モノリスモードの場合、全てのコンポーネントが一つのアプリケーション上で起動します。
+スタンドアロンモードの場合、全てのコンポーネントが一つのアプリケーション上で起動します。
 
 - 起動時に設定したハッシュタグをもとに、Twitter APIの[Stream Rule](https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/post-tweets-search-stream-rules)を設定します。
 - TwitterのStream機能を利用して、該当ツィートを受信します。
@@ -36,7 +36,7 @@ Twitter v2 API のストリーム機能で、ほぼリアルタイムでTwitter�
 - データベースの内容をMVCアプリケーションで表示します。
 - 一部のUIでアクセス制限をかけており、ローカルのユーザーレジストリをもとにユーザー認証を行います。
 
-> :warning: モノリスモードでは、スケールアウトはサポートされません。
+> :warning: スタンドアロンモードでは、スケールアウトはサポートされません。
 ### 準備
 
 - Java 11 以上がインストールされた端末
@@ -54,23 +54,23 @@ cd twitter-wordcloud-demo
 
 ### 注意点
 
-モノリスモードの場合、スケールアウトが以下の理由によりサポートされません。
+スタンドアロンモードの場合、スケールアウトが以下の理由によりサポートされません。
 
 - Twitter APIへのアクセス数、コネクション数がふえてしまうことにより、[APIの上限値に抵触しやすくなります](https://developer.twitter.com/ja/docs/twitter-api/rate-limits)。
 - 個々のTweetが全インスタンスに配布されるため、データベースのレコードが重複します。
 - データベースやユーザーレジストリを外部に保管しないため、それぞれのインスタンスがデータを共有しません。
 
 ![](img/pic3.png)
-## マイクロサービスモード
+## スケールアウトモード
 
 ![](img/pic4.png)
 
-マイクロサービスモードは "stateful", "stateless" 二つの起動方法が用意され、以下のように機能します。
+スケールアウトモードは "stateful", "stateless" 二つの起動方法が用意され、以下のように機能します。
 
 - Stateful
   - Twitter APIへ通信するコンポーネントのみが起動します。
   - スケールアウトはサポートされず、インスタンスは１つ以上は起動しないでください。
-  - Twitter のストリームから転送されたツィートをモノリスモードとは異なり、RabbitMQに保管します。
+  - Twitter のストリームから転送されたツィートをスタンドアロンモードとは異なり、RabbitMQに保管します。
 - Stateless
   - スケールアウトがサポートされます。
   - RabbitMQ経由で非同期にツィートを受け取りデータベースに書き込みます
@@ -78,7 +78,7 @@ cd twitter-wordcloud-demo
 
 ### 前提
 
-モノリスモードに加え、以下を用意してください。
+スタンドアロンモードに加え、以下を用意してください。
 
 - RabbitMQ
 - PostgreSQL
