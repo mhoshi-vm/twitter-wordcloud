@@ -43,7 +43,7 @@ engine:
             - text: wordcloud
               with: "#appName"
             - text: "#hoge"
-              with: "#hashtags"
+              with: "#hashTags"
         - type: ReplaceText
           substitutions:
           - text: my-bearer-token
