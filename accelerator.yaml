@@ -17,7 +17,7 @@ accelerator:
       description: app name
       defaultValue: wordcloud
       required: true
-    - name: hastTags
+    - name: hashTags
       inputType: text
       label: Hash tags to search
       description: Hash tags to search (e.g. #hoge)
