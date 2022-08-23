@@ -43,7 +43,11 @@ engine:
             - text: wordcloud
               with: "#appName"
             - text: "#hoge"
-              with: "#hasttags"
+              with: "#hashtags"
+        - type: ReplaceText
+          substitutions:
+          - text: my-bearer-token
+            with: "#twitterBearerToken"
     - include: ["Tiltfile" ]
       chain:
         - type: ReplaceText
