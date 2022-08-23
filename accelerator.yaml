@@ -8,7 +8,7 @@ accelerator:
     - cloud
     - wavefront
     - tanzu
-    - twiiter
+    - twitter
   # options for the UI
   options:
     - name: appName
