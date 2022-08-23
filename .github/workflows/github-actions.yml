@@ -17,7 +17,6 @@ jobs:
           distribution: 'adopt'
       - name: Test code
         run: mvn test
-          merge-branch:
       - name: Merge to staging
         uses: devmasx/merge-branch@master
         with:
