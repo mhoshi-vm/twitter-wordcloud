@@ -1,9 +1,0 @@
-apiVersion: accelerator.apps.tanzu.vmware.com/v1alpha1
-kind: Accelerator
-metadata:
-  name: twitter-wordcloud-demo
-spec:
-  git:
-    url: https://github.com/tanzu-japan/twitter-wordcloud-demo
-    ref:
-      branch: main
