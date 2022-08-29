@@ -62,5 +62,5 @@ engine:
       chain:
         - type: ReplaceText
           substitutions:
-            - text: ", StandardCharsets.UTF_8"
-              with: "#{''}"
+            - text: ", StandardCharsets.UTF_8));"
+              with: "')); // I am a bug, add StandardCharsets.UTF_8'"
