@@ -63,4 +63,4 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: ", StandardCharsets.UTF_8"
-              with: "' '"
+              with: "#{null}"
