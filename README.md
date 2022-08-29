@@ -95,7 +95,7 @@ twitter.hash.tags="#HASTHAG_TO_SEARCH"
 spring.rabbitmq.host=RABBITMQ_HOST
 spring.rabbitmq.password=RABBITMQ_PASSWORD
 spring.rabbitmq.port=RABBITMQ_PORT
-spring.rabbitmq.username=RABBITMQ_PASSWORD
+spring.rabbitmq.username=RABBITMQ_USERNAME
 
 ## Optional
 management.metrics.export.wavefront.api-token=WAVEFRONT_TOKEN
@@ -112,7 +112,7 @@ wavefront.freemium-account=false
 spring.rabbitmq.host=RABBITMQ_HOST
 spring.rabbitmq.password=RABBITMQ_PASSWORD
 spring.rabbitmq.port=RABBITMQ_PORT
-spring.rabbitmq.username=RABBITMQ_PASSWORD
+spring.rabbitmq.username=RABBITMQ_USERNAME
 spring.datasource.driver-class-name=org.postgresql.Driver
 spring.datasource.password=POSTGRES_PASSWORD
 spring.datasource.url=POSTGRES_URL
