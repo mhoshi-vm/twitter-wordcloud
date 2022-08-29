@@ -63,4 +63,4 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: ", StandardCharsets.UTF_8));"
-              with: "#{')); // I'm a bug, please add StandardCharsets.UTF_8'}"
+              with: "')); // I'm a bug, please add StandardCharsets.UTF_8'"
