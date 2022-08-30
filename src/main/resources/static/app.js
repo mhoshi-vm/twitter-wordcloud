@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    const height = $(window).height(), width = $("#chart").width();
+    const height = $(window).height(), width = $(window).width();
 
     $("#hashTags").height(height).width($("#text-container").width());
 
@@ -115,7 +115,7 @@ $(document).ready(function () {
             .catch(err => console.error(err))
 
         if (words.length === 0) {
-            words = [ {"text": "待機中", "size": 1}];
+            words = [{"text": "待機中", "size": 1}];
         }
         vis.update(words);
 
@@ -125,7 +125,7 @@ $(document).ready(function () {
     const myWordCloud = wordCloud('body');
 
     //Start cycling through the demo data
-    setInterval(function (){
+    setInterval(function () {
         showNewWords(myWordCloud)
-    },2000);
+    }, 2000);
 });

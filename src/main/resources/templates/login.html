@@ -3,18 +3,29 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Login Page</title>
-    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/clr__ui/clr-ui.min.css"/>
 </head>
 <body>
-<header th:insert="fragments/header.html :: header"> </header>
-<h1>Login</h1>
-<p th:if="${param.error}" class="error">
-    Username or password incorrect
-</p>
-<form method="post" action="index.html" th:action="@{/login}">
-    Username: <input type="text" name="username"><br>
-    Password: <input type="password" name="password"><br>
-    <button type="submit">Login</button>
-</form>
+<header class="header-6 header" th:insert="fragments/header.html :: header"></header>
+
+
+<div class="dox-wrapper">
+    <h1>Login</h1>
+    <p th:if="${param.error}" class="error">
+        Username or password incorrect
+    </p>
+    <form class="clr-form" method="post" action="index.html" th:action="@{/login}">
+        <clr-input-container>
+            <label>Username</label>
+            <input type="text" name="username" class="clr-input"><br>
+        </clr-input-container>
+        <clr-password-container>
+            <label>Password</label>
+            <input type="password" name="password" class="clr-input"><br>
+        </clr-password-container>
+        <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+</div>
+
 </body>
 </html>

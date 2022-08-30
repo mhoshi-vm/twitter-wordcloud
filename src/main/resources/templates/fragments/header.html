@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head th:fragment="head(title)">
     <meta charset="UTF-8">
     <title th:replace="${title}">title</title>
@@ -7,10 +7,12 @@
     <script th:src="@{/js/dialog.js}" defer="defer"></script>
 </head>
 <body>
-<header th:fragment="header">
-    <a th:href="@{/}">Wordcloud</a>
-    <a th:href="@{/tweets}">Tweets</a>
-    <hr>
+<header class="header-6 header" th:fragment="header">
+    <div class="header-nav">
+        <a class="nav-link nav-text" th:href="@{/}">Wordcloud</a>
+        <a class="nav-link nav-text" th:href="@{/tweets}">Tweets</a>
+    </div>
+    <div class="header-backdrop"></div>
 </header>
 </body>
 </html>
