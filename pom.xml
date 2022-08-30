@@ -27,6 +27,7 @@
         <webjars-d3js.version>7.6.1</webjars-d3js.version>
         <webjars-d3cloud.version>1.2.5</webjars-d3cloud.version>
         <webjars-axios.version>0.27.2</webjars-axios.version>
+        <webjars-clr.version>4.0.1</webjars-clr.version>
     </properties>
     <dependencies>
         <dependency>
@@ -113,8 +114,6 @@
             <version>${kuromoji.version}</version>
         </dependency>
 
-
-
         <!-- webjars -->
         <dependency>
             <groupId>org.webjars</groupId>
@@ -144,6 +143,11 @@
             <groupId>org.webjars.npm</groupId>
             <artifactId>d3-cloud</artifactId>
             <version>${webjars-d3cloud.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>clr__ui</artifactId>
+            <version>${webjars-clr.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

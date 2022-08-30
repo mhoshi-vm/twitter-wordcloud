@@ -4,41 +4,43 @@
     <meta charset="UTF-8">
     <title>Tweets</title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/clr__ui/clr-ui.min.css"/>
 </head>
 <body>
-<header th:insert="fragments/header.html :: header"> </header>
-<div class="container">
-    <table class="table table-bordered table-striped">
+<app-root class="layout-documentation page-tables">
+    <header class="header-6 header" th:insert="fragments/header.html :: header"></header>
+    <div class="container">
+        <table class="table">
 
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Text</th>
-            <th>Username</th>
-            <th>Created</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="tweet: ${tweets}">
-            <td th:text="${tweet.tweetId}"></td>
-            <td th:text="${tweet.text}"></td>
-            <td th:text="${tweet.username}"></td>
-            <td th:text="${tweet.createDateTime}"></td>
-            </td><td>
-            <form th:action="@{/tweetDelete}" th:object="${tweetDel}" method="post">
-                <input type="hidden" name="tweetId" th:value="${tweet.tweetId}">
-                <input type="hidden" name="text" th:value="${tweet.text}">
-                <input type="hidden" name="username" th:value="${tweet.username}">
-                <input type="hidden" name="createDateTime" th:value="${tweet.createDateTime}">
-                <button type="submit">Delete</button>
-            </form>
-        </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
+            <thead>
+            <tr>
+                <th class="left">ID</th>
+                <th class="left">Text</th>
+                <th class="left">Username</th>
+                <th class="left">Created</th>
+                <th class="left">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tweet: ${tweets}">
+                <td class="left" th:text="${tweet.tweetId}"></td>
+                <td class="left" th:text="${tweet.text}"></td>
+                <td class="left" th:text="${tweet.username}"></td>
+                <td class="left" th:text="${tweet.createDateTime}"></td>
+                <td>
+                    <form th:action="@{/tweetDelete}" th:object="${tweetDel}" method="post">
+                        <input type="hidden" name="tweetId" th:value="${tweet.tweetId}">
+                        <input type="hidden" name="text" th:value="${tweet.text}">
+                        <input type="hidden" name="username" th:value="${tweet.username}">
+                        <input type="hidden" name="createDateTime" th:value="${tweet.createDateTime}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</app-root>
 </body>
 </html>
 
