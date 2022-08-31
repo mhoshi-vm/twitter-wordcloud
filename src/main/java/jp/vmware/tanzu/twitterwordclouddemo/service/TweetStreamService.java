@@ -16,10 +16,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.sleuth.annotation.NewSpan;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +36,8 @@ public class TweetStreamService {
 
 	public MorphologicalAnalysis morphologicalAnalysis;
 
+	private List<SseEmitter> emitters;
+
 	Pattern nonLetterPattern;
 
 	public TweetStreamService(MyTweetRepository myTweetRepository, TweetTextRepository tweetTextRepository,
@@ -41,7 +45,12 @@ public class TweetStreamService {
 		this.myTweetRepository = myTweetRepository;
 		this.tweetTextRepository = tweetTextRepository;
 		this.morphologicalAnalysis = morphologicalAnalysis;
+		this.emitters = new CopyOnWriteArrayList<>();
 		this.nonLetterPattern = Pattern.compile("^\\W+$", Pattern.UNICODE_CHARACTER_CLASS);
+	}
+
+	public List<SseEmitter> getEmitters() {
+		return emitters;
 	}
 
 	@Transactional
@@ -107,6 +116,15 @@ public class TweetStreamService {
 			tweetText.setText(text);
 
 			tweetTextRepository.save(tweetText);
+
+		}
+		for (SseEmitter emitter : emitters) {
+			try {
+				emitter.send(SseEmitter.event().name("newTweet").data("New Tweet Arrived : " + tweet.getText()));
+			}
+			catch (IOException e) {
+				logger.warn("Failed to send SSE %s", e);
+			}
 		}
 	}
 

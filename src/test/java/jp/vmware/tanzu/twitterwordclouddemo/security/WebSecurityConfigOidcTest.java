@@ -1,5 +1,6 @@
 package jp.vmware.tanzu.twitterwordclouddemo.security;
 
+import jp.vmware.tanzu.twitterwordclouddemo.controller.WebSocketEventController;
 import jp.vmware.tanzu.twitterwordclouddemo.security.WebSecurityConfigOidc;
 import jp.vmware.tanzu.twitterwordclouddemo.service.MyTweetService;
 import jp.vmware.tanzu.twitterwordclouddemo.service.TweetTextService;
@@ -31,6 +32,9 @@ class WebSecurityConfigOidcTest {
 	// Silent WfServletBean
 	@MockBean
 	private WfServletSpans wfServletSpans;
+
+	@MockBean
+	private WebSocketEventController webSocketEventController;
 
 	@Test
 	void securityFilterChainAuthenticated() throws Exception {

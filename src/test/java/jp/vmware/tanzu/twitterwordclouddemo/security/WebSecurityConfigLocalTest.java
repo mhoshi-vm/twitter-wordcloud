@@ -1,5 +1,6 @@
 package jp.vmware.tanzu.twitterwordclouddemo.security;
 
+import jp.vmware.tanzu.twitterwordclouddemo.controller.WebSocketEventController;
 import jp.vmware.tanzu.twitterwordclouddemo.security.WebSecurityConfigLocal;
 import jp.vmware.tanzu.twitterwordclouddemo.service.MyTweetService;
 import jp.vmware.tanzu.twitterwordclouddemo.service.TweetTextService;
@@ -32,6 +33,9 @@ class WebSecurityConfigLocalTest {
 	// Silent WfServletBean
 	@MockBean
 	private WfServletSpans wfServletSpans;
+
+	@MockBean
+	private WebSocketEventController webSocketEventController;
 
 	@Test
 	void securityFilterChain() throws Exception {
