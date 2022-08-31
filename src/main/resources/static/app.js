@@ -1,9 +1,6 @@
 $(document).ready(function () {
 
     const height = $(window).height(), width = $(window).width();
-
-    $("#hashTags").height(height).width($("#text-container").width());
-
     //..........Code for Word Cloud............
 
     //Store Compressed Data
