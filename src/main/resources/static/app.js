@@ -4,7 +4,7 @@ $(document).ready(function () {
     //..........Code for Word Cloud............
 
     //Store Compressed Data
-    let words = [{"text": "待機中", "size": 1}];
+    let words = [{"text": "ツィート待機中", "size": 1}];
 
     // Encapsulate the word cloud functionality
     function wordCloud(selector) {
@@ -100,29 +100,44 @@ $(document).ready(function () {
 
     }
 
-    //This method tells the word cloud to redraw with a new set of words.
-    //In reality the new words would probably come from a server request,
-    // user input or some other source.
-    function showNewWords(vis) {
+    async function showNewWords(vis) {
 
-        axios.get('/api/tweetcount')
-            .then(res => {
-                words = JSON.parse(JSON.stringify(res.data))
-            })
+        let response = await axios.get('/api/tweetcount')
+            .then()
             .catch(err => console.error(err))
 
+        words = JSON.parse(JSON.stringify(response.data))
         if (words.length === 0) {
-            words = [{"text": "待機中", "size": 1}];
+            words = [{"text": "ツィート待機中", "size": 1}];
         }
-        vis.update(words);
 
+        vis.update(words);
     }
 
     //Create a new instance of the word cloud visualisation.
     const myWordCloud = wordCloud('body');
 
+    showNewWords(myWordCloud).then();
+    showNewWords(myWordCloud).then();
+
+
+    try {
+        const streamLocation = new EventSource('/api/tweetEvent');
+
+        streamLocation.addEventListener('newTweet', function (event) {
+
+            console.log(event.data)
+            showNewWords(myWordCloud).then();
+            showNewWords(myWordCloud).then();
+
+        });
+
+    }catch (err){
+        console.log("Error connecting to stream");
+    }
+
     //Start cycling through the demo data
     setInterval(function () {
-        showNewWords(myWordCloud)
-    }, 2000);
+        showNewWords(myWordCloud).then();
+    }, 10000);
 });
