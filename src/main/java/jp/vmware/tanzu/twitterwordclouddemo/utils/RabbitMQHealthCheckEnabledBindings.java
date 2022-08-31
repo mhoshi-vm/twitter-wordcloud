@@ -10,15 +10,17 @@ import java.util.List;
 import java.util.Map;
 
 public class RabbitMQHealthCheckEnabledBindings implements BindingsPropertiesProcessor {
-    public static final String TYPE = "rabbitmq";
 
-    @Override
-    public void process(@NotNull Environment environment, Bindings bindings, @NotNull Map<String, Object> map) {
+	public static final String TYPE = "rabbitmq";
 
-        List<Binding> rmqBindings = bindings.filterBindings(TYPE);
-        if (rmqBindings.size() > 1) {
-            map.put("management.health.rabbit.enabled", "true");
-        }
+	@Override
+	public void process(@NotNull Environment environment, Bindings bindings, @NotNull Map<String, Object> map) {
 
-    }
+		List<Binding> rmqBindings = bindings.filterBindings(TYPE);
+		if (rmqBindings.size() > 1) {
+			map.put("management.health.rabbit.enabled", "true");
+		}
+
+	}
+
 }
