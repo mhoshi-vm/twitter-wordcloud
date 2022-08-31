@@ -6,10 +6,11 @@
     <link rel="stylesheet" href="/webjars/clr__ui/clr-ui.min.css"/>
 </head>
 <body>
-<header class="header-6 header" th:insert="fragments/header.html :: header"></header>
+
+<div th:replace="fragments/header.html :: header"></div>
 
 
-<div class="dox-wrapper">
+<div  style="margin-left : 1em; margin-right : auto ;" class="dox-wrapper">
     <h1>Login</h1>
     <p th:if="${param.error}" class="error">
         Username or password incorrect

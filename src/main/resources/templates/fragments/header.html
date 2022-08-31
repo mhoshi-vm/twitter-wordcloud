@@ -1,18 +1,24 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
-<head th:fragment="head(title)">
-    <meta charset="UTF-8">
-    <title th:replace="${title}">title</title>
-    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script th:src="@{/js/dialog.js}" defer="defer"></script>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <header class="header-6 header" th:fragment="header">
+    <div class="branding">
+        <a class="logo-and-title" href="/">
+            <span class="title">Twitter Wordcloud</span>
+        </a>
+    </div>
     <div class="header-nav">
         <a class="nav-link nav-text" th:href="@{/}">Wordcloud</a>
         <a class="nav-link nav-text" th:href="@{/tweets}">Tweets</a>
     </div>
-    <div class="header-backdrop"></div>
+
+    <div sec:authorize="isAuthenticated()" class="header-actions">
+        <form th:action="@{/logout}" name="logout" method="POST">
+        <a href="javascript:logout.submit()" class="nav-link nav-text">
+            Log Out
+        </a>
+        </form>
+    </div>
 </header>
 </body>
 </html>
