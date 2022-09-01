@@ -29,7 +29,7 @@ class TwitterClientHealthIndicatorTest {
 	@Test
 	void healthy() throws Exception {
 
-		Mockito.when(twitterStreamClient.getStatus()).thenReturn(twitterStreamClient.UP);
+		Mockito.when(twitterStreamClient.getStatus()).thenReturn(TwitterStreamClient.UP);
 
 		mockMvc.perform(get("/actuator/health/liveness")).andExpect(jsonPath("$.status").value("UP"))
 				.andExpect(jsonPath("$.components.livenessState.status").value("UP"))
@@ -44,7 +44,7 @@ class TwitterClientHealthIndicatorTest {
 	@Test
 	void unhealthy() throws Exception {
 
-		Mockito.when(twitterStreamClient.getStatus()).thenReturn(twitterStreamClient.DOWN);
+		Mockito.when(twitterStreamClient.getStatus()).thenReturn(TwitterStreamClient.DOWN);
 
 		mockMvc.perform(get("/actuator/health/liveness")).andExpect(jsonPath("$.status").value("DOWN"))
 				.andExpect(jsonPath("$.components.livenessState.status").value("UP"))

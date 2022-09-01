@@ -24,7 +24,7 @@ public class TwitterClientHealthIndicator implements HealthIndicator {
 	public Health health() {
 		String twitterStatus = twitterStreamClient.getStatus();
 		Health.Builder status = Health.up();
-		if (twitterStatus.equals(twitterStreamClient.DOWN)) {
+		if (twitterStatus.equals(TwitterStreamClient.DOWN)) {
 			status = Health.down();
 		}
 		return status.build();
