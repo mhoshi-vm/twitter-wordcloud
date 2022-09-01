@@ -34,3 +34,5 @@ build/
 
 ### Ignore Twitter Bindings Secrets ###
 bindings/twitter/bearer-token
+/package-lock.json
+/src/main/resources/static/built/
