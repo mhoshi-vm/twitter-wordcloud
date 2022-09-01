@@ -1,6 +1,5 @@
 package jp.vmware.tanzu.twitterwordclouddemo.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamService;
 import jp.vmware.tanzu.twitterwordclouddemo.utils.TweetHandlerMQ;
 import org.slf4j.Logger;

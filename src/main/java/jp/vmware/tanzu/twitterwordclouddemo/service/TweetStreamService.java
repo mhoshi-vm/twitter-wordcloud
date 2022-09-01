@@ -13,7 +13,6 @@ import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.utils.MorphologicalAnalysis;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.sleuth.annotation.NewSpan;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;

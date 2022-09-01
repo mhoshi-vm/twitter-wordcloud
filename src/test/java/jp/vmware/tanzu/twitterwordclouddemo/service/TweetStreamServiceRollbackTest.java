@@ -1,16 +1,13 @@
 package jp.vmware.tanzu.twitterwordclouddemo.service;
 
-import jp.vmware.tanzu.twitterwordclouddemo.utils.MorphologicalAnalysis;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
+import jp.vmware.tanzu.twitterwordclouddemo.utils.MorphologicalAnalysis;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(MockitoExtension.class)
 @DataJpaTest

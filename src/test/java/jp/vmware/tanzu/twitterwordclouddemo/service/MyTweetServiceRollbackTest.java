@@ -1,22 +1,11 @@
 package jp.vmware.tanzu.twitterwordclouddemo.service;
 
-import jp.vmware.tanzu.twitterwordclouddemo.model.MyTweet;
-import jp.vmware.tanzu.twitterwordclouddemo.model.TweetText;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.repository.TweetTextRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 class MyTweetServiceRollbackTest {
