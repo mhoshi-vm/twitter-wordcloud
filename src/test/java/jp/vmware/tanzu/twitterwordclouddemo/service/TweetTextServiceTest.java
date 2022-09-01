@@ -76,14 +76,14 @@ class TweetTextServiceTest {
 	@Test
 	void pageable200Test() {
 
-		for (int i = 0; i < 300; i++) {
+		for (int i = 0; i < 500; i++) {
 			TweetText myTweet = new TweetText();
 			myTweet.setTweetId(Integer.toString(i));
 			myTweet.setText(Integer.toString(i));
 			tweetTextRepository.save(myTweet);
 		}
 
-		assertEquals(200, tweetTextService.listTweetsPage().size());
+		assertEquals(400, tweetTextService.listTweetsPage().size());
 
 	}
 
