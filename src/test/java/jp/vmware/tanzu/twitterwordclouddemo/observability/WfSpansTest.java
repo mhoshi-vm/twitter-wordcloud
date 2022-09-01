@@ -1,11 +1,10 @@
 package jp.vmware.tanzu.twitterwordclouddemo.observability;
 
 import brave.handler.MutableSpan;
-import jp.vmware.tanzu.twitterwordclouddemo.utils.TweetHandlerDB;
-import jp.vmware.tanzu.twitterwordclouddemo.utils.TweetHandlerMQ;
-import jp.vmware.tanzu.twitterwordclouddemo.utils.TwitterStreamClient;
-import jp.vmware.tanzu.twitterwordclouddemo.test_utils.TestSpanHolder;
 import jp.vmware.tanzu.twitterwordclouddemo.service.TweetStreamService;
+import jp.vmware.tanzu.twitterwordclouddemo.test_utils.TestSpanHolder;
+import jp.vmware.tanzu.twitterwordclouddemo.utils.TweetHandlerDB;
+import jp.vmware.tanzu.twitterwordclouddemo.utils.TwitterStreamClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

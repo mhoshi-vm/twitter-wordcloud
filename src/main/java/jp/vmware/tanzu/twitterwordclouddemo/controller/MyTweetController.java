@@ -1,7 +1,6 @@
 package jp.vmware.tanzu.twitterwordclouddemo.controller;
 
 import jp.vmware.tanzu.twitterwordclouddemo.model.MyTweet;
-import jp.vmware.tanzu.twitterwordclouddemo.repository.MyTweetRepository;
 import jp.vmware.tanzu.twitterwordclouddemo.service.MyTweetService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;

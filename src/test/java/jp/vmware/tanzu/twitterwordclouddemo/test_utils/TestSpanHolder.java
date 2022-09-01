@@ -3,7 +3,6 @@ package jp.vmware.tanzu.twitterwordclouddemo.test_utils;
 import brave.handler.MutableSpan;
 import brave.handler.SpanHandler;
 import brave.propagation.TraceContext;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
