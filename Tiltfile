@@ -10,8 +10,8 @@ k8s_custom_deploy(
                " --env TWITTER_BEARER_TOKEN=" + TWITTER_BEARER_TOKEN +
                " --type web" +
                " --yes >/dev/null" +
-               " && kubectl get workload twitter-demo-deploy --namespace " + NAMESPACE + " -o yaml",
-    delete_cmd="tanzu apps workload delete twitter-demo-deploy --namespace " + NAMESPACE + " --yes",
+               " && kubectl get workload twitter-demo-deploy -o yaml",
+    delete_cmd="tanzu apps workload delete twitter-demo-deploy --yes",
     deps=['pom.xml', './target/classes'],
     container_selector='workload',
     live_update=[
