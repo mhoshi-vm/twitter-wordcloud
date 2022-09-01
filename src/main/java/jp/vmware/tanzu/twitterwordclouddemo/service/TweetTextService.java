@@ -13,7 +13,7 @@ public class TweetTextService {
 
 	private final TweetTextRepository tweetTextRepository;
 
-	public static final int pageSize = 200;
+	public static final int pageSize = 400;
 
 	public TweetTextService(TweetTextRepository tweetTextRepository) {
 		this.tweetTextRepository = tweetTextRepository;
