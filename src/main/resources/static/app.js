@@ -139,5 +139,5 @@ $(document).ready(function () {
     //Start cycling through the demo data
     setInterval(function () {
         showNewWords(myWordCloud).then();
-    }, 10000);z1
+    }, 10000);
 });
