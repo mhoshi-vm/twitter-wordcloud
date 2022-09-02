@@ -8,7 +8,7 @@
     "react-toastify": "^9.0.8"
   },
   "scripts": {
-    "watch": "webpack --watch -d --output ./target/classes/static/built/bundle.js"
+    "watch": "../node_modules/.bin/webpack --watch -d --output ./target/classes/static/built/bundle.js"
   },
   "devDependencies": {
     "@babel/core": "^7.18.13",
