@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("stateful")
+@Profile({"default", "stateful"})
 public class TwitterClientHealthIndicator implements HealthIndicator {
 
 	TwitterStreamClient twitterStreamClient;
