@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { createRoot } from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 
 function App() {
 
@@ -26,4 +26,4 @@ function App() {
 
 const container = document.getElementById('react');
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
-root.render(<App />);
+root.render(<App/>);
