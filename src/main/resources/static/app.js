@@ -132,7 +132,7 @@ $(document).ready(function () {
 
         });
 
-    }catch (err){
+    } catch (err) {
         console.log("Error connecting to stream");
     }
 

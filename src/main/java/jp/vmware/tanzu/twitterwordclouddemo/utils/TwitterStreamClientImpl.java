@@ -52,7 +52,7 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 		this.twitterBearerToken = twitterBearerToken;
 		this.apiInstance = createTwitterInstance();
 		this.hashTags = hashTags;
-
+		this.status = DOWN;
 		this.addRulesRequest = new AddRulesRequest();
 		this.deleteRulesRequestDelete = new DeleteRulesRequestDelete();
 	}
