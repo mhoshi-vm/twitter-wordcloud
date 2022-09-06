@@ -54,10 +54,6 @@ engine:
           substitutions:
             - text: my-bearer-token
               with: "#twitterBearerToken"
-        - type: ReplaceText
-          substitutions:
-            - text: your-registry.io/library
-              with: "#repositoryPrefix"
     - include: ["src/main/java/jp/vmware/tanzu/twitterwordclouddemo/utils/TwitterStreamClientImpl.java"]
       chain:
         - type: ReplaceText
