@@ -22,5 +22,4 @@ k8s_custom_deploy(
 k8s_resource('twitter-demo-deploy', port_forwards=["8080:8080"],
             extra_pod_selectors=[{'serving.knative.dev/service': 'twitter-demo-deploy'}])
 
-
 allow_k8s_contexts('tap-demo-full')
