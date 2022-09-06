@@ -22,11 +22,6 @@ accelerator:
       label: Hash tags to search
       description: Hash tags to search (e.g. #hoge)
       required: true
-    - name: repositoryPrefix
-      inputType: text
-      label: Prefix for the container image repository
-      defaultValue: dev.local
-      required: true
     - name: twitterBearerToken
       inputType: text
       label: Twitter API bearer token (e.g. AAAA...BSufQEAAAAAp9W...)
