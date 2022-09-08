@@ -3,10 +3,7 @@ package jp.vmware.tanzu.twitterwordclouddemo.utils;
 import jp.vmware.tanzu.twitterwordclouddemo.configuration.StatefulMQConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
