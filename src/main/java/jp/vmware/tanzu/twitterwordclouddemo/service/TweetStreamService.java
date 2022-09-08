@@ -35,7 +35,7 @@ public class TweetStreamService {
 
 	public MorphologicalAnalysis morphologicalAnalysis;
 
-	private List<SseEmitter> emitters;
+	private final List<SseEmitter> emitters;
 
 	Pattern nonLetterPattern;
 
@@ -55,26 +55,15 @@ public class TweetStreamService {
 	@Transactional
 	public void handler(String line) throws InterruptedException, IOException {
 
-		if (line.isEmpty()) {
+		StreamingTweetResponse streamingTweetResponse = setStreamTweetResponse(line);
+
+		if (streamingTweetResponse == null) {
 			Thread.sleep(100);
 			return;
 		}
-
-		StreamingTweetResponse streamingTweetResponse = setStreamTweetResponse(line);
-
 		Tweet tweet = streamingTweetResponse.getData();
-		if (tweet == null) {
-			return;
-		}
-
 		Expansions expansions = streamingTweetResponse.getIncludes();
-		if (expansions == null) {
-			return;
-		}
 		List<User> users = expansions.getUsers();
-		if (users == null) {
-			return;
-		}
 
 		logger.debug("Handling Tweet : " + tweet.getText());
 
@@ -117,17 +106,33 @@ public class TweetStreamService {
 			tweetTextRepository.save(tweetText);
 
 		}
+
+	}
+
+	public void notifyTweetEvent(String line) throws IOException {
+		StreamingTweetResponse streamingTweetResponse = setStreamTweetResponse(line);
+
+		if (streamingTweetResponse == null) {
+			return;
+		}
+
+		Tweet tweet = streamingTweetResponse.getData();
+
 		for (SseEmitter emitter : emitters) {
 			try {
 				emitter.send(SseEmitter.event().name("newTweet").data("New Tweet Arrived : " + tweet.getText()));
 			}
 			catch (IOException e) {
-				logger.warn("Failed to send SSE %s", e);
+				logger.warn("Failed to send SSE :" + e);
 			}
 		}
 	}
 
 	public StreamingTweetResponse setStreamTweetResponse(String line) throws IOException {
+
+		if (line.isEmpty()) {
+			return null;
+		}
 
 		StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
 
@@ -135,7 +140,7 @@ public class TweetStreamService {
 
 		JsonNode jsonFullNode = objectMapper.readTree(line);
 		JsonNode jsonDataNode = jsonFullNode.get("data");
-		JsonNode jsonExpantionNode = jsonFullNode.get("includes");
+		JsonNode jsonExpansionNode = jsonFullNode.get("includes");
 
 		if (jsonDataNode != null) {
 			Tweet tweet = new Tweet();
@@ -145,8 +150,8 @@ public class TweetStreamService {
 			streamingTweetResponse.setData(tweet);
 		}
 
-		if (jsonExpantionNode != null) {
-			JsonNode jsonUserNode = jsonExpantionNode.get("users");
+		if (jsonExpansionNode != null) {
+			JsonNode jsonUserNode = jsonExpansionNode.get("users");
 			Expansions expansions = new Expansions();
 			if (jsonUserNode != null && jsonUserNode.size() > 0) {
 				User user = new User();
@@ -156,6 +161,20 @@ public class TweetStreamService {
 				expansions.setUsers(users);
 			}
 			streamingTweetResponse.setIncludes(expansions);
+		}
+
+		Tweet tweet = streamingTweetResponse.getData();
+		if (tweet == null) {
+			return null;
+		}
+
+		Expansions expansions = streamingTweetResponse.getIncludes();
+		if (expansions == null) {
+			return null;
+		}
+		List<User> users = expansions.getUsers();
+		if (users == null) {
+			return null;
 		}
 
 		return streamingTweetResponse;
