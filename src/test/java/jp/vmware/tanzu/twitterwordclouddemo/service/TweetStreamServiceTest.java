@@ -96,55 +96,8 @@ class TweetStreamServiceTest {
 	}
 
 	@Test
-	void returnWhenTweetIsNull() throws IOException, InterruptedException {
-		StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
-
-		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamService).setStreamTweetResponse(Mockito.any());
-
-		spyTweetStreamService.handler("this is test");
-
-		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
-		assertEquals(0, myTweets.size());
-
-		List<TweetTextRepository.TextCount> textCounts = tweetTextRepository.listTextCount(Pageable.ofSize(10));
-		assertEquals(0, textCounts.size());
-	}
-
-	@Test
-	void returnWhenExpansionIsNull() throws IOException, InterruptedException {
-		Tweet dummyTweet = new Tweet();
-		dummyTweet.setId("111");
-		dummyTweet.setText("This is test tweet");
-
-		StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
-		streamingTweetResponse.setData(dummyTweet);
-
-		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamService).setStreamTweetResponse(Mockito.any());
-
-		spyTweetStreamService.handler("this is test");
-
-		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
-		assertEquals(0, myTweets.size());
-
-		List<TweetTextRepository.TextCount> textCounts = tweetTextRepository.listTextCount(Pageable.ofSize(10));
-		assertEquals(0, textCounts.size());
-	}
-
-	@Test
-	void returnWhenUserIsNull() throws IOException, InterruptedException {
-		Tweet dummyTweet = new Tweet();
-		dummyTweet.setId("111");
-		dummyTweet.setText("This is test tweet");
-
-		Expansions expansions = new Expansions();
-
-		StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
-		streamingTweetResponse.setData(dummyTweet);
-		streamingTweetResponse.setIncludes(expansions);
-
-		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamService).setStreamTweetResponse(Mockito.any());
-
-		spyTweetStreamService.handler("this is test");
+	void doNothingOnNonJson() throws IOException, InterruptedException {
+		spyTweetStreamService.handler("dd");
 
 		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
 		assertEquals(0, myTweets.size());
