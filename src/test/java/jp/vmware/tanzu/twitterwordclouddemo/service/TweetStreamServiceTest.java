@@ -96,6 +96,17 @@ class TweetStreamServiceTest {
 	}
 
 	@Test
+	void doNothingOnNonJson() throws IOException, InterruptedException {
+		spyTweetStreamService.handler("dd");
+
+		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
+		assertEquals(0, myTweets.size());
+
+		List<TweetTextRepository.TextCount> textCounts = tweetTextRepository.listTextCount(Pageable.ofSize(10));
+		assertEquals(0, textCounts.size());
+	}
+
+	@Test
 	void skipHashTagAndUsername() throws IOException, InterruptedException {
 		Tweet dummyTweet = new Tweet();
 		dummyTweet.setId("111");

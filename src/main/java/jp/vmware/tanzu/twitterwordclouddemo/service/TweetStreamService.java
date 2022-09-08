@@ -109,7 +109,7 @@ public class TweetStreamService {
 
 	}
 
-	public void notifyTweetEvent(String line) throws IOException {
+	public void notifyTweetEvent(String line) {
 		StreamingTweetResponse streamingTweetResponse = setStreamTweetResponse(line);
 
 		if (streamingTweetResponse == null) {
@@ -128,7 +128,7 @@ public class TweetStreamService {
 		}
 	}
 
-	public StreamingTweetResponse setStreamTweetResponse(String line) throws IOException {
+	public StreamingTweetResponse setStreamTweetResponse(String line) {
 
 		if (line.isEmpty()) {
 			return null;
@@ -138,7 +138,13 @@ public class TweetStreamService {
 
 		ObjectMapper objectMapper = new ObjectMapper();
 
-		JsonNode jsonFullNode = objectMapper.readTree(line);
+		JsonNode jsonFullNode;
+		try {
+			jsonFullNode = objectMapper.readTree(line);
+		}catch (Exception e){
+			return null;
+		}
+
 		JsonNode jsonDataNode = jsonFullNode.get("data");
 		JsonNode jsonExpansionNode = jsonFullNode.get("includes");
 
