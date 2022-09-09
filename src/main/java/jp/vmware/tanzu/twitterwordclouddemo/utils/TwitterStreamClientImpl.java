@@ -160,17 +160,20 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 	@Override
 	public void actionOnTweetsStreamAsync(InputStream inputStream) {
 
-		try {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
 			status = UP;
-
-			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
 			String line = reader.readLine();
 			while (status.equals("UP")) {
 				if (line == null || line.isEmpty()) {
 					Thread.sleep(100);
 					continue;
 				}
-				tweetHandler.handle(line);
+				try {
+					tweetHandler.handle(line);
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
 				line = reader.readLine();
 			}
 		}
