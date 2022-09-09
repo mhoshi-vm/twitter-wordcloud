@@ -164,11 +164,14 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 			status = UP;
 			String line = reader.readLine();
 			while (status.equals("UP")) {
+				logger.info("New input stream : " + line);
 				if (line == null || line.isEmpty()) {
 					Thread.sleep(100);
+					line = reader.readLine();
 					continue;
 				}
 				try {
+
 					tweetHandler.handle(line);
 				}
 				catch (Exception e) {
