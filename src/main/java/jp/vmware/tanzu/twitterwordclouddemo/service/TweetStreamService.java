@@ -141,7 +141,8 @@ public class TweetStreamService {
 		JsonNode jsonFullNode;
 		try {
 			jsonFullNode = objectMapper.readTree(line);
-		}catch (Exception e){
+		}
+		catch (Exception e) {
 			return null;
 		}
 

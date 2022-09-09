@@ -165,10 +165,12 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
 			String line = reader.readLine();
-			while (line != null) {
-
+			while (status.equals("UP")) {
+				if (line == null || line.isEmpty()) {
+					Thread.sleep(100);
+					continue;
+				}
 				tweetHandler.handle(line);
-
 				line = reader.readLine();
 			}
 		}
