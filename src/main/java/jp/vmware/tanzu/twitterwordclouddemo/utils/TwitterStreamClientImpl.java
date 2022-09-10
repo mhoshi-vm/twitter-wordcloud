@@ -6,6 +6,7 @@ import com.twitter.clientlib.TwitterCredentialsBearer;
 import com.twitter.clientlib.api.TweetsApi;
 import com.twitter.clientlib.api.TwitterApi;
 import com.twitter.clientlib.model.*;
+import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +14,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PreDestroy;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Component
@@ -46,6 +50,8 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 	DeleteRulesRequestDelete deleteRulesRequestDelete;
 
+	OkHttpClient httpClient;
+
 	public TwitterStreamClientImpl(TweetHandler tweetHandler,
 			@Value("${twitter.bearer.token}") String twitterBearerToken,
 			@Value("${twitter.hashtags}") List<String> hashTags) {
@@ -59,11 +65,14 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 	}
 
 	public TweetsApi createTwitterInstance() {
-		ApiClient apiClient = new ApiClient();
+
+		OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+		httpClient = builder.connectTimeout(0, TimeUnit.SECONDS).writeTimeout(0, TimeUnit.SECONDS)
+				.readTimeout(0, TimeUnit.SECONDS).build();
+
+		ApiClient apiClient = new ApiClient(httpClient);
 		apiClient.setTwitterCredentials(new TwitterCredentialsBearer(twitterBearerToken));
-		apiClient.setConnectTimeout(0);
-		apiClient.setReadTimeout(0);
-		apiClient.setWriteTimeout(0);
 		return new TwitterApi(apiClient).tweets();
 	}
 
@@ -164,7 +173,7 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 	}
 
 	@Override
-	public void actionOnTweetsStreamAsync(InputStream inputStream) throws InterruptedException {
+	public void actionOnTweetsStreamAsync(InputStream inputStream) {
 
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
 			status = UP;
@@ -188,10 +197,21 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 		}
 		catch (Exception e) {
 			status = DOWN;
-			logger.info("Sleeping for 60 seconds due to client abnormal shutdown detected");
-			Thread.sleep(60000);
 			throw new RuntimeException(e);
 		}
+	}
+
+	@PreDestroy
+	private void closeConnection() throws IOException, InterruptedException {
+
+		httpClient.dispatcher().executorService().shutdown();
+		if (httpClient.cache() != null && !httpClient.cache().isClosed()) {
+			httpClient.cache().close();
+		}
+		httpClient.connectionPool().evictAll();
+
+		logger.info("Sleeping for 10 seconds due to client shutdown detected");
+		Thread.sleep(10000);
 	}
 
 }
