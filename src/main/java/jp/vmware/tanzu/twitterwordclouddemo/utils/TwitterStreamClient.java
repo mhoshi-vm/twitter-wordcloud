@@ -16,6 +16,6 @@ public interface TwitterStreamClient {
 	String getStatus();
 
 	@Async
-	void actionOnTweetsStreamAsync(InputStream inputStream);
+	void actionOnTweetsStreamAsync(InputStream inputStream) throws InterruptedException;
 
 }

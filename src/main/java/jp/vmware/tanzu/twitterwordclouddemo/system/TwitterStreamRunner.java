@@ -27,14 +27,9 @@ public class TwitterStreamRunner implements CommandLineRunner {
 		}
 		catch (ApiException e) {
 			System.err.println("Status code: " + e.getCode());
-			System.err.println("Reason: " + e.getResponseBody());
+			System.err.println("Reason: " + e.getMessage());
 			System.err.println("Response headers: " + e.getResponseHeaders());
-			if (e.getCode() == 429){
-				System.err.println("Detected rate limit, sleeping for 15min");
-				Thread.sleep(900000);
-			}
 			e.printStackTrace();
-
 		}
 
 	}

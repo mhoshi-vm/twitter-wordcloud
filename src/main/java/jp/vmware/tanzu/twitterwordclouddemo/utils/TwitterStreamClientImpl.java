@@ -1,5 +1,6 @@
 package jp.vmware.tanzu.twitterwordclouddemo.utils;
 
+import com.twitter.clientlib.ApiClient;
 import com.twitter.clientlib.ApiException;
 import com.twitter.clientlib.TwitterCredentialsBearer;
 import com.twitter.clientlib.api.TweetsApi;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 @ConditionalOnProperty(value = "test", havingValue = "false")
 public class TwitterStreamClientImpl implements TwitterStreamClient {
 
-	private static final int RETRIES = 5;
+	private static final int RETRIES = 0;
 
 	private static final Logger logger = LoggerFactory.getLogger(TwitterStreamClientImpl.class);
 
@@ -58,7 +59,12 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 	}
 
 	public TweetsApi createTwitterInstance() {
-		return new TwitterApi(new TwitterCredentialsBearer(twitterBearerToken)).tweets();
+		ApiClient apiClient = new ApiClient();
+		apiClient.setTwitterCredentials(new TwitterCredentialsBearer(twitterBearerToken));
+		apiClient.setConnectTimeout(0);
+		apiClient.setReadTimeout(0);
+		apiClient.setWriteTimeout(0);
+		return new TwitterApi(apiClient).tweets();
 	}
 
 	@Override
@@ -158,7 +164,7 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 	}
 
 	@Override
-	public void actionOnTweetsStreamAsync(InputStream inputStream) {
+	public void actionOnTweetsStreamAsync(InputStream inputStream) throws InterruptedException {
 
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
 			status = UP;
@@ -182,6 +188,8 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 		}
 		catch (Exception e) {
 			status = DOWN;
+			logger.info("Sleeping for 60 seconds due to client abnormal shutdown detected");
+			Thread.sleep(60000);
 			throw new RuntimeException(e);
 		}
 	}
