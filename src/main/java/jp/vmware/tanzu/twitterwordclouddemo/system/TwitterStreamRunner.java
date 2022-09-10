@@ -27,7 +27,7 @@ public class TwitterStreamRunner implements CommandLineRunner {
 		}
 		catch (ApiException e) {
 			System.err.println("Status code: " + e.getCode());
-			System.err.println("Reason: " + e.getMessage());
+			System.err.println("Reason: " + e.getCause());
 			System.err.println("Response headers: " + e.getResponseHeaders());
 			e.printStackTrace();
 		}

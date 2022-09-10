@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -186,7 +187,6 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 					continue;
 				}
 				try {
-
 					tweetHandler.handle(line);
 				}
 				catch (Exception e) {
@@ -194,6 +194,11 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 				}
 				line = reader.readLine();
 			}
+		}
+		catch (SocketException e) {
+			logger.warn("Socket Exception captured : " + e.getMessage());
+			logger.warn("retrying...");
+			actionOnTweetsStreamAsync(inputStream);
 		}
 		catch (Exception e) {
 			status = DOWN;
