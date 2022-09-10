@@ -195,11 +195,12 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 				line = reader.readLine();
 			}
 		}
-		catch (SocketException e) {
-			logger.warn("Socket Exception captured : " + e.getMessage());
-			logger.warn("retrying...");
-			actionOnTweetsStreamAsync(inputStream);
-		}
+
+		// catch (SocketException e) {
+		// logger.warn("Socket Exception captured : " + e.getMessage());
+		// logger.warn("retrying...");
+		// actionOnTweetsStreamAsync(inputStream);
+		// }
 		catch (Exception e) {
 			status = DOWN;
 			throw new RuntimeException(e);
