@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -69,8 +68,8 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 		OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
-		httpClient = builder.connectTimeout(0, TimeUnit.SECONDS).writeTimeout(0, TimeUnit.SECONDS)
-				.readTimeout(0, TimeUnit.SECONDS).build();
+		httpClient = builder.connectTimeout(60, TimeUnit.SECONDS).writeTimeout(60, TimeUnit.SECONDS)
+				.readTimeout(60, TimeUnit.SECONDS).build();
 
 		ApiClient apiClient = new ApiClient(httpClient);
 		apiClient.setTwitterCredentials(new TwitterCredentialsBearer(twitterBearerToken));
