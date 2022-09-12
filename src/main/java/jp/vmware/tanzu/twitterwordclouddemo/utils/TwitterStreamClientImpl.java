@@ -6,7 +6,9 @@ import com.twitter.clientlib.TwitterCredentialsBearer;
 import com.twitter.clientlib.api.TweetsApi;
 import com.twitter.clientlib.api.TwitterApi;
 import com.twitter.clientlib.model.*;
+import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,10 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -68,8 +67,9 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 
 		OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
-		httpClient = builder.connectTimeout(60, TimeUnit.SECONDS).writeTimeout(60, TimeUnit.SECONDS)
-				.readTimeout(60, TimeUnit.SECONDS).build();
+		httpClient = builder.connectTimeout(120, TimeUnit.SECONDS).writeTimeout(120, TimeUnit.SECONDS)
+				.readTimeout(120, TimeUnit.SECONDS).protocols(Arrays.asList(Protocol.HTTP_1_1))
+				.connectionPool(new ConnectionPool(0, 5, TimeUnit.SECONDS)).build();
 
 		ApiClient apiClient = new ApiClient(httpClient);
 		apiClient.setTwitterCredentials(new TwitterCredentialsBearer(twitterBearerToken));
