@@ -68,7 +68,7 @@ public class TwitterStreamClientImpl implements TwitterStreamClient {
 		OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
 		httpClient = builder.connectTimeout(120, TimeUnit.SECONDS).writeTimeout(120, TimeUnit.SECONDS)
-				.readTimeout(120, TimeUnit.SECONDS).protocols(Arrays.asList(Protocol.HTTP_1_1))
+				.readTimeout(120, TimeUnit.SECONDS).protocols(List.of(Protocol.HTTP_1_1))
 				.connectionPool(new ConnectionPool(0, 5, TimeUnit.SECONDS)).build();
 
 		ApiClient apiClient = new ApiClient(httpClient);
