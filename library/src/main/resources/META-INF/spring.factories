@@ -1,0 +1,3 @@
+org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor=jp.vmware.tanzu.twitterwordcloud.library.servicebindings.TwitterBindingsPropertiesProcessor, \
+  jp.vmware.tanzu.twitterwordcloud.library.servicebindings.WfEnableOnlyViaBindings, \
+  jp.vmware.tanzu.twitterwordcloud.library.servicebindings.RabbitMQHealthCheckEnabledBindings
