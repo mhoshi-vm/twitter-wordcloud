@@ -25,16 +25,6 @@
             <dependencies>
                 <dependency>
                     <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
-                    <artifactId>library</artifactId>
-                    <version>0.0.1-SNAPSHOT</version>
-                </dependency>
-                <dependency>
-                    <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
-                    <artifactId>modelviewcontroller</artifactId>
-                    <version>0.0.1-SNAPSHOT</version>
-                </dependency>
-                <dependency>
-                    <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
                     <artifactId>twitterapiclient</artifactId>
                     <version>0.0.1-SNAPSHOT</version>
                 </dependency>
@@ -42,15 +32,7 @@
         </profile>
         <profile>
             <id>modelviewcontroller</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <dependencies>
-                <dependency>
-                    <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
-                    <artifactId>library</artifactId>
-                    <version>0.0.1-SNAPSHOT</version>
-                </dependency>
                 <dependency>
                     <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
                     <artifactId>modelviewcontroller</artifactId>
@@ -60,15 +42,7 @@
         </profile>
         <profile>
             <id>twitterapiclient</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <dependencies>
-                <dependency>
-                    <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
-                    <artifactId>library</artifactId>
-                    <version>0.0.1-SNAPSHOT</version>
-                </dependency>
                 <dependency>
                     <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
                     <artifactId>twitterapiclient</artifactId>

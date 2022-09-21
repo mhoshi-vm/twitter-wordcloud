@@ -7,7 +7,6 @@
         <artifactId>twitter-word-cloud</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
     <artifactId>library</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>library</name>
@@ -70,22 +69,5 @@
             </snapshots>
         </repository>
     </repositories>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.springframework.cloud</groupId>
-                            <artifactId>spring-cloud-bindings</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

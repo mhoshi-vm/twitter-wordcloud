@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConditionalOnProperty(value = "test", havingValue = "false")
+@ConditionalOnProperty(value = "message.queue.enabled", havingValue = "true")
 public class TwitterMQConfiguration {
 
 	public static final String EXCHANGE_NAME = "tweet-fanout";

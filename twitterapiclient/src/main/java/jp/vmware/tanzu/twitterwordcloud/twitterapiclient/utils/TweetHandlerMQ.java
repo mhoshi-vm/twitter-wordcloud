@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(value = { "test" }, havingValue = "false")
+@ConditionalOnProperty(value = "message.queue.enabled", havingValue = "true")
 public class TweetHandlerMQ implements TweetHandler {
 
 	private static final Logger logger = LoggerFactory.getLogger(TweetHandlerMQ.class);

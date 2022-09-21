@@ -3,13 +3,12 @@ package jp.vmware.tanzu.twitterwordcloud.modelviewcontroller.utils;
 import jp.vmware.tanzu.twitterwordcloud.library.utils.TweetHandler;
 import jp.vmware.tanzu.twitterwordcloud.modelviewcontroller.service.TweetStreamService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Component
-@ConditionalOnProperty(value = "test", havingValue = "true")
+@ConditionalOnProperty(value = "message.queue.enabled", havingValue = "false", matchIfMissing = true)
 public class TweetHandlerDB implements TweetHandler {
 
 	TweetStreamService tweetStreamService;

@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-@ConditionalOnProperty(value = "test", havingValue = "false")
+@ConditionalOnProperty(value = "oauth2.enabled", havingValue = "true")
 public class WebSecurityConfigOidc {
 
 	private final ClientRegistrationRepository clientRegistrationRepository;

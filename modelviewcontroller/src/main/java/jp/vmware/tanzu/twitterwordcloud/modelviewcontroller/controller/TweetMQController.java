@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import java.io.IOException;
 
 @Controller
-@ConditionalOnProperty(value = "test", havingValue = "false")
+@ConditionalOnProperty(value = "message.queue.enabled", havingValue = "true")
 public class TweetMQController {
 
 	private static final Logger logger = LoggerFactory.getLogger(TweetMQController.class);
