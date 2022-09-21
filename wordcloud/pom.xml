@@ -25,6 +25,11 @@
             <dependencies>
                 <dependency>
                     <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
+                    <artifactId>modelviewcontroller</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
+                </dependency>
+                <dependency>
+                    <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
                     <artifactId>twitterapiclient</artifactId>
                     <version>0.0.1-SNAPSHOT</version>
                 </dependency>

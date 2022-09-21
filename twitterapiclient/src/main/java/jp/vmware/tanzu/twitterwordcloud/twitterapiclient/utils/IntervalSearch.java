@@ -122,7 +122,7 @@ public class IntervalSearch implements TweetSearch {
 			if (result.getData() != null) {
 				result.getData().forEach(tweet -> {
 					try {
-						logger.debug("Found tweet :" + tweet.toString());
+						logger.info("Found tweet ");
 						tweetHandler.handle(createJson(tweet, result.getIncludes()).toString());
 						if (result.getMeta() != null) {
 							setStartTime(null);
