@@ -7,8 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 @ConditionalOnProperty(value = "log.mode", havingValue = "true")
 public class TweetHandlerLog implements TweetHandler {
-    @Override
-    public void handle(String tweet) {
-        System.out.println(tweet);
-    }
+
+	@Override
+	public void handle(String tweet) {
+		System.out.println(tweet);
+	}
+
 }

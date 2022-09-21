@@ -16,11 +16,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class OIDCBindingsPropertiesProcessorTest {
 
-	private final Bindings bindings = new Bindings(
-			new Binding("test-name", Paths.get("test-path"), new FluentMap().withEntry(Binding.TYPE, TYPE)
-					.withEntry("provider", "github")
-					.withEntry("client-id", "github-client-id")
-					.withEntry("client-secret", "github-client-secret")));
+	private final Bindings bindings = new Bindings(new Binding("test-name", Paths.get("test-path"),
+			new FluentMap().withEntry(Binding.TYPE, TYPE).withEntry("provider", "github")
+					.withEntry("client-id", "github-client-id").withEntry("client-secret", "github-client-secret")));
 
 	private final MockEnvironment environment = new MockEnvironment();
 
@@ -32,6 +30,5 @@ class OIDCBindingsPropertiesProcessorTest {
 		MapAssert<String, Object> stringObjectMapAssert = assertThat(properties).containsEntry("oauth2.enabled",
 				"true");
 	}
-
 
 }

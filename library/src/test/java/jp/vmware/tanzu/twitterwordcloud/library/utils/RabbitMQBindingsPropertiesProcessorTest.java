@@ -13,11 +13,11 @@ import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static jp.vmware.tanzu.twitterwordcloud.library.servicebindings.RabbitMQEnabledViaBindings.TYPE;
+
 class RabbitMQBindingsPropertiesProcessorTest {
 
-	private final Bindings bindings = new Bindings(
-			new Binding("test-name", Paths.get("test-path"), new FluentMap().withEntry(Binding.TYPE, TYPE)
-					.withEntry("dummy","dummy")));
+	private final Bindings bindings = new Bindings(new Binding("test-name", Paths.get("test-path"),
+			new FluentMap().withEntry(Binding.TYPE, TYPE).withEntry("dummy", "dummy")));
 
 	private final MockEnvironment environment = new MockEnvironment();
 
@@ -29,6 +29,5 @@ class RabbitMQBindingsPropertiesProcessorTest {
 		MapAssert<String, Object> stringObjectMapAssert = assertThat(properties).containsEntry("message.queue.enabled",
 				"true");
 	}
-
 
 }
