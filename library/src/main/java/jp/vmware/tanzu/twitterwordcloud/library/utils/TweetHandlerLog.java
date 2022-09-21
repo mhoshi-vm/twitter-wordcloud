@@ -1,6 +1,5 @@
-package jp.vmware.tanzu.twitterwordcloud.twitterapiclient.utils;
+package jp.vmware.tanzu.twitterwordcloud.library.utils;
 
-import jp.vmware.tanzu.twitterwordcloud.library.utils.TweetHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
