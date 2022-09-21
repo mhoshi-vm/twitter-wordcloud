@@ -1,6 +1,5 @@
 package jp.vmware.tanzu.twitterwordcloud.twitterapiclient.utils;
 
-import jp.vmware.tanzu.twitterwordcloud.twiiterapiclient.utils.TwitterStreamClient;
 import jp.vmware.tanzu.twitterwordcloud.twitterapiclient.test_utils.TestConfig;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -23,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class TwitterClientHealthIndicatorTest {
 
 	@MockBean
-	TwitterStreamClient twitterStreamClient;
+	TwitterClient twitterClient;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -31,7 +30,7 @@ class TwitterClientHealthIndicatorTest {
 	@Test
 	void healthy() throws Exception {
 
-		Mockito.when(twitterStreamClient.getStatus()).thenReturn(TwitterStreamClient.UP);
+		Mockito.when(twitterClient.getStatus()).thenReturn(TwitterClient.UP);
 
 		mockMvc.perform(get("/actuator/health/liveness")).andExpect(jsonPath("$.status").value("UP"))
 				.andExpect(jsonPath("$.components.livenessState.status").value("UP"))
@@ -46,7 +45,7 @@ class TwitterClientHealthIndicatorTest {
 	@Test
 	void unhealthy() throws Exception {
 
-		Mockito.when(twitterStreamClient.getStatus()).thenReturn(TwitterStreamClient.DOWN);
+		Mockito.when(twitterClient.getStatus()).thenReturn(TwitterClient.DOWN);
 
 		mockMvc.perform(get("/actuator/health/liveness")).andExpect(jsonPath("$.status").value("DOWN"))
 				.andExpect(jsonPath("$.components.livenessState.status").value("UP"))

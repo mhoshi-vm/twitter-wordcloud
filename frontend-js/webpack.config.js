@@ -7,7 +7,7 @@ module.exports = {
     mode: 'development',
     output: {
         path: __dirname,
-        filename: '../stateless/src/main/resources/static/built/bundle.js',
+        filename: '../modelviewcontroller/src/main/resources/static/built/bundle.js',
     },
     module: {
         rules: [

@@ -1,13 +1,13 @@
-package jp.vmware.tanzu.twitterwordcloud.twiiterapiclient;
+package jp.vmware.tanzu.twitterwordcloud.standalone;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = "jp.vmware.tanzu.twitterwordcloud")
-public class TwitterAPiClientApplication {
+public class WordcloudApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TwitterAPiClientApplication.class, args);
+		SpringApplication.run(WordcloudApplication.class, args);
 	}
 
 }

@@ -1,4 +1,4 @@
-package jp.vmware.tanzu.twitterwordcloud.twiiterapiclient.configuration;
+package jp.vmware.tanzu.twitterwordcloud.twitterapiclient.configuration;
 
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
     <description>Creates a wordcloud from tweets</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>11</java.version>
         <spring-cloud.version>2021.0.4</spring-cloud.version>
         <spring-cloud-bindings.version>1.10.0</spring-cloud-bindings.version>
         <wavefront.version>2.3.0</wavefront.version>
@@ -29,6 +29,7 @@
         <webjars-d3cloud.version>1.2.5</webjars-d3cloud.version>
         <webjars-axios.version>0.27.2</webjars-axios.version>
         <webjars-clr.version>4.0.1</webjars-clr.version>
+        <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
     </properties>
 
     <dependencies>
@@ -47,6 +48,18 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.springframework.cloud</groupId>
+                            <artifactId>spring-cloud-bindings</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>io.spring.javaformat</groupId>
                 <artifactId>spring-javaformat-maven-plugin</artifactId>
                 <version>0.0.34</version>
@@ -58,7 +71,7 @@
         <module>library</module>
         <module>modelviewcontroller</module>
         <module>twitterapiclient</module>
-        <module>standalone</module>
+        <module>wordcloud</module>
     </modules>
 
 </project>

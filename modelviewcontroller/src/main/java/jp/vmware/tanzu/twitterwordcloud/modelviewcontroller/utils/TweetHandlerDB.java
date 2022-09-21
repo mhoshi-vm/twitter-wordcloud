@@ -1,14 +1,15 @@
-package jp.vmware.tanzu.twitterwordcloud.standalone.utils;
+package jp.vmware.tanzu.twitterwordcloud.modelviewcontroller.utils;
 
 import jp.vmware.tanzu.twitterwordcloud.library.utils.TweetHandler;
 import jp.vmware.tanzu.twitterwordcloud.modelviewcontroller.service.TweetStreamService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Component
-@Primary
+@ConditionalOnProperty(value = "test", havingValue = "true")
 public class TweetHandlerDB implements TweetHandler {
 
 	TweetStreamService tweetStreamService;

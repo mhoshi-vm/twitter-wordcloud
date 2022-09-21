@@ -1,4 +1,4 @@
-package jp.vmware.tanzu.twitterwordcloud.twiiterapiclient.utils;
+package jp.vmware.tanzu.twitterwordcloud.twitterapiclient.utils;
 
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class TwitterClientHealthIndicator implements HealthIndicator {
 
-	TwitterStreamClient twitterStreamClient;
+	TwitterClient twitterClient;
 
-	public TwitterClientHealthIndicator(TwitterStreamClient twitterStreamClient) {
-		this.twitterStreamClient = twitterStreamClient;
+	public TwitterClientHealthIndicator(TwitterClient twitterClient) {
+		this.twitterClient = twitterClient;
 	}
 
 	@Override
@@ -20,9 +20,9 @@ public class TwitterClientHealthIndicator implements HealthIndicator {
 
 	@Override
 	public Health health() {
-		String twitterStatus = twitterStreamClient.getStatus();
+		String twitterStatus = twitterClient.getStatus();
 		Health.Builder status = Health.up();
-		if (twitterStatus.equals(TwitterStreamClient.DOWN)) {
+		if (twitterStatus.equals(TwitterClient.DOWN)) {
 			status = Health.down();
 		}
 		return status.build();
