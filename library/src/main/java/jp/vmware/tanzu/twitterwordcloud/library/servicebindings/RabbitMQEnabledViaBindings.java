@@ -18,6 +18,7 @@ public class RabbitMQEnabledViaBindings implements BindingsPropertiesProcessor {
 		List<Binding> rmqBindings = bindings.filterBindings(TYPE);
 		if (rmqBindings.size() > 0) {
 			map.put("message.queue.enabled", "true");
+			map.put("log.mode", "false");
 			map.put("management.health.rabbit.enabled", "true");
 		}
 
