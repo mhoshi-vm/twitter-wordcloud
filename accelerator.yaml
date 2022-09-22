@@ -30,8 +30,8 @@ accelerator:
 engine:
   merge:
     - include: [ "**" ]
-      exclude: [ "src/main/resources/application.properties", "Tiltfile" , "src/main/java/jp/vmware/tanzu/twitterwordclouddemo/utils/TwitterStreamClientImpl.java"]
-    - include: [ "src/main/resources/application.properties" ]
+      exclude: [ "wordcloud/src/main/resources/application.properties", "Tiltfile" ]
+    - include: [ "wordcloud/src/main/resources/application.properties" ]
       chain:
         - type: ReplaceText
           substitutions:
@@ -49,9 +49,3 @@ engine:
           substitutions:
             - text: my-bearer-token
               with: "#twitterBearerToken"
-    - include: ["src/main/java/jp/vmware/tanzu/twitterwordclouddemo/utils/TwitterStreamClientImpl.java"]
-      chain:
-        - type: ReplaceText
-          substitutions:
-            - text: ", StandardCharsets.UTF_8));"
-              with: "')); // I am a bug, add StandardCharsets.UTF_8'"

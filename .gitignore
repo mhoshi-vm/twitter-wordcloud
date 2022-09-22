@@ -36,6 +36,7 @@ build/
 bindings/twitter/bearer-token
 /package-lock.json
 /src/main/resources/static/built/
-/frontend-config/node_modules/
-/frontend-config/package-lock.json
-/frontend-config/node/
+/frontend-js/node_modules/
+/frontend-js/package-lock.json
+/frontend-js/node/
+/stateless/src/main/resources/static/built/

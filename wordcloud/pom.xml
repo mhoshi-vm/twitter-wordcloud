@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
+        <artifactId>twitter-word-cloud</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>wordcloud</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>wordcloud</name>
+    <description>wordcloud</description>
+
+    <properties>
+        <spring-boot.repackage.skip>false</spring-boot.repackage.skip>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>standalone</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
+                    <artifactId>modelviewcontroller</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
+                </dependency>
+                <dependency>
+                    <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
+                    <artifactId>twitterapiclient</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>modelviewcontroller</id>
+            <dependencies>
+                <dependency>
+                    <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
+                    <artifactId>modelviewcontroller</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>twitterapiclient</id>
+            <dependencies>
+                <dependency>
+                    <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
+                    <artifactId>twitterapiclient</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+</project>

@@ -49,7 +49,7 @@ export TWITTER_BEARER_TOKEN="AAAA...BSufQEAAAAAp9W..."
 export TWITTER_HASHTAGS="#HASTHAG_TO_SEARCH"
 git clone https://github.com/mhoshi-vm/twitter-wordcloud-demo
 cd twitter-wordcloud-demo
-./mvnw spring-boot:run
+./mvnw install && ./mvnw spring-boot:run -pl wordcloud
 ```
 
 ### 注意点
@@ -147,11 +147,9 @@ wavefront.freemium-account=false
 アプリケーションを起動してください。
 
 ```
-export SPRING_PROFILES_ACTIVE=stateful
-./mvnw spring-boot:run
+./mvnw install && ./mvnw spring-boot:run -pl wordcloud -P modelviewcontroller
 ```
 
 ```
-export SPRING_PROFILES_ACTIVE=stateless
-./mvnw spring-boot:run
+./mvnw install && ./mvnw spring-boot:run -pl wordcloud -P twitterapiclient
 ```
