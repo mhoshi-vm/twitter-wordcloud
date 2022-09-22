@@ -7,6 +7,8 @@ k8s_custom_deploy(
     apply_cmd="tanzu apps workload apply twitter-demo-deploy --live-update=true" +
                " --local-path " + LOCAL_PATH +
                " --source-image " + SOURCE_IMAGE +
+               " --build-env BP_MAVEN_BUILT_MODULE=wordcloud" +
+               ' --build-env BP_MAVEN_BUILD_ARGUMENTS="-pl wordcloud -am -P standalone package"' +
                " --env TWITTER_BEARER_TOKEN=" + TWITTER_BEARER_TOKEN +
                " --type web" +
                " --yes >/dev/null" +
