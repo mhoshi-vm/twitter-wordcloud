@@ -16,7 +16,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Test code
-        run: mvn test
+        run: mvn test -Dmaven.test.skip=false
       - name: Merge to staging
         uses: devmasx/merge-branch@master
         with:
