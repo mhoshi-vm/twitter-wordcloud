@@ -7,6 +7,7 @@ import org.springframework.core.env.Environment;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class RabbitMQEnabledViaBindings implements BindingsPropertiesProcessor {
 
@@ -16,9 +17,12 @@ public class RabbitMQEnabledViaBindings implements BindingsPropertiesProcessor {
 	public void process(Environment environment, Bindings bindings, Map<String, Object> map) {
 
 		List<Binding> rmqBindings = bindings.filterBindings(TYPE);
-		if (rmqBindings.size() > 0) {
+		System.out.println(environment.getActiveProfiles());
+		if (rmqBindings.size() == 0) {
+			map.put("message.queue.enabled", "false");
+		}
+		else {
 			map.put("message.queue.enabled", "true");
-			map.put("log.mode", "false");
 			map.put("management.health.rabbit.enabled", "true");
 		}
 
