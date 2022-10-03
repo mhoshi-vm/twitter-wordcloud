@@ -97,7 +97,7 @@ public class IntervalSearch implements TweetSearch {
 			ObjectNode userNode = mapper.createObjectNode();
 			userNode.put("name", expansions.getUsers().get(0).getName());
 			usersNode.add(userNode);
-			includesNode.set("users", userNode);
+			includesNode.set("users", usersNode);
 		}
 
 		jNode.set("data", dataNode);
@@ -108,6 +108,7 @@ public class IntervalSearch implements TweetSearch {
 
 	@Scheduled(initialDelayString = "${twitter.interval}", fixedRateString = "${twitter.interval}")
 	public void performTwitterSearch() throws ApiException {
+		twitterClient.setStatus(twitterClient.UP);
 		logger.info("perform interval search");
 
 		boolean maxResultsReturned = true;

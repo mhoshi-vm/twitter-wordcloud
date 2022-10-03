@@ -36,8 +36,9 @@ tanzu apps workload apply twitter-demo \
     --service-ref "postgres=${RESOURCE_CLAIM}:postgres-claim" \
     --service-ref "rabbitmq=${RESOURCE_CLAIM}:rmq-claim" \
     --service-ref "wavefront=${RESOURCE_CLAIM}:wavefront-claim" \
-    --env SPRING_PROFILES_ACTIVE=stateless \
-    --git-repo https://github.com/tanzu-japan/twitter-wordcloud-demo \
+    --build-env "BP_MAVEN_BUILT_MODULE=wordcloud" \
+    --build-env BP_MAVEN_BUILD_ARGUMENTS="-pl wordcloud -am -P modelviewcontroller package" \
+    --git-repo https://github.com/mhoshi-vm/twitter-wordcloud \
     --git-branch staging
 ```
 
@@ -45,13 +46,14 @@ tanzu apps workload apply twitter-demo \
 
 ```
 RESOURCE_CLAIM="services.apps.tanzu.vmware.com/v1alpha1:ResourceClaim"
-IMAGE_TAG=`kubectl get images.kpack.io -n tap-demo -o template --template={{.spec.tag}} twitter-demo`
 tanzu apps workload apply twitter-demo-stateful \
     --type tcp \
     --label app.kubernetes.io/part-of=twitter-demo-stateful \
     --service-ref "rabbitmq=${RESOURCE_CLAIM}:rmq-claim" \
     --service-ref "twitter=${RESOURCE_CLAIM}:twitter-claim" \
     --service-ref "wavefront=${RESOURCE_CLAIM}:wavefront-claim" \
-    --env SPRING_PROFILES_ACTIVE=stateful \
-    --image=${IMAGE_TAG}:latest
+    --build-env "BP_MAVEN_BUILT_MODULE=wordcloud" \
+    --build-env BP_MAVEN_BUILD_ARGUMENTS="-pl wordcloud -am -P twitterapiclient package" \
+    --git-repo https://github.com/mhoshi-vm/twitter-wordcloud \
+    --git-branch staging
 ```
