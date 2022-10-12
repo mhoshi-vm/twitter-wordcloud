@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: Twitter demo catalog
+  name: twitter-demo-catalog
   description: Twitter demo catalog
   tags:
     - app-accelerator
