@@ -27,8 +27,7 @@ class PostgresBindingsPropertiesProcessorTest {
 	@Test
 	void test() {
 		new PostgresEnabledViaBindings().process(environment, bindings, properties);
-		MapAssert<String, Object> stringObjectMapAssert = assertThat(properties).containsEntry("db.type",
-				"postgresql");
+		MapAssert<String, Object> stringObjectMapAssert = assertThat(properties).containsEntry("db.type", "postgresql");
 	}
 
 }
