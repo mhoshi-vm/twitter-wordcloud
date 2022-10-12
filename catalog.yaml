@@ -10,7 +10,7 @@ metadata:
     - web
     - tanzu
   annotations:
-    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=twitte-demo'
+    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=twitter-demo'
 spec:
   type: service
   lifecycle: experimental
