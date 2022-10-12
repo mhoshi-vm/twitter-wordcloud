@@ -24,4 +24,5 @@ public class TweetHandlerDB implements TweetHandler {
 		tweetStreamService.handler(tweet);
 		tweetStreamService.notifyTweetEvent(tweet);
 	}
+
 }
