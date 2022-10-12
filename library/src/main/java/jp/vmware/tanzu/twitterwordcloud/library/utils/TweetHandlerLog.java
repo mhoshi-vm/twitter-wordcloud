@@ -4,7 +4,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(value = "message.queue.enabled", havingValue = "false")
+@ConditionalOnProperty(value = "message.queue.enabled", havingValue = "false", matchIfMissing = true)
 public class TweetHandlerLog implements TweetHandler {
 
 	@Override
