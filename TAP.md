@@ -38,6 +38,7 @@ tanzu apps workload apply twitter-demo \
     --service-ref "wavefront=${RESOURCE_CLAIM}:wavefront-claim" \
     --build-env "BP_MAVEN_BUILT_MODULE=wordcloud" \
     --build-env BP_MAVEN_BUILD_ARGUMENTS="-pl wordcloud -am -P modelviewcontroller package" \
+    --env "SERVICE_NAME=mvc" \
     --git-repo https://github.com/mhoshi-vm/twitter-wordcloud \
     --git-branch staging
 ```
@@ -47,13 +48,14 @@ tanzu apps workload apply twitter-demo \
 ```
 RESOURCE_CLAIM="services.apps.tanzu.vmware.com/v1alpha1:ResourceClaim"
 tanzu apps workload apply twitter-demo-stateful \
-    --type tcp \
+    --type server \
     --label app.kubernetes.io/part-of=twitter-demo-stateful \
     --service-ref "rabbitmq=${RESOURCE_CLAIM}:rmq-claim" \
     --service-ref "twitter=${RESOURCE_CLAIM}:twitter-claim" \
     --service-ref "wavefront=${RESOURCE_CLAIM}:wavefront-claim" \
     --build-env "BP_MAVEN_BUILT_MODULE=wordcloud" \
     --build-env BP_MAVEN_BUILD_ARGUMENTS="-pl wordcloud -am -P twitterapiclient package" \
+    --env "SERVICE_NAME=twitterclient" \
     --git-repo https://github.com/mhoshi-vm/twitter-wordcloud \
     --git-branch staging
 ```

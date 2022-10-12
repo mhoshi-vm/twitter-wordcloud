@@ -1,4 +1,5 @@
 org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor=jp.vmware.tanzu.twitterwordcloud.library.servicebindings.TwitterBindingsPropertiesProcessor, \
   jp.vmware.tanzu.twitterwordcloud.library.servicebindings.WfEnableOnlyViaBindings, \
   jp.vmware.tanzu.twitterwordcloud.library.servicebindings.RabbitMQEnabledViaBindings, \
+  jp.vmware.tanzu.twitterwordcloud.library.servicebindings.PostgresEnabledViaBindings, \
   jp.vmware.tanzu.twitterwordcloud.library.servicebindings.OIDCEnabledViaBindings
