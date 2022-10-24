@@ -18,6 +18,7 @@
         <java.version>11</java.version>
         <spring-cloud.version>2021.0.4</spring-cloud.version>
         <spring-cloud-bindings.version>1.10.0</spring-cloud-bindings.version>
+        <springdoc-openapi-ui.version>1.6.12</springdoc-openapi-ui.version>
         <wavefront.version>2.3.0</wavefront.version>
         <p6spy.version>3.9.1</p6spy.version>
         <twitter.sdk.version>2.0.3</twitter.sdk.version>

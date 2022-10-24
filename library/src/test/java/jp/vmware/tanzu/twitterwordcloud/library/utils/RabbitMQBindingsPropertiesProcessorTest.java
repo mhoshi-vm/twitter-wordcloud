@@ -11,8 +11,8 @@ import org.springframework.mock.env.MockEnvironment;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static jp.vmware.tanzu.twitterwordcloud.library.servicebindings.RabbitMQEnabledViaBindings.TYPE;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class RabbitMQBindingsPropertiesProcessorTest {
 
