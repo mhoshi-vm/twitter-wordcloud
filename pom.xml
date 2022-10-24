@@ -27,7 +27,7 @@
         <webjars-jquery.version>3.6.1</webjars-jquery.version>
         <webjars-d3js.version>7.6.1</webjars-d3js.version>
         <webjars-d3cloud.version>1.2.5</webjars-d3cloud.version>
-        <webjars-axios.version>0.27.2</webjars-axios.version>
+        <webjars-axios.version>1.1.3</webjars-axios.version>
         <webjars-clr.version>4.0.1</webjars-clr.version>
         <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
 
