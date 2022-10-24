@@ -21,6 +21,7 @@ tanzu services claim create rmq-claim --resource-name rmq-1 --resource-kind Rabb
 tanzu services claim create twitter-claim --resource-name production-twitter --resource-kind Secret --resource-api-version v1 --resource-namespace service-instances
 tanzu services claim create wavefront-claim --resource-name production-wavefront --resource-kind Secret --resource-api-version v1 --resource-namespace service-instances
 tanzu services claim create postgres-claim --resource-name postgres-11 --resource-kind Postgres --resource-api-version sql.tanzu.vmware.com/v1 --resource-namespace service-instances
+tanzu services claim create gemfire-claim --resource-name gemfire-redis1 --resource-kind Secret --resource-api-version v1 --resource-namespace service-instances
 tanzu services claim create sso-claim --resource-name basic-client-registration --resource-kind ClientRegistration --resource-api-version sso.apps.tanzu.vmware.com/v1alpha1 --resource-namespace service-instances
 ```
 
@@ -32,10 +33,12 @@ RESOURCE_CLAIM="services.apps.tanzu.vmware.com/v1alpha1:ResourceClaim"
 tanzu apps workload apply twitter-demo \
     --type web \
     --label app.kubernetes.io/part-of=twitter-demo \
+    --label apis.apps.tanzu.vmware.com/register-api=true \
+    --param-yaml api_descriptor='{"description":"Twitter Wordcloud","location":{"path":"/v3/api-docs"},"owner":"demo","system":"dev","type":"openapi"}' \
     --service-ref "sso=${RESOURCE_CLAIM}:sso-claim" \
     --service-ref "postgres=${RESOURCE_CLAIM}:postgres-claim" \
     --service-ref "rabbitmq=${RESOURCE_CLAIM}:rmq-claim" \
-    --service-ref "wavefront=${RESOURCE_CLAIM}:wavefront-claim" \
+    --service-ref "redis=${RESOURCE_CLAIM}:gemfire-claim" \
     --build-env "BP_MAVEN_BUILT_MODULE=wordcloud" \
     --build-env BP_MAVEN_BUILD_ARGUMENTS="-pl wordcloud -am -P modelviewcontroller package" \
     --env "SERVICE_NAME=mvc" \
@@ -49,10 +52,9 @@ tanzu apps workload apply twitter-demo \
 RESOURCE_CLAIM="services.apps.tanzu.vmware.com/v1alpha1:ResourceClaim"
 tanzu apps workload apply twitter-demo-stateful \
     --type server \
-    --label app.kubernetes.io/part-of=twitter-demo-stateful \
+    --label app.kubernetes.io/part-of=twitter-demo \
     --service-ref "rabbitmq=${RESOURCE_CLAIM}:rmq-claim" \
     --service-ref "twitter=${RESOURCE_CLAIM}:twitter-claim" \
-    --service-ref "wavefront=${RESOURCE_CLAIM}:wavefront-claim" \
     --build-env "BP_MAVEN_BUILT_MODULE=wordcloud" \
     --build-env BP_MAVEN_BUILD_ARGUMENTS="-pl wordcloud -am -P twitterapiclient package" \
     --env "SERVICE_NAME=twitterclient" \

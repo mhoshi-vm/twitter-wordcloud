@@ -1,7 +1,6 @@
 package jp.vmware.tanzu.twitterwordcloud.library.utils;
 
 import jp.vmware.tanzu.twitterwordcloud.library.servicebindings.PostgresEnabledViaBindings;
-import jp.vmware.tanzu.twitterwordcloud.library.servicebindings.RabbitMQEnabledViaBindings;
 import jp.vmware.tanzu.twitterwordcloud.library.test_utils.FluentMap;
 import org.assertj.core.api.MapAssert;
 import org.junit.jupiter.api.Test;

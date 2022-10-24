@@ -16,7 +16,6 @@ public class PostgresEnabledViaBindings implements BindingsPropertiesProcessor {
 	public void process(Environment environment, Bindings bindings, Map<String, Object> map) {
 
 		List<Binding> rmqBindings = bindings.filterBindings(TYPE);
-		System.out.println(environment.getActiveProfiles());
 		if (rmqBindings.size() > 0) {
 			map.put("db.type", "postgresql");
 		}
