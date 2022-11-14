@@ -9,8 +9,9 @@ import org.springframework.session.data.redis.config.ConfigureRedisAction;
 @ConditionalOnProperty(value = "spring.session.store-type", havingValue = "redis")
 public class RedisSessionConfiguration {
 
-    @Bean
-    public static ConfigureRedisAction configureRedisAction() {
-        return ConfigureRedisAction.NO_OP;
-    }
+	@Bean
+	public static ConfigureRedisAction configureRedisAction() {
+		return ConfigureRedisAction.NO_OP;
+	}
+
 }
