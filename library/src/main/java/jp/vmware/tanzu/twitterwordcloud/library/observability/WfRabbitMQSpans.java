@@ -22,7 +22,8 @@ public class WfRabbitMQSpans {
 			@Override
 			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
 
-				if (span.kind().name().equals("producer") || span.kind().name().equals("consumer")) {
+				System.out.println(span.kind().name());
+				if (span.kind().name().equals("PRODUCER") || span.kind().name().equals("CONSUMER")) {
 					span.tag("_outboundExternalService", "RabbitMQ");
 					span.tag("_externalApplication", appName);
 					span.tag("_externalComponent", "RabbitMQ");
