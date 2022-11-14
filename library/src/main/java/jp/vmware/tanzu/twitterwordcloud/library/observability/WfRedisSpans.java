@@ -21,12 +21,11 @@ public class WfRedisSpans {
 		return new SpanHandler() {
 			@Override
 			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
-				for (int i = 0; i < span.tagCount(); i++) {
-					if (span.tagKeyAt(i).startsWith("session.")) {
-						span.tag("_outboundExternalService", "session-cache");
-						span.tag("_externalApplication", appName);
-						span.tag("_externalComponent", "session-cache");
-					}
+
+				if (span.name().startsWith("session")) {
+					span.tag("_outboundExternalService", "session-cache");
+					span.tag("_externalApplication", appName);
+					span.tag("_externalComponent", "session-cache");
 				}
 				return true;
 			}
