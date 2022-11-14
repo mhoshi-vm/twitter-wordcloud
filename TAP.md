@@ -39,9 +39,12 @@ tanzu apps workload apply twitter-demo \
     --service-ref "postgres=${RESOURCE_CLAIM}:postgres-claim" \
     --service-ref "rabbitmq=${RESOURCE_CLAIM}:rmq-claim" \
     --service-ref "redis=${RESOURCE_CLAIM}:gemfire-claim" \
+    --service-ref "wavefront=${RESOURCE_CLAIM}:wavefront-claim" \
     --build-env "BP_MAVEN_BUILT_MODULE=wordcloud" \
     --build-env BP_MAVEN_BUILD_ARGUMENTS="-pl wordcloud -am -P modelviewcontroller package" \
     --env "SERVICE_NAME=mvc" \
+    --env "JAVA_TOOL_OPTIONS=-Dmanagement.health.probes.enabled='false'" \
+    --annotation autoscaling.knative.dev/minScale=1 \
     --git-repo https://github.com/mhoshi-vm/twitter-wordcloud \
     --git-branch staging
 ```
@@ -55,9 +58,11 @@ tanzu apps workload apply twitter-demo-stateful \
     --label app.kubernetes.io/part-of=twitter-demo \
     --service-ref "rabbitmq=${RESOURCE_CLAIM}:rmq-claim" \
     --service-ref "twitter=${RESOURCE_CLAIM}:twitter-claim" \
+    --service-ref "wavefront=${RESOURCE_CLAIM}:wavefront-claim" \
     --build-env "BP_MAVEN_BUILT_MODULE=wordcloud" \
     --build-env BP_MAVEN_BUILD_ARGUMENTS="-pl wordcloud -am -P twitterapiclient package" \
     --env "SERVICE_NAME=twitterclient" \
+    --env "JAVA_TOOL_OPTIONS=-Dmanagement.health.probes.enabled='false'" \
     --git-repo https://github.com/mhoshi-vm/twitter-wordcloud \
     --git-branch staging
 ```
