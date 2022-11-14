@@ -22,10 +22,10 @@ public class WfRedisSpans {
 			@Override
 			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
 
-				if (span.name().startsWith("session")) {
-					span.tag("_outboundExternalService", "session-cache");
+				if (span.remoteServiceName().equals("redis")) {
+					span.tag("_outboundExternalService", "Redis");
 					span.tag("_externalApplication", appName);
-					span.tag("_externalComponent", "session-cache");
+					span.tag("_externalComponent", "Redis");
 				}
 				return true;
 			}
