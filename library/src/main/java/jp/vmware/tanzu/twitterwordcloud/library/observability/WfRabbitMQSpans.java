@@ -8,24 +8,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WfRedisSpans {
+public class WfRabbitMQSpans {
 
 	private final String appName;
 
-	public WfRedisSpans(@Value("${app.name}") String appName) {
+	public WfRabbitMQSpans(@Value("${app.name}") String appName) {
 		this.appName = appName;
 	}
 
 	@Bean
-	SpanHandler handlerRedis() {
+	SpanHandler handlerRabbit() {
 		return new SpanHandler() {
 			@Override
 			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
 
-				if (span.name().startsWith("session")) {
-					span.tag("_outboundExternalService", "session-cache");
+				if (span.kind().name().equals("producer") || span.kind().name().equals("consumer")) {
+					span.tag("_outboundExternalService", "RabbitMQ");
 					span.tag("_externalApplication", appName);
-					span.tag("_externalComponent", "session-cache");
+					span.tag("_externalComponent", "RabbitMQ");
 				}
 				return true;
 			}
