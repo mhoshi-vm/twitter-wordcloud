@@ -65,7 +65,7 @@ public class TweetStreamService {
 		Expansions expansions = streamingTweetResponse.getIncludes();
 		List<User> users = expansions.getUsers();
 
-		if (!tweet.getLang().equals("ja")){
+		if (!tweet.getLang().equals("ja")) {
 			return;
 		}
 
