@@ -53,6 +53,7 @@ class TweetStreamServiceTest {
 		Tweet dummyTweet = new Tweet();
 		dummyTweet.setId("111");
 		dummyTweet.setText("This is test tweet");
+		dummyTweet.setLang("ja");
 
 		User dummyUser = new User();
 		dummyUser.setUsername("Jannie");
@@ -111,6 +112,7 @@ class TweetStreamServiceTest {
 		Tweet dummyTweet = new Tweet();
 		dummyTweet.setId("111");
 		dummyTweet.setText("#hoge_foo #foo_bar This is !$ test tweet");
+		dummyTweet.setLang("ja");
 
 		User dummyUser = new User();
 		dummyUser.setUsername("Jannie");
