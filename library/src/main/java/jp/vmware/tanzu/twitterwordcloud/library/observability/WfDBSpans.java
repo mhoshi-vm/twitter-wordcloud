@@ -20,7 +20,7 @@ public class WfDBSpans {
 	}
 
 	@Bean
-	SpanHandler handlerOne() {
+	SpanHandler handlerDB() {
 		return new SpanHandler() {
 			@Override
 			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
