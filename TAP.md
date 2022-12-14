@@ -1,9 +1,7 @@
-# Tanzu Application Platform での起動
+# Using Tanzu Application Platform 
+[Tanzu Application Platform](https://tanzu.vmware.com/application-platform) can ease the configuration by using service bindings.
 
-[Tanzu Application Platform](https://tanzu.vmware.com/application-platform)の場合 Service Bindings 機能を使い、デプロイを簡単にすることができます。
-
-事前に以下のように、Services Toolkit を使い、以下のようにそれぞれ、サービスがResourceClaimとして扱えるようにします。
-
+With services toolkit create the following class
 
 ```
 % tanzu service class list
@@ -14,7 +12,7 @@
   secrets   It's a set of Secrets!
 ```
 
-以下のようにサービスをクレームします。なお `--resource-name`,`--resource-kind`,`--resource-api-version`,`--resource-namespace` にはいる値は環境ごとに異なります。
+Perform the claim.  `--resource-name`,`--resource-kind`,`--resource-api-version`,`--resource-namespace` will be different on all env。
 
 ```
 tanzu services claim create rmq-claim --resource-name rmq-1 --resource-kind RabbitmqCluster --resource-api-version rabbitmq.com/v1beta1 --resource-namespace service-instances
@@ -25,8 +23,7 @@ tanzu services claim create gemfire-claim --resource-name gemfire-redis1 --resou
 tanzu services claim create sso-claim --resource-name basic-client-registration --resource-kind ClientRegistration --resource-api-version sso.apps.tanzu.vmware.com/v1alpha1 --resource-namespace service-instances
 ```
 
-
-以下のようにまずステートレスモードを記載します。
+Run the mvc-app in the following way.
 
 ```
 RESOURCE_CLAIM="services.apps.tanzu.vmware.com/v1alpha1:ResourceClaim"
@@ -49,7 +46,7 @@ tanzu apps workload apply twitter-demo \
     --git-branch staging
 ```
 
-ステートフルモードを`--image=` で指定して起動を行う。
+Run the twitter api client app in the following way.
 
 ```
 RESOURCE_CLAIM="services.apps.tanzu.vmware.com/v1alpha1:ResourceClaim"

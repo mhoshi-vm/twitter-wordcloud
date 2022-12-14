@@ -1,48 +1,54 @@
-# リアルタイム Twitter ワードクラウド生成
+# Wordcloud generator in Spring Boot
 
-Twitter v2 API のストリーム機能で、ほぼリアルタイムでTwitterからワードクラウドを生成できるアプリケーションです。
+Generate Using Twitter v2 API. Purposed for learning spring boot, and cloud native development technologies from [VMware Tanzu](https://tanzu.vmware.com/tanzu).
 
-![](img/pic1.png)
 
-以下二つの起動方法があります。
-- スタンドアロンモード
-- スケールアウトモード
+![](img/pic5.png)
 
-以下の技術を利用しています。
+Supports 2 modes
+- Standalone mode
+- Microservices mode
+
+The following technologies are used.
 
 - Spring Boot
 - [Twitter API Client Library for Java](https://github.com/twitterdev/twitter-api-java-sdk)
+- [Spring Cloud Bindings](https://github.com/spring-cloud/spring-cloud-bindings)
 - [Kuromoji](https://github.com/atilika/kuromoji)
 - [D3 Cloud](https://github.com/jasondavies/d3-cloud)
+- [Clarity UI](https://clarity.design/)
+- [React-toastify](https://fkhadra.github.io/react-toastify/introduction)
 
-スケールアウトモードは以下の技術も利用します。
+In addition, the following technologies are used for microservices mode
 - [Spring Security OAuth2.0](https://spring.io/guides/tutorials/spring-boot-oauth2/)
 - [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)
 - [RabbitMQ](https://www.rabbitmq.com/)
 - [PostgreSQL](https://www.postgresql.org/)
+- [Redis](https://redis.io/)
 - [Wavefront](https://tanzu.vmware.com/observability)
 
-## スタンドアロンモード
+## Standalone mode
 
-### アーキテクチャ図
+Standalone mode, supports running this application anywhere with only JVM installed.
 
-![](img/pic2.png)
+### Architecture
 
-スタンドアロンモードの場合、全てのコンポーネントが一つのアプリケーション上で起動します。
+![](img/pic6.png)
 
-- 起動時に設定したハッシュタグをもとに、Twitter APIの[Stream Rule](https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/post-tweets-search-stream-rules)を設定します。
-- TwitterのStream機能を利用して、該当ツィートを受信します。
-- 該当のツィートをデータベースに保管します。
-- データベースの内容をMVCアプリケーションで表示します。
-- 一部のUIでアクセス制限をかけており、ローカルのユーザーレジストリをもとにユーザー認証を行います。
+Standalone mode runs in the following technologies
 
-> :warning: スタンドアロンモードでは、スケールアウトはサポートされません。
-### 準備
+- Collect tweets based on configured search hashtags, and interval
+- Store tweets on local database
+- Creates a view application based on data queried from the database
+- Provides one time access password to log into "Tweets" page
 
-- Java 11 以上がインストールされた端末
+> :warning: Standalone mode does not support scaling out the application
+### Prerequisite
+
+- Java 11 (or above)
 - [Twitter v2 API Bearer Token](https://developer.twitter.com/en/docs/authentication/oauth-2-0/bearer-tokens)
 
-### 起動方法
+### How to run
 
 ```
 export TWITTER_BEARER_TOKEN="AAAA...BSufQEAAAAAp9W..."
@@ -52,41 +58,45 @@ cd twitter-wordcloud-demo
 ./mvnw install && ./mvnw spring-boot:run -pl wordcloud
 ```
 
-### 注意点
+### Caution
 
-スタンドアロンモードの場合、スケールアウトが以下の理由によりサポートされません。
+Running in several instances (aka scale out) in standalone will lead to the following.
 
-- Twitter APIへのアクセス数、コネクション数がふえてしまうことにより、[APIの上限値に抵触しやすくなります](https://developer.twitter.com/ja/docs/twitter-api/rate-limits)。
-- 個々のTweetが全インスタンスに配布されるため、データベースのレコードが重複します。
-- データベースやユーザーレジストリを外部に保管しないため、それぞれのインスタンスがデータを共有しません。
+- Multiple instances querying Twitter API may breach the [API limitation](https://developer.twitter.com/ja/docs/twitter-api/rate-limits)。
+- No guarantee of all instances having the same data in database
+- User login will not be consistent due to not having an external user database
 
-![](img/pic3.png)
-## スケールアウトモード
+## Microservices mode
 
-![](img/pic4.png)
+![](img/pic7.png)
 
-スケールアウトモードは "stateful", "stateless" 二つの起動方法が用意され、以下のように機能します。
+In microservice mode we decouple the function in the following way
 
-- Stateful
-  - Twitter APIへ通信するコンポーネントのみが起動します。
-  - スケールアウトはサポートされず、インスタンスは１つ以上は起動しないでください。
-  - Twitter のストリームから転送されたツィートをスタンドアロンモードとは異なり、RabbitMQに保管します。
-- Stateless
-  - スケールアウトがサポートされます。
-  - RabbitMQ経由で非同期にツィートを受け取りデータベースに書き込みます
-  - 認証は外部のOAuth2.0に対応したユーザーレジストリと繋ぎます。
+- TwitterAPIClient
+  - To limit the amount of API calls against twitter, this is designed to only run in a single instance
+  - Stores the tweet not in a database but instead to a RabbitMQ Queue
+- ModelViewController(MVC)
+  - Supports scaling out
+  - Consumes queue generated from the TwitterAPI client
+  - Updates/Reads from a single external Postgres database
+  - User login performed by external OIDC identity provider
+  - Store session cache on external Redis cache store
 
-### 前提
+### Prerequisite
 
-スタンドアロンモードに加え、以下を用意してください。
+Additionally, to standalone mode prepare the following.
 
-- RabbitMQ
-- PostgreSQL
+- RabbitMQ Cluster
+- PostgreSQL Server
+- Redis Cluster
 - OAuth2.0 Endpoint
 
-### 起動方法
+For observability also prepare the following
+- Wavefront API token
 
-`application-stateful.properties` ファイルを用意してください。
+### How to run
+
+Prepare `application-twitterapiclient.properties` file.
 
 ```
 ## Mandatory
@@ -105,7 +115,13 @@ wavefront.tracing.enabled=true
 wavefront.freemium-account=false
 ```
 
-`application-stateless.properties` ファイルを用意してください。
+Run the twitter-api client
+
+```
+./mvnw install && ./mvnw spring-boot:run -pl wordcloud -P twitterapiclient
+```
+
+`application-modelviecontroller.properties` ファイルを用意してください。
 
 ```
 ## Mandatory
@@ -135,6 +151,18 @@ spring.security.oauth2.client.provider.{provider}.user-info-uri=user-info-uri
 spring.security.oauth2.client.provider.{provider}.user-info-authentication-method=user-info-authentication-method
 spring.security.oauth2.client.provider.{provider}.jwk-set-uri=jwk-set-uri
 spring.security.oauth2.client.provider.{provider}.user-name-attribute=user-name-attribute
+spring.redis.client-name={client-name}
+spring.redis.cluster.max-redirects={cluster.max-redirects}
+spring.redis.cluster.nodes={cluster.nodes}
+spring.redis.database={database}
+spring.redis.host={host}
+spring.redis.password={password}
+spring.redis.port={port}
+spring.redis.sentinel.master={sentinel.master}
+spring.redis.sentinel.nodes={sentinel.nodes}
+spring.redis.ssl={ssl}
+spring.redis.url={url}
+
 
 ## Optional
 management.metrics.export.wavefront.api-token=WAVEFRONT_TOKEN
@@ -144,12 +172,23 @@ wavefront.tracing.enabled=true
 wavefront.freemium-account=false
 ```
 
-アプリケーションを起動してください。
+Run the modelviewcontroller app.
 
 ```
 ./mvnw install && ./mvnw spring-boot:run -pl wordcloud -P modelviewcontroller
 ```
 
+### Yikes! this is difficult ...
+
+Don't worry. We have an easier way, the [TAP way](TAP.md)
+
+# Experimental
+
+Both standalone/microservices support [Twitter API v2 streaming](https://developer.twitter.com/en/docs/tutorials/stream-tweets-in-real-time) for more realtime handling of tweets.
+Currently, a known issue (closed but) [unresolved](https://github.com/twitterdev/twitter-api-java-sdk/issues/43)
+
+To run streaming add the following parameter
+
 ```
-./mvnw install && ./mvnw spring-boot:run -pl wordcloud -P twitterapiclient
+twitter.search.mode=stream
 ```
