@@ -19,6 +19,7 @@ public class RedisEnabledViaBindings implements BindingsPropertiesProcessor {
 		if (redisBindings.size() == 0) {
 			return;
 		}
+		// https://github.com/spring-projects-experimental/spring-boot-migrator/issues/598
 		map.put("spring.data.redis.cluster.nodes", redisBindings.get(0).getSecret().get("cluster.nodes"));
 		map.put("spring.session.store-type", "redis");
 		map.put("management.health.redis.enabled", "true");
