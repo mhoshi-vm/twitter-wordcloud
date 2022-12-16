@@ -15,13 +15,13 @@ import java.io.IOException;
 @Component
 public class WfServletSpans extends GenericFilterBean {
 
+	private final Tracer tracer;
+
 	String serviceType;
 
 	String applicationName;
 
 	String componentName;
-
-	private final Tracer tracer;
 
 	public WfServletSpans(@Value("${inboundExternalService.serviceType:LB}") String serviceType,
 			@Value("${wavefront.application.name:unnamed_application}") String applicationName,

@@ -27,21 +27,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest
 class TweetStreamServiceTest {
 
-	@Autowired
-	private MyTweetRepository myTweetRepository;
-
-	@Autowired
-	private TweetTextRepository tweetTextRepository;
-
 	private final MorphologicalAnalysis morphologicalAnalysis = new MorphologicalAnalysis();
 
 	TweetStreamService tweetStreamService;
 
 	TweetStreamService spyTweetStreamService;
 
+	@Autowired
+	private MyTweetRepository myTweetRepository;
+
+	@Autowired
+	private TweetTextRepository tweetTextRepository;
+
 	@BeforeEach
 	void setup() {
-		this.tweetStreamService = new TweetStreamService(myTweetRepository, tweetTextRepository, morphologicalAnalysis, "ja");
+		this.tweetStreamService = new TweetStreamService(myTweetRepository, tweetTextRepository, morphologicalAnalysis,
+				"ja");
 
 		this.spyTweetStreamService = Mockito.spy(tweetStreamService);
 
@@ -176,7 +177,8 @@ class TweetStreamServiceTest {
 	@Test
 	void englishSupport() throws InterruptedException {
 
-		this.tweetStreamService = new TweetStreamService(myTweetRepository, tweetTextRepository, morphologicalAnalysis, "en");
+		this.tweetStreamService = new TweetStreamService(myTweetRepository, tweetTextRepository, morphologicalAnalysis,
+				"en");
 
 		this.spyTweetStreamService = Mockito.spy(tweetStreamService);
 

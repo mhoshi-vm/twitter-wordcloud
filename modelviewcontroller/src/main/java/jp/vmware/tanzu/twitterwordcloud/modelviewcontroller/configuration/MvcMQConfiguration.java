@@ -13,12 +13,12 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(value = "message.queue.enabled", havingValue = "true")
 public class MvcMQConfiguration {
 
-	@Value("notification-${random.uuid}")
-	public String notificationQueue;
-
 	public static final String EXCHANGE_NAME = "tweet-fanout";
 
 	public static final String QUEUE_NAME = "tweet-handler";
+
+	@Value("notification-${random.uuid}")
+	public String notificationQueue;
 
 	@Bean
 	FanoutExchange mvcExchange() {

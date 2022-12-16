@@ -11,9 +11,9 @@ import java.util.List;
 @Transactional
 public class TweetTextService {
 
-	private final TweetTextRepository tweetTextRepository;
-
 	public static final int pageSize = 400;
+
+	private final TweetTextRepository tweetTextRepository;
 
 	public TweetTextService(TweetTextRepository tweetTextRepository) {
 		this.tweetTextRepository = tweetTextRepository;

@@ -30,6 +30,8 @@ public class TweetStreamService {
 
 	private static final Logger logger = LoggerFactory.getLogger(TweetStreamService.class);
 
+	private final List<SseEmitter> emitters;
+
 	public MyTweetRepository myTweetRepository;
 
 	public TweetTextRepository tweetTextRepository;
@@ -38,12 +40,10 @@ public class TweetStreamService {
 
 	public String lang;
 
-	private final List<SseEmitter> emitters;
-
 	Pattern nonLetterPattern;
 
 	public TweetStreamService(MyTweetRepository myTweetRepository, TweetTextRepository tweetTextRepository,
-							  MorphologicalAnalysis morphologicalAnalysis, @Value("${twitter.search.lang}") String lang) {
+			MorphologicalAnalysis morphologicalAnalysis, @Value("${twitter.search.lang}") String lang) {
 		this.myTweetRepository = myTweetRepository;
 		this.tweetTextRepository = tweetTextRepository;
 		this.lang = lang;
@@ -73,8 +73,6 @@ public class TweetStreamService {
 		Tweet tweet = streamingTweetResponse.getData();
 		Expansions expansions = streamingTweetResponse.getIncludes();
 		List<User> users = expansions.getUsers();
-
-
 
 		logger.debug("Handling Tweet : " + tweet.getText());
 
@@ -120,7 +118,7 @@ public class TweetStreamService {
 
 	}
 
-	private boolean langSupported(StreamingTweetResponse streamingTweetResponse){
+	private boolean langSupported(StreamingTweetResponse streamingTweetResponse) {
 		Tweet tweet = streamingTweetResponse.getData();
 		return tweet != null && tweet.getLang().equals(lang);
 	}
@@ -132,7 +130,7 @@ public class TweetStreamService {
 			return;
 		}
 
-		if (!langSupported(streamingTweetResponse)){
+		if (!langSupported(streamingTweetResponse)) {
 			return;
 		}
 

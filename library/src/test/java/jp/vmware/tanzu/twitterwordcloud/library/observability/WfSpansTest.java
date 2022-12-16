@@ -23,18 +23,18 @@ import static org.junit.jupiter.api.Assertions.*;
 class WfSpansTest {
 
 	@Autowired
-	private TestSpanHolder testSpanHolder;
-
-	@Autowired
 	TweetHandler tweetHandler;
 
 	@Autowired
 	TestRestTemplate testRestTemplate;
 
+	List<MutableSpan> spans;
+
+	@Autowired
+	private TestSpanHolder testSpanHolder;
+
 	@LocalServerPort
 	private int port;
-
-	List<MutableSpan> spans;
 
 	@BeforeEach
 	void setup() throws InterruptedException {
