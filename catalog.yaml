@@ -10,7 +10,7 @@ metadata:
     - web
     - tanzu
   annotations:
-    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=twitter-demo'
+    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=wordcloud'
 spec:
   type: service
   lifecycle: experimental

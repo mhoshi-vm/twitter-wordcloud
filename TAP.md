@@ -37,6 +37,7 @@ tanzu apps workload apply wordcloud \
     --service-ref "rabbitmq=${RESOURCE_CLAIM}:rmq-claim" \
     --service-ref "redis=${RESOURCE_CLAIM}:gemfire-claim" \
     --service-ref "wavefront=${RESOURCE_CLAIM}:wavefront-claim" \
+    --build-env "BP_JVM_VERSION=17" \
     --build-env "BP_MAVEN_BUILT_MODULE=wordcloud" \
     --build-env BP_MAVEN_BUILD_ARGUMENTS="-pl wordcloud -am -P modelviewcontroller package" \
     --env "SERVICE_NAME=mvc" \
@@ -53,11 +54,12 @@ Run the twitter api client app in the following way.
 RESOURCE_CLAIM="services.apps.tanzu.vmware.com/v1alpha1:ResourceClaim"
 tanzu apps workload apply twitter-api-client \
     --type server \
-    --label app.kubernetes.io/part-of=twitter-demo \
+    --label app.kubernetes.io/part-of=wordcloud \
     --service-ref "rabbitmq=${RESOURCE_CLAIM}:rmq-claim" \
     --service-ref "twitter=${RESOURCE_CLAIM}:twitter-claim" \
     --service-ref "wavefront=${RESOURCE_CLAIM}:wavefront-claim" \
     --build-env "BP_MAVEN_BUILT_MODULE=wordcloud" \
+    --build-env "BP_JVM_VERSION=17" \
     --build-env BP_MAVEN_BUILD_ARGUMENTS="-pl wordcloud -am -P twitterapiclient package" \
     --env "SERVICE_NAME=twitterclient" \
     --env "JAVA_TOOL_OPTIONS=-Dmanagement.health.probes.enabled='false'" \
