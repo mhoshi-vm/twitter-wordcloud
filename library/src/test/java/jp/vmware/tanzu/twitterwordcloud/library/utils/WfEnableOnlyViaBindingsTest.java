@@ -30,18 +30,14 @@ class WfEnableOnlyViaBindingsTest {
 	void setNoWfbindings() {
 		new WfEnableOnlyViaBindings().process(environment, noWfbindings, properties);
 		MapAssert<String, Object> stringObjectMapAssert = assertThat(properties)
-				.containsEntry("management.metrics.export.wavefront.enabled", "false")
-				.containsEntry("wavefront.tracing.enabled", "false")
-				.containsEntry("wavefront.freemium-account", "false");
+				.containsEntry("management.wavefront.metrics.export.enabled", "false");
 	}
 
 	@Test
 	void setWfbindings() {
 		new WfEnableOnlyViaBindings().process(environment, wfbindings, properties);
 		MapAssert<String, Object> stringObjectMapAssert = assertThat(properties)
-				.containsEntry("management.metrics.export.wavefront.enabled", "true")
-				.containsEntry("wavefront.tracing.enabled", "true")
-				.containsEntry("wavefront.freemium-account", "false");
+				.containsEntry("management.wavefront.metrics.export.enabled", "true");
 	}
 
 }
