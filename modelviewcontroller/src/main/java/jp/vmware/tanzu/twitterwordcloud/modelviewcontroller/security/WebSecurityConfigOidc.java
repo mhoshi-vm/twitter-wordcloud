@@ -28,7 +28,7 @@ public class WebSecurityConfigOidc {
 				.permitAll())
 				.authorizeHttpRequests(authz -> authz
 						.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-						.mvcMatchers("/", "/app.js", "/api/**", "/built/**", "/access-denied", "/livez", "/readyz",
+						.requestMatchers("/", "/app.js", "/api/**", "/built/**", "/access-denied", "/livez", "/readyz",
 								"/actuator/**", "/v3/api-docs")
 						.permitAll().anyRequest().authenticated())
 				.logout().logoutSuccessHandler(oidcLogoutSuccessHandler()).logoutSuccessUrl("/").and()

@@ -13,6 +13,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 @DataJpaTest
 class TweetStreamServiceRollbackTest {
 
+	private final MorphologicalAnalysis morphologicalAnalysis = new MorphologicalAnalysis();
+
+	TweetStreamService tweetStreamService;
+
+	TweetStreamService spyTweetStreamService;
+
 	@Autowired
 	private MyTweetRepository myTweetRepository;
 
@@ -20,12 +26,6 @@ class TweetStreamServiceRollbackTest {
 	private TweetTextRepository tweetTextRepository;
 
 	private TweetTextRepository spyTweetTextRepository;
-
-	private final MorphologicalAnalysis morphologicalAnalysis = new MorphologicalAnalysis();
-
-	TweetStreamService tweetStreamService;
-
-	TweetStreamService spyTweetStreamService;
 
 	// https://stackoverflow.com/questions/58443290/why-doesnt-my-transactional-method-rollback-when-testing
 

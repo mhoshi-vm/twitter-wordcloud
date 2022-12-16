@@ -1,27 +1,28 @@
 package jp.vmware.tanzu.twitterwordcloud.library.observability;
 
+import io.micrometer.tracing.Span;
+import io.micrometer.tracing.Tracer;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.sleuth.Span;
-import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import java.io.IOException;
 
-@Component
+// Disabling due to requires major rewrite from spring boot 3
+//@Component
 public class WfServletSpans extends GenericFilterBean {
+
+	private final Tracer tracer;
 
 	String serviceType;
 
 	String applicationName;
 
 	String componentName;
-
-	private final Tracer tracer;
 
 	public WfServletSpans(@Value("${inboundExternalService.serviceType:LB}") String serviceType,
 			@Value("${wavefront.application.name:unnamed_application}") String applicationName,

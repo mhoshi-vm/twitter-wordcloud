@@ -40,3 +40,4 @@ bindings/twitter/bearer-token
 /frontend-js/package-lock.json
 /frontend-js/node/
 /stateless/src/main/resources/static/built/
+/modelviewcontroller/src/main/resources/static/built/

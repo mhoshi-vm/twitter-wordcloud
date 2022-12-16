@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.6</version>
+        <version>3.0.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>jp.vmware.tanzu.twitterwordcloud</groupId>
@@ -15,10 +15,10 @@
     <packaging>pom</packaging>
     <description>Creates a wordcloud from tweets</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <spring-cloud.version>2021.0.5</spring-cloud.version>
         <spring-cloud-bindings.version>1.10.0</spring-cloud-bindings.version>
-        <springdoc-openapi-ui.version>1.6.13</springdoc-openapi-ui.version>
+        <springdoc-openapi-ui.version>2.0.0</springdoc-openapi-ui.version>
         <wavefront.version>2.3.2</wavefront.version>
         <p6spy.version>3.9.1</p6spy.version>
         <twitter.sdk.version>2.0.3</twitter.sdk.version>

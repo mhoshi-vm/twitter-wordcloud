@@ -33,32 +33,6 @@ class TweetTextRestControllerTest {
 	@MockBean
 	private WfServletSpans wfServletSpans;
 
-	static class CustomTextCount implements TweetTextRepository.TextCount {
-
-		String text;
-
-		Long size;
-
-		@Override
-		public String getText() {
-			return this.text;
-		}
-
-		@Override
-		public Long getSize() {
-			return this.size;
-		}
-
-		public void setText(String text) {
-			this.text = text;
-		}
-
-		public void setSize(Long size) {
-			this.size = size;
-		}
-
-	}
-
 	// https://medium.com/@reachansari/rest-endpoint-testing-with-mockmvc-7b3da1f83fbb
 	@Test
 	void listTweetCount() throws Exception {
@@ -73,6 +47,32 @@ class TweetTextRestControllerTest {
 		mockMvc.perform(get("/api/tweetcount")).andExpect(status().isOk()).andExpect(jsonPath("$", Matchers.hasSize(1)))
 				.andExpect(jsonPath("$[0].text", Matchers.equalTo("aaaa")))
 				.andExpect(jsonPath("$[0].size", Matchers.equalTo(100)));
+	}
+
+	static class CustomTextCount implements TweetTextRepository.TextCount {
+
+		String text;
+
+		Long size;
+
+		@Override
+		public String getText() {
+			return this.text;
+		}
+
+		public void setText(String text) {
+			this.text = text;
+		}
+
+		@Override
+		public Long getSize() {
+			return this.size;
+		}
+
+		public void setSize(Long size) {
+			this.size = size;
+		}
+
 	}
 
 }

@@ -61,12 +61,12 @@ public class IntervalSearch implements TweetSearch {
 		this.sinceId = sinceId;
 	}
 
-	public void setStartTime(OffsetDateTime startTime) {
-		this.startTime = startTime;
-	}
-
 	public OffsetDateTime getStartTime() {
 		return startTime;
+	}
+
+	public void setStartTime(OffsetDateTime startTime) {
+		this.startTime = startTime;
 	}
 
 	public Get2TweetsSearchRecentResponse recentSearch(OffsetDateTime startTime, String nextToken, String sinceId)

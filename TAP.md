@@ -27,9 +27,9 @@ Run the mvc-app in the following way.
 
 ```
 RESOURCE_CLAIM="services.apps.tanzu.vmware.com/v1alpha1:ResourceClaim"
-tanzu apps workload apply twitter-demo \
+tanzu apps workload apply wordcloud \
     --type web \
-    --label app.kubernetes.io/part-of=twitter-demo \
+    --label app.kubernetes.io/part-of=wordcloud \
     --label apis.apps.tanzu.vmware.com/register-api=true \
     --param-yaml api_descriptor='{"description":"Twitter Wordcloud","location":{"path":"/v3/api-docs"},"owner":"demo","system":"dev","type":"openapi"}' \
     --service-ref "sso=${RESOURCE_CLAIM}:sso-claim" \
@@ -42,6 +42,7 @@ tanzu apps workload apply twitter-demo \
     --env "SERVICE_NAME=mvc" \
     --env "JAVA_TOOL_OPTIONS=-Dmanagement.health.probes.enabled='false'" \
     --annotation autoscaling.knative.dev/minScale=1 \
+    --param-yaml buildServiceBindings='[{"name": "bucketrepo-settings-xml", "kind": "Secret"}]' \
     --git-repo https://github.com/mhoshi-vm/twitter-wordcloud \
     --git-branch staging
 ```
@@ -50,7 +51,7 @@ Run the twitter api client app in the following way.
 
 ```
 RESOURCE_CLAIM="services.apps.tanzu.vmware.com/v1alpha1:ResourceClaim"
-tanzu apps workload apply twitter-demo-stateful \
+tanzu apps workload apply twitter-api-client \
     --type server \
     --label app.kubernetes.io/part-of=twitter-demo \
     --service-ref "rabbitmq=${RESOURCE_CLAIM}:rmq-claim" \
