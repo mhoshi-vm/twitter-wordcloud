@@ -4,7 +4,7 @@ import jp.vmware.tanzu.twitterwordcloud.modelviewcontroller.repository.TweetText
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.List;
 
 @Service

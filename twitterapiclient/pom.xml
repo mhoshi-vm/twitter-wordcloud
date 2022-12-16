@@ -36,5 +36,9 @@
             <artifactId>twitter-api-java-sdk</artifactId>
             <version>${twitter.sdk.version}</version>
         </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+        </dependency>
     </dependencies>
 </project>
