@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-@Component
+// Disabling due to requires major rewrite from spring boot 3
+// @Component
 public class WfServiceSpans {
 
 	public final String dbType;

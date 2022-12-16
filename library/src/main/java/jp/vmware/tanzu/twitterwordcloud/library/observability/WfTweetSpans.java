@@ -3,12 +3,13 @@ package jp.vmware.tanzu.twitterwordcloud.library.observability;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.sleuth.Span;
-import org.springframework.cloud.sleuth.Tracer;
+import io.micrometer.tracing.Span;
+import io.micrometer.tracing.Tracer;
 import org.springframework.stereotype.Component;
 
+// Disabling due to requires major rewrite from spring boot 3
 @Aspect
-@Component
+//@Component
 public class WfTweetSpans {
 
 	private final Tracer tracer;

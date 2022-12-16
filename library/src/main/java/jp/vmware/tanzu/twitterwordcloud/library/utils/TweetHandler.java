@@ -1,6 +1,6 @@
 package jp.vmware.tanzu.twitterwordcloud.library.utils;
 
-import org.springframework.cloud.sleuth.annotation.NewSpan;
+import io.micrometer.tracing.annotation.NewSpan;
 
 import java.io.IOException;
 
