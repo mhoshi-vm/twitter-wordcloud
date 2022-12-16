@@ -54,7 +54,7 @@ Run the twitter api client app in the following way.
 RESOURCE_CLAIM="services.apps.tanzu.vmware.com/v1alpha1:ResourceClaim"
 tanzu apps workload apply twitter-api-client \
     --type server \
-    --label app.kubernetes.io/part-of=twitter-demo \
+    --label app.kubernetes.io/part-of=wordcloud \
     --service-ref "rabbitmq=${RESOURCE_CLAIM}:rmq-claim" \
     --service-ref "twitter=${RESOURCE_CLAIM}:twitter-claim" \
     --service-ref "wavefront=${RESOURCE_CLAIM}:wavefront-claim" \
