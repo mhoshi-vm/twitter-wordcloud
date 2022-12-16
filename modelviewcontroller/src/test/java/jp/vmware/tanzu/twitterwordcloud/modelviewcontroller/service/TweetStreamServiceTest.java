@@ -41,7 +41,7 @@ class TweetStreamServiceTest {
 
 	@BeforeEach
 	void setup() {
-		this.tweetStreamService = new TweetStreamService(myTweetRepository, tweetTextRepository, morphologicalAnalysis);
+		this.tweetStreamService = new TweetStreamService(myTweetRepository, tweetTextRepository, morphologicalAnalysis, "ja");
 
 		this.spyTweetStreamService = Mockito.spy(tweetStreamService);
 
@@ -142,6 +142,68 @@ class TweetStreamServiceTest {
 		assertEquals(1, textCounts.get(2).getSize());
 		assertEquals("tweet", textCounts.get(3).getText());
 		assertEquals(1, textCounts.get(3).getSize());
+	}
+
+	@Test
+	void skipNonJapanese() throws InterruptedException {
+
+		Tweet dummyTweet = new Tweet();
+		dummyTweet.setId("111");
+		dummyTweet.setText("This is test tweet");
+		dummyTweet.setLang("en");
+
+		User dummyUser = new User();
+		dummyUser.setUsername("Jannie");
+		List<User> dummyUsers = new ArrayList<>();
+		dummyUsers.add(dummyUser);
+
+		Expansions expansions = new Expansions();
+		expansions.setUsers(dummyUsers);
+
+		StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
+		streamingTweetResponse.setData(dummyTweet);
+		streamingTweetResponse.setIncludes(expansions);
+
+		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamService).setStreamTweetResponse(Mockito.any());
+
+		spyTweetStreamService.handler("this is test");
+
+		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
+		assertEquals(0, myTweets.size());
+
+	}
+
+	@Test
+	void englishSupport() throws InterruptedException {
+
+		this.tweetStreamService = new TweetStreamService(myTweetRepository, tweetTextRepository, morphologicalAnalysis, "en");
+
+		this.spyTweetStreamService = Mockito.spy(tweetStreamService);
+
+		Tweet dummyTweet = new Tweet();
+		dummyTweet.setId("111");
+		dummyTweet.setText("This is test tweet");
+		dummyTweet.setLang("en");
+
+		User dummyUser = new User();
+		dummyUser.setUsername("Jannie");
+		List<User> dummyUsers = new ArrayList<>();
+		dummyUsers.add(dummyUser);
+
+		Expansions expansions = new Expansions();
+		expansions.setUsers(dummyUsers);
+
+		StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
+		streamingTweetResponse.setData(dummyTweet);
+		streamingTweetResponse.setIncludes(expansions);
+
+		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamService).setStreamTweetResponse(Mockito.any());
+
+		spyTweetStreamService.handler("this is test");
+
+		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
+		assertEquals(1, myTweets.size());
+
 	}
 
 }

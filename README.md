@@ -1,7 +1,6 @@
-# Wordcloud generator in Spring Boot
+# Twitter Wordcloud generator in Spring Boot
 
-Generate Using Twitter v2 API. Purposed for learning spring boot, and cloud native development technologies from [VMware Tanzu](https://tanzu.vmware.com/tanzu).
-
+Generate a wordcloud using Twitter v2 API. Purposed for learning spring boot, and cloud native development technologies from [VMware Tanzu](https://tanzu.vmware.com/tanzu).
 
 ![](img/pic5.png)
 
@@ -121,7 +120,7 @@ Run the twitter-api client
 ./mvnw install && ./mvnw spring-boot:run -pl wordcloud -P twitterapiclient
 ```
 
-`application-modelviecontroller.properties` ファイルを用意してください。
+Prepare `application-modelviecontroller.properties` 
 
 ```
 ## Mandatory

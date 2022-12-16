@@ -13,6 +13,7 @@ import jp.vmware.tanzu.twitterwordcloud.modelviewcontroller.repository.TweetText
 import jp.vmware.tanzu.twitterwordcloud.modelviewcontroller.utils.MorphologicalAnalysis;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -35,14 +36,17 @@ public class TweetStreamService {
 
 	public MorphologicalAnalysis morphologicalAnalysis;
 
+	public String lang;
+
 	private final List<SseEmitter> emitters;
 
 	Pattern nonLetterPattern;
 
 	public TweetStreamService(MyTweetRepository myTweetRepository, TweetTextRepository tweetTextRepository,
-			MorphologicalAnalysis morphologicalAnalysis) {
+							  MorphologicalAnalysis morphologicalAnalysis, @Value("${twitter.search.lang}") String lang) {
 		this.myTweetRepository = myTweetRepository;
 		this.tweetTextRepository = tweetTextRepository;
+		this.lang = lang;
 		this.morphologicalAnalysis = morphologicalAnalysis;
 		this.emitters = new CopyOnWriteArrayList<>();
 		this.nonLetterPattern = Pattern.compile("^\\W+$", Pattern.UNICODE_CHARACTER_CLASS);
@@ -53,7 +57,7 @@ public class TweetStreamService {
 	}
 
 	@Transactional
-	public void handler(String line) throws InterruptedException, IOException {
+	public void handler(String line) throws InterruptedException {
 
 		StreamingTweetResponse streamingTweetResponse = setStreamTweetResponse(line);
 
@@ -61,13 +65,16 @@ public class TweetStreamService {
 			Thread.sleep(100);
 			return;
 		}
+
+		if (!langSupported(streamingTweetResponse)) {
+			return;
+		}
+
 		Tweet tweet = streamingTweetResponse.getData();
 		Expansions expansions = streamingTweetResponse.getIncludes();
 		List<User> users = expansions.getUsers();
 
-		if (!tweet.getLang().equals("ja")) {
-			return;
-		}
+
 
 		logger.debug("Handling Tweet : " + tweet.getText());
 
@@ -113,10 +120,19 @@ public class TweetStreamService {
 
 	}
 
+	private boolean langSupported(StreamingTweetResponse streamingTweetResponse){
+		Tweet tweet = streamingTweetResponse.getData();
+		return tweet != null && tweet.getLang().equals(lang);
+	}
+
 	public void notifyTweetEvent(String line) {
 		StreamingTweetResponse streamingTweetResponse = setStreamTweetResponse(line);
 
 		if (streamingTweetResponse == null) {
+			return;
+		}
+
+		if (!langSupported(streamingTweetResponse)){
 			return;
 		}
 
