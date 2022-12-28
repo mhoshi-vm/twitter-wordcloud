@@ -4,7 +4,7 @@ $(document).ready(function () {
     //..........Code for Word Cloud............
 
     //Store Compressed Data
-    let words = [{"text": "ツィート待機中", "size": 1}];
+    let words = [{"text": "Please Tweet something", "size": 1}];
 
     // Encapsulate the word cloud functionality
     function wordCloud(selector) {
@@ -108,7 +108,7 @@ $(document).ready(function () {
 
         words = JSON.parse(JSON.stringify(response.data))
         if (words.length === 0) {
-            words = [{"text": "ツィート待機中", "size": 1}];
+            words = [{"text": "Please Tweet something", "size": 1}];
         }
 
         vis.update(words);
