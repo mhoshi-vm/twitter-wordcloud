@@ -3,13 +3,18 @@ package jp.vmware.tanzu.twitterwordcloud.library.observability;
 import brave.handler.MutableSpan;
 import brave.handler.SpanHandler;
 import brave.propagation.TraceContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+
+
 @Component
 public class WfServiceSpans {
 
+	Logger logger = LoggerFactory.getLogger(WfServiceSpans.class);
 	public final String dbType;
 
 	public final String dbInstance;
@@ -28,6 +33,13 @@ public class WfServiceSpans {
 		return new SpanHandler() {
 			@Override
 			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
+
+				logger.info("Span name : " + span.name());
+				logger.info("Span kind : " + span.kind());
+				logger.info("Span Remote Source :" + span.remoteServiceName());
+				span.tags().entrySet().forEach(stringStringEntry -> logger
+						.info("     tag :" + stringStringEntry.getKey() + " value: " + stringStringEntry.getValue()));
+
 				for (int i = 0; i < span.tagCount(); i++) {
 					if (span.tagKeyAt(i).equals("jdbc.query")) {
 						span.tag("component", "java-jdbc");
