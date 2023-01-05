@@ -62,22 +62,20 @@ public class WfServiceSpans {
 		};
 	}
 
-	/* for debugging
-	@Bean
-	SpanHandler logHandler() {
-		return new SpanHandler() {
-			@Override
-			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
-
-				logger.info("Span name : " + span.name());
-				logger.info("Span kind : " + span.kind());
-				logger.info("Span Remote Source :" + span.remoteServiceName());
-				span.tags().forEach((key, value) -> logger.info("     tag :" + key + " value: " + value));
-				return true;
-
-			}
-		};
-	}
-	*/
+	/*
+	 * for debugging
+	 *
+	 * @Bean SpanHandler logHandler() { return new SpanHandler() {
+	 *
+	 * @Override public boolean end(TraceContext traceContext, MutableSpan span, Cause
+	 * cause) {
+	 *
+	 * logger.info("Span name : " + span.name()); logger.info("Span kind : " +
+	 * span.kind()); logger.info("Span Remote Source :" + span.remoteServiceName());
+	 * span.tags().forEach((key, value) -> logger.info("     tag :" + key + " value: " +
+	 * value)); return true;
+	 *
+	 * } }; }
+	 */
 
 }
