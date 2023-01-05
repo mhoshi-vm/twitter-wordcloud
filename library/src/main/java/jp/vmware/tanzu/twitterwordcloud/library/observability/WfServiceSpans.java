@@ -41,7 +41,7 @@ public class WfServiceSpans {
 					span.tag("_externalApplication", appName);
 					span.tag("_externalComponent", "Redis");
 				}
-				if (span.kind().equals("consumer") || span.kind().equals("producer")) {
+				if (span.kind().equals("CONSUMER") || span.kind().equals("PRODUCER")) {
 					span.tag("_outboundExternalService", "RabbitMQ");
 					span.tag("_externalApplication", appName);
 					span.tag("_externalComponent", "RabbitMQ");
