@@ -34,12 +34,6 @@ public class WfServiceSpans {
 			@Override
 			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
 
-				logger.info("Span name : " + span.name());
-				logger.info("Span kind : " + span.kind());
-				logger.info("Span Remote Source :" + span.remoteServiceName());
-				span.tags().entrySet().forEach(stringStringEntry -> logger
-						.info("     tag :" + stringStringEntry.getKey() + " value: " + stringStringEntry.getValue()));
-
 				for (int i = 0; i < span.tagCount(); i++) {
 					if (span.tagKeyAt(i).equals("jdbc.query")) {
 						span.tag("component", "java-jdbc");
@@ -53,11 +47,16 @@ public class WfServiceSpans {
 					span.tag("_externalApplication", appName);
 					span.tag("_externalComponent", "Redis");
 				}
-				if (span.kind().equals("CONSUMER") || span.kind().equals("PRODUCER")) {
+				if (span.kind().toString().equals("CONSUMER") || span.kind().toString().equals("PRODUCER")) {
 					span.tag("_outboundExternalService", "RabbitMQ");
 					span.tag("_externalApplication", appName);
 					span.tag("_externalComponent", "RabbitMQ");
 				}
+				logger.info("Span name : " + span.name());
+				logger.info("Span kind : " + span.kind());
+				logger.info("Span Remote Source :" + span.remoteServiceName());
+				span.tags().forEach((key, value) -> logger
+						.info("     tag :" + key + " value: " + value));
 				return true;
 
 			}
