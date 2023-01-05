@@ -7,9 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-@Component
+@Configuration
 public class WfServiceSpans {
 
 	Logger logger = LoggerFactory.getLogger(WfServiceSpans.class);
@@ -28,7 +29,7 @@ public class WfServiceSpans {
 	}
 
 	@Bean
-	SpanHandler jdbcHandler() {
+	SpanHandler spanServiceHandler() {
 		return new SpanHandler() {
 			@Override
 			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
@@ -41,45 +42,27 @@ public class WfServiceSpans {
 					}
 				}
 
-				return true;
-			}
-		};
-	}
+				String remoteService = span.remoteServiceName();
 
-	@Bean
-	SpanHandler redisHandler() {
-		return new SpanHandler() {
-			@Override
-			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
-
-				if (span.remoteServiceName().equals("redis")) {
-					span.tag("_outboundExternalService", "Redis");
-					span.tag("_externalApplication", appName);
-					span.tag("_externalComponent", "Redis");
+				if (remoteService != null) {
+					if (remoteService.equals("redis")) {
+						span.tag("_outboundExternalService", "Redis");
+						span.tag("_externalApplication", appName);
+						span.tag("_externalComponent", "Redis");
+					}
+					else if (remoteService.equals("rabbitmq")) {
+						span.tag("_outboundExternalService", "RabbitMQ");
+						span.tag("_externalApplication", appName);
+						span.tag("_externalComponent", "RabbitMQ");
+					}
 				}
-				return true;
 
+				return true;
 			}
 		};
 	}
 
-	@Bean
-	SpanHandler rabbitMQHandler() {
-		return new SpanHandler() {
-			@Override
-			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
-
-				if (span.remoteServiceName().equals("rabbitmq")) {
-					span.tag("_outboundExternalService", "RabbitMQ");
-					span.tag("_externalApplication", appName);
-					span.tag("_externalComponent", "RabbitMQ");
-				}
-				return true;
-
-			}
-		};
-	}
-
+	/* for debugging
 	@Bean
 	SpanHandler logHandler() {
 		return new SpanHandler() {
@@ -95,5 +78,6 @@ public class WfServiceSpans {
 			}
 		};
 	}
+	*/
 
 }
