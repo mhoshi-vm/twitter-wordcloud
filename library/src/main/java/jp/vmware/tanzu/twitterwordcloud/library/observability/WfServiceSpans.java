@@ -9,12 +9,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-
-
 @Component
 public class WfServiceSpans {
 
 	Logger logger = LoggerFactory.getLogger(WfServiceSpans.class);
+
 	public final String dbType;
 
 	public final String dbInstance;
@@ -29,7 +28,7 @@ public class WfServiceSpans {
 	}
 
 	@Bean
-	SpanHandler handlerOne() {
+	SpanHandler jdbcHandler() {
 		return new SpanHandler() {
 			@Override
 			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
@@ -42,21 +41,55 @@ public class WfServiceSpans {
 					}
 				}
 
+				return true;
+			}
+		};
+	}
+
+	@Bean
+	SpanHandler redisHandler() {
+		return new SpanHandler() {
+			@Override
+			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
+
 				if (span.remoteServiceName().equals("redis")) {
 					span.tag("_outboundExternalService", "Redis");
 					span.tag("_externalApplication", appName);
 					span.tag("_externalComponent", "Redis");
 				}
+				return true;
+
+			}
+		};
+	}
+
+	@Bean
+	SpanHandler rabbitMQHandler() {
+		return new SpanHandler() {
+			@Override
+			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
+
 				if (span.remoteServiceName().equals("rabbitmq")) {
 					span.tag("_outboundExternalService", "RabbitMQ");
 					span.tag("_externalApplication", appName);
 					span.tag("_externalComponent", "RabbitMQ");
 				}
+				return true;
+
+			}
+		};
+	}
+
+	@Bean
+	SpanHandler logHandler() {
+		return new SpanHandler() {
+			@Override
+			public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
+
 				logger.info("Span name : " + span.name());
 				logger.info("Span kind : " + span.kind());
 				logger.info("Span Remote Source :" + span.remoteServiceName());
-				span.tags().forEach((key, value) -> logger
-						.info("     tag :" + key + " value: " + value));
+				span.tags().forEach((key, value) -> logger.info("     tag :" + key + " value: " + value));
 				return true;
 
 			}
