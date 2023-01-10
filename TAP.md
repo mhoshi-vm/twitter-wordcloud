@@ -1,7 +1,44 @@
 # Using Tanzu Application Platform 
 [Tanzu Application Platform](https://tanzu.vmware.com/application-platform) can ease the configuration by using service bindings.
 
-With services toolkit create the following class
+## Prerequisite
+
+Additional to TAP itself, users need to prepare the following
+- Tanzu RabbitMQ Operator
+- Tanzu Postgres Operator
+- Tanzu Gemfire Operator
+- Configure AppSSO
+- Configure RescoureClaims via Tanzu Toolkit
+
+## Installing Prerequisite (for non Prod Only)
+
+For simplicity all the above can be configured using the following.
+
+> :warning: The following script is defaulted towards quick start and should never be used for production.
+
+Install the following package
+
+```
+tanzu package repository add tap-carvel-tools \
+  --url ghcr.io/mhoshi-vm/tap-carvel:latest \
+  --namespace tap-install
+```
+
+Review the [default values](https://github.com/mhoshi-vm/tap-carvel/blob/pkgr/manifests/tap-toolkit-starter.tanzu.japan.com/1.3.4/values.yaml),  
+and install the TAP toolkit starter. The following is the minimum value based on default TAP settings.
+
+```
+export TAP_VERSION=<TAP_VERSION>
+cat <<EOF > values.yaml
+sso:
+ redirect_urls:
+ - http://<app-name>.<developernamespace>.<shared-domain>
+EOF
+tanzu package install tap-toolkit -p tap-toolkit-starter.tanzu.japan.com -v ${TAP_VERSION} --values-file values.yaml -n tap-install
+```
+
+
+After executing, review the services toolkit create the following class
 
 ```
 % tanzu service class list
@@ -12,8 +49,45 @@ With services toolkit create the following class
   secrets   It's a set of Secrets!
 ```
 
-Perform the claim.  `--resource-name`,`--resource-kind`,`--resource-api-version`,`--resource-namespace` will be different on all env。
+## Claim Resource
 
+Define a twitter secret
+
+```
+cat <<EOF | kubectl apply -f-
+apiVersion: v1
+kind: Secret
+metadata:
+  name: production-twitter
+  namespace: service-instances
+  labels:
+    claimable: "true"
+type: servicebinding.io/twitter
+stringData:
+  type: twitter
+  bearer-token: <TWITTER_BEARER_TOKEN>
+EOF
+```
+
+Define wavefront api endpoint
+
+```
+cat <<EOF | kubectl apply -f-
+apiVersion: v1
+kind: Secret
+metadata:
+  name: production-wavefront
+  labels:
+    claimable: "true"
+type: servicebinding.io/wavefront
+stringData:
+  type: wavefront
+  api-token: <WAVEFRONT_API_TOKEN>
+  uri: https://longboard.wavefront.com
+EOF
+```
+
+**From developer namespace (if required change via `kubectl config set-context --current --namespace=<developer_namespace>`)** perform the claim.  
 ```
 tanzu services claim create rmq-claim --resource-name rmq-1 --resource-kind RabbitmqCluster --resource-api-version rabbitmq.com/v1beta1 --resource-namespace service-instances
 tanzu services claim create twitter-claim --resource-name production-twitter --resource-kind Secret --resource-api-version v1 --resource-namespace service-instances
@@ -22,6 +96,9 @@ tanzu services claim create postgres-claim --resource-name postgres-11 --resourc
 tanzu services claim create gemfire-claim --resource-name gemfire-redis1 --resource-kind Secret --resource-api-version v1 --resource-namespace service-instances
 tanzu services claim create sso-claim --resource-name basic-client-registration --resource-kind ClientRegistration --resource-api-version sso.apps.tanzu.vmware.com/v1alpha1 --resource-namespace service-instances
 ```
+
+## Run the app
+
 
 Run the mvc-app in the following way.
 
@@ -42,9 +119,8 @@ tanzu apps workload apply wordcloud \
     --env "SERVICE_NAME=mvc" \
     --env "JAVA_TOOL_OPTIONS=-Dmanagement.health.probes.enabled='false'" \
     --annotation autoscaling.knative.dev/minScale=1 \
-    --param-yaml buildServiceBindings='[{"name": "bucketrepo-settings-xml", "kind": "Secret"}]' \
     --git-repo https://github.com/mhoshi-vm/twitter-wordcloud \
-    --git-branch staging
+    --git-branch springboot2
 ```
 
 Run the twitter api client app in the following way.
@@ -62,5 +138,5 @@ tanzu apps workload apply twitter-api-client \
     --env "SERVICE_NAME=twitterclient" \
     --env "JAVA_TOOL_OPTIONS=-Dmanagement.health.probes.enabled='false'" \
     --git-repo https://github.com/mhoshi-vm/twitter-wordcloud \
-    --git-branch staging
+    --git-branch springboot2
 ```
