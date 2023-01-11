@@ -52,7 +52,7 @@ cat <<EOF > values.yaml
 sso:
  domain: <shared-domain>
  redirect_urls:
- - http://<app-name>.<developernamespace>.<shared-domain>
+ - http://wordcloud.<developernamespace>.<shared-domain>
 EOF
 tanzu package install tap-toolkit -p tap-toolkit-starter.tanzu.japan.com -v ${VERSION} --values-file values.yaml -n tap-install
 ```
