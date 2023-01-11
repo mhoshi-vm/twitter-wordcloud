@@ -10,11 +10,11 @@ Additional to TAP itself, users need to prepare the following
 - Configure AppSSO
 - Configure RescoureClaims via Tanzu Toolkit
 
-## Installing Prerequisite (for non Prod Only)
+## Installing Prerequisite (for non Prod / Demo env Only)
 
 For simplicity all the above can be configured using the following.
 
-> :warning: The following script is defaulted towards quick start and should never be used for production.
+> :warning: The following script has no warranty and is defaulted towards quick start thus should never be used for production.
 
 Install the following package
 
@@ -24,19 +24,38 @@ tanzu package repository add tap-carvel-tools \
   --namespace tap-install
 ```
 
-Review the [default values](https://github.com/mhoshi-vm/tap-carvel/blob/pkgr/manifests/tap-toolkit-starter.tanzu.japan.com/1.3.4/values.yaml),  
-and install the TAP toolkit starter. The following is the minimum value based on default TAP settings.
+Verify the available version. 
+> :warning Please chosse `TAP_TOOLKIT_VERSION =< TAP_VERSION.` version 1.3.4 or higher is recommended
 
 ```
-export TAP_VERSION=<TAP_VERSION>
+% tanzu package available list tap-toolkit-starter.tanzu.japan.com
+
+  NAME                                 VERSION  RELEASED-AT
+  tap-toolkit-starter.tanzu.japan.com  1.2.0    0001-01-01 00:00:00 +0000 UTC
+  tap-toolkit-starter.tanzu.japan.com  1.3.0    0001-01-01 00:00:00 +0000 UTC
+  tap-toolkit-starter.tanzu.japan.com  1.3.2    0001-01-01 00:00:00 +0000 UTC
+  tap-toolkit-starter.tanzu.japan.com  1.3.4    0001-01-01 00:00:00 +0000 UTC
+```
+
+Review the default values
+
+```
+% tanzu package available get tap-toolkit-starter.tanzu.japan.com/1.3.4 --values-schema
+```
+
+
+Install the TAP toolkit starter. The following is the minimum value based on default TAP settings.
+
+```
+export VERSION=<TOOLKIT_VERSION>
 cat <<EOF > values.yaml
 sso:
+ domain: <shared-domain>
  redirect_urls:
  - http://<app-name>.<developernamespace>.<shared-domain>
 EOF
-tanzu package install tap-toolkit -p tap-toolkit-starter.tanzu.japan.com -v ${TAP_VERSION} --values-file values.yaml -n tap-install
+tanzu package install tap-toolkit -p tap-toolkit-starter.tanzu.japan.com -v ${VERSION} --values-file values.yaml -n tap-install
 ```
-
 
 After executing, review the services toolkit create the following class
 
@@ -44,6 +63,7 @@ After executing, review the services toolkit create the following class
 % tanzu service class list
   NAME      DESCRIPTION
   appsso    It's a SSO service!
+  gemfire   It's a Gemfire cluster !
   postgres  It's a Postgres cluster!
   rabbitmq  It's a RabbitMQ cluster!
   secrets   It's a set of Secrets!
