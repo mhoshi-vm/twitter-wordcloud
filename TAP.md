@@ -25,7 +25,7 @@ tanzu package repository add tap-carvel-tools \
 ```
 
 Verify the available version. 
-> warning Please choose `TAP_TOOLKIT_VERSION =< TAP_VERSION.` version 1.3.4 or higher is recommended
+> :warning: Please choose `TAP_TOOLKIT_VERSION =< TAP_VERSION.` version 1.3.4 or higher is recommended
 
 ```
 % tanzu package available list tap-toolkit-starter.tanzu.japan.com
