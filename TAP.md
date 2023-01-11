@@ -8,7 +8,7 @@ Additional to TAP itself, users need to prepare the following
 - Tanzu Postgres Operator
 - Tanzu Gemfire Operator
 - Configure AppSSO
-- Configure RescoureClaims via Tanzu Toolkit
+- Configure ResourceClaims via Tanzu Toolkit
 
 ## Installing Prerequisite (for non Prod / Demo env Only)
 
@@ -25,7 +25,7 @@ tanzu package repository add tap-carvel-tools \
 ```
 
 Verify the available version. 
-> :warning Please chosse `TAP_TOOLKIT_VERSION =< TAP_VERSION.` version 1.3.4 or higher is recommended
+> warning Please choose `TAP_TOOLKIT_VERSION =< TAP_VERSION.` version 1.3.4 or higher is recommended
 
 ```
 % tanzu package available list tap-toolkit-starter.tanzu.japan.com
@@ -143,7 +143,7 @@ tanzu apps workload apply wordcloud \
     --git-branch springboot2
 ```
 
-Run the twitter api client app in the following way.
+Run the Twitter api client app in the following way.
 
 ```
 RESOURCE_CLAIM="services.apps.tanzu.vmware.com/v1alpha1:ResourceClaim"
