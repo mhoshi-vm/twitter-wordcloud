@@ -66,9 +66,10 @@ public class TweetStreamService {
 			return;
 		}
 
+		/*
 		if (!langSupported(streamingTweetResponse)) {
 			return;
-		}
+		}*/
 
 		Tweet tweet = streamingTweetResponse.getData();
 		Expansions expansions = streamingTweetResponse.getIncludes();
