@@ -18,9 +18,4 @@ jobs:
           distribution: 'adopt'
       - name: Test code
         run: mvn test -Dmaven.test.skip=false
-      - name: Merge to staging
-        uses: devmasx/merge-branch@master
-        with:
-          type: now
-          target_branch: staging
-          github_token: ${{ github.token }}
+
