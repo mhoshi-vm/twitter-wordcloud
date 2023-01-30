@@ -40,7 +40,8 @@ Verify the available version.
 Review the default values
 
 ```
-% tanzu package available get tap-toolkit-starter.tanzu.japan.com/1.3.4 --values-schema
+export VERSION=<TOOLKIT_VERSION>
+% tanzu package available get tap-toolkit-starter.tanzu.japan.com/${VERSION} --values-schema
 ```
 
 
@@ -50,9 +51,8 @@ Install the TAP toolkit starter. The following is the minimum value based on def
 export VERSION=<TOOLKIT_VERSION>
 cat <<EOF > values.yaml
 sso:
- domain: <shared-domain>
  redirect_urls:
- - http://wordcloud.<developernamespace>.<shared-domain>
+ - http://wordcloud.<developernamespace>.<shared-domain>/login/oauth2/code/sso
 EOF
 tanzu package install tap-toolkit -p tap-toolkit-starter.tanzu.japan.com -v ${VERSION} --values-file values.yaml -n tap-install
 ```
