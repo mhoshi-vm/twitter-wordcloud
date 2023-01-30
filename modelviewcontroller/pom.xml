@@ -148,7 +148,7 @@
                         </goals>
                         <configuration>
                             <nodeVersion>v18.13.0</nodeVersion>
-                            <npmVersion>7.6.3</npmVersion>
+                            <npmVersion>8.19.3</npmVersion>
                         </configuration>
                     </execution>
                     <execution>
