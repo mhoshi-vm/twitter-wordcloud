@@ -17,7 +17,7 @@ public class TweetHandlerMQ implements TweetHandler {
 
 	RabbitTemplate rabbitTemplate;
 
-	public TweetHandlerMQ(RabbitTemplate rabbitTemplate, @Value("${message.queue.exchange") String exchangeName) {
+	public TweetHandlerMQ(RabbitTemplate rabbitTemplate, @Value("${message.queue.exchange}") String exchangeName) {
 		this.rabbitTemplate = rabbitTemplate;
 		this.exchangeName = exchangeName;
 	}
