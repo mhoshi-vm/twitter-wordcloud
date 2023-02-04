@@ -13,16 +13,18 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(value = "message.queue.enabled", havingValue = "true")
 public class MvcMQConfiguration {
 
-	public static final String EXCHANGE_NAME = "tweet-fanout";
+	@Value("${message.queue.exchange}")
+	public String exchangeName;
 
-	public static final String QUEUE_NAME = "tweet-handler";
+	@Value("${message.queue.queue}")
+	public String queueName;
 
 	@Value("notification-${random.uuid}")
 	public String notificationQueue;
 
 	@Bean
 	FanoutExchange mvcExchange() {
-		return new FanoutExchange(EXCHANGE_NAME);
+		return new FanoutExchange(exchangeName);
 	}
 
 	public String getNotificationQueue() {
@@ -31,7 +33,7 @@ public class MvcMQConfiguration {
 
 	@Bean
 	public Queue tweetQueue() {
-		return new Queue(QUEUE_NAME);
+		return new Queue(queueName);
 	}
 
 	@Bean

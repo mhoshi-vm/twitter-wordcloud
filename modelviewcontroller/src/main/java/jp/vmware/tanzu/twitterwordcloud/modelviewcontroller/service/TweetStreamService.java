@@ -67,9 +67,8 @@ public class TweetStreamService {
 		}
 
 		/*
-		if (!langSupported(streamingTweetResponse)) {
-			return;
-		}*/
+		 * if (!langSupported(streamingTweetResponse)) { return; }
+		 */
 
 		Tweet tweet = streamingTweetResponse.getData();
 		Expansions expansions = streamingTweetResponse.getIncludes();
@@ -132,9 +131,8 @@ public class TweetStreamService {
 		}
 
 		/*
-		if (!langSupported(streamingTweetResponse)) {
-			return;
-		}*/
+		 * if (!langSupported(streamingTweetResponse)) { return; }
+		 */
 
 		Tweet tweet = streamingTweetResponse.getData();
 

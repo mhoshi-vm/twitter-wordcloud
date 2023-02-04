@@ -1,6 +1,5 @@
 package jp.vmware.tanzu.twitterwordcloud.modelviewcontroller.controller;
 
-import jp.vmware.tanzu.twitterwordcloud.modelviewcontroller.configuration.MvcMQConfiguration;
 import jp.vmware.tanzu.twitterwordcloud.modelviewcontroller.service.TweetStreamService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +21,7 @@ public class TweetMQController {
 		this.tweetStreamService = tweetStreamService;
 	}
 
-	@RabbitListener(queues = MvcMQConfiguration.QUEUE_NAME)
+	@RabbitListener(queues = "${message.queue.queue}")
 	public void tweetHandle(String tweet) throws IOException, InterruptedException {
 		logger.debug("Queue Received : " + tweet);
 		if (!tweet.isEmpty()) {

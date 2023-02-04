@@ -146,67 +146,58 @@ class TweetStreamServiceTest {
 	}
 
 	/*
-	@Test
-	void skipNonJapanese() throws InterruptedException {
-
-		Tweet dummyTweet = new Tweet();
-		dummyTweet.setId("111");
-		dummyTweet.setText("This is test tweet");
-		dummyTweet.setLang("en");
-
-		User dummyUser = new User();
-		dummyUser.setUsername("Jannie");
-		List<User> dummyUsers = new ArrayList<>();
-		dummyUsers.add(dummyUser);
-
-		Expansions expansions = new Expansions();
-		expansions.setUsers(dummyUsers);
-
-		StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
-		streamingTweetResponse.setData(dummyTweet);
-		streamingTweetResponse.setIncludes(expansions);
-
-		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamService).setStreamTweetResponse(Mockito.any());
-
-		spyTweetStreamService.handler("this is test");
-
-		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
-		assertEquals(0, myTweets.size());
-
-	}
-
-	@Test
-	void englishSupport() throws InterruptedException {
-
-		this.tweetStreamService = new TweetStreamService(myTweetRepository, tweetTextRepository, morphologicalAnalysis,
-				"en");
-
-		this.spyTweetStreamService = Mockito.spy(tweetStreamService);
-
-		Tweet dummyTweet = new Tweet();
-		dummyTweet.setId("111");
-		dummyTweet.setText("This is test tweet");
-		dummyTweet.setLang("en");
-
-		User dummyUser = new User();
-		dummyUser.setUsername("Jannie");
-		List<User> dummyUsers = new ArrayList<>();
-		dummyUsers.add(dummyUser);
-
-		Expansions expansions = new Expansions();
-		expansions.setUsers(dummyUsers);
-
-		StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
-		streamingTweetResponse.setData(dummyTweet);
-		streamingTweetResponse.setIncludes(expansions);
-
-		Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamService).setStreamTweetResponse(Mockito.any());
-
-		spyTweetStreamService.handler("this is test");
-
-		List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
-		assertEquals(1, myTweets.size());
-
-	}*/
+	 * @Test void skipNonJapanese() throws InterruptedException {
+	 *
+	 * Tweet dummyTweet = new Tweet(); dummyTweet.setId("111");
+	 * dummyTweet.setText("This is test tweet"); dummyTweet.setLang("en");
+	 *
+	 * User dummyUser = new User(); dummyUser.setUsername("Jannie"); List<User> dummyUsers
+	 * = new ArrayList<>(); dummyUsers.add(dummyUser);
+	 *
+	 * Expansions expansions = new Expansions(); expansions.setUsers(dummyUsers);
+	 *
+	 * StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
+	 * streamingTweetResponse.setData(dummyTweet);
+	 * streamingTweetResponse.setIncludes(expansions);
+	 *
+	 * Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamService).
+	 * setStreamTweetResponse(Mockito.any());
+	 *
+	 * spyTweetStreamService.handler("this is test");
+	 *
+	 * List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
+	 * assertEquals(0, myTweets.size());
+	 *
+	 * }
+	 *
+	 * @Test void englishSupport() throws InterruptedException {
+	 *
+	 * this.tweetStreamService = new TweetStreamService(myTweetRepository,
+	 * tweetTextRepository, morphologicalAnalysis, "en");
+	 *
+	 * this.spyTweetStreamService = Mockito.spy(tweetStreamService);
+	 *
+	 * Tweet dummyTweet = new Tweet(); dummyTweet.setId("111");
+	 * dummyTweet.setText("This is test tweet"); dummyTweet.setLang("en");
+	 *
+	 * User dummyUser = new User(); dummyUser.setUsername("Jannie"); List<User> dummyUsers
+	 * = new ArrayList<>(); dummyUsers.add(dummyUser);
+	 *
+	 * Expansions expansions = new Expansions(); expansions.setUsers(dummyUsers);
+	 *
+	 * StreamingTweetResponse streamingTweetResponse = new StreamingTweetResponse();
+	 * streamingTweetResponse.setData(dummyTweet);
+	 * streamingTweetResponse.setIncludes(expansions);
+	 *
+	 * Mockito.doReturn(streamingTweetResponse).when(spyTweetStreamService).
+	 * setStreamTweetResponse(Mockito.any());
+	 *
+	 * spyTweetStreamService.handler("this is test");
+	 *
+	 * List<MyTweet> myTweets = myTweetRepository.findAllByOrderByTweetIdDesc();
+	 * assertEquals(1, myTweets.size());
+	 *
+	 * }
+	 */
 
 }
