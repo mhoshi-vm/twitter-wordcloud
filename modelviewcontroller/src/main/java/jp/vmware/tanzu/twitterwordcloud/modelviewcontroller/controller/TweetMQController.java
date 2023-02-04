@@ -7,8 +7,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Controller;
 
-import java.io.IOException;
-
 @Controller
 @ConditionalOnProperty(value = "message.queue.enabled", havingValue = "true")
 public class TweetMQController {
@@ -21,8 +19,8 @@ public class TweetMQController {
 		this.tweetStreamService = tweetStreamService;
 	}
 
-	@RabbitListener(queues = "${message.queue.queue}")
-	public void tweetHandle(String tweet) throws IOException, InterruptedException {
+	@RabbitListener(queues = "#{${message.queue.queue}}")
+	public void tweetHandle(String tweet) throws InterruptedException {
 		logger.debug("Queue Received : " + tweet);
 		if (!tweet.isEmpty()) {
 			logger.debug("Queue Processing");
@@ -31,7 +29,7 @@ public class TweetMQController {
 	}
 
 	@RabbitListener(queues = "#{mvcMQConfiguration.getNotificationQueue()}")
-	public void notificationHandle(String tweet) throws IOException {
+	public void notificationHandle(String tweet) {
 		logger.debug("Queue Received : " + tweet);
 		tweetStreamService.notifyTweetEvent(tweet);
 	}
