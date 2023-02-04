@@ -19,7 +19,7 @@ public class TweetMQController {
 		this.tweetStreamService = tweetStreamService;
 	}
 
-	@RabbitListener(queues = "#{${message.queue.queue}}")
+	@RabbitListener(queues = "#{mvcMQConfiguration.getQueueName()}}")
 	public void tweetHandle(String tweet) throws InterruptedException {
 		logger.debug("Queue Received : " + tweet);
 		if (!tweet.isEmpty()) {
