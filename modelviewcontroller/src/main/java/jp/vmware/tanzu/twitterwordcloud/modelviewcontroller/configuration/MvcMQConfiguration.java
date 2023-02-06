@@ -31,10 +31,6 @@ public class MvcMQConfiguration {
 		return this.notificationQueue;
 	}
 
-	public String getQueueName() {
-		return this.queueName;
-	}
-
 	@Bean
 	public Queue tweetQueue() {
 		return new Queue(queueName);
