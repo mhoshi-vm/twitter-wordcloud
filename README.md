@@ -1,3 +1,5 @@
+# This repo is archived. Continuing on https://github.com/mhoshi-vm/social-wordcloud
+
 # Twitter Wordcloud generator in Spring Boot
 
 Generate a wordcloud using Twitter v2 API. Purposed for learning spring boot, and cloud native development technologies from [VMware Tanzu](https://tanzu.vmware.com/tanzu).
